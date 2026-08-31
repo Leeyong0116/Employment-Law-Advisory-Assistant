@@ -1,0 +1,37 @@
+# Malaysian Labour Law RAG — dependencies
+#
+# Python 3.12 (3.13/3.14 not yet supported by the indexing stack).
+#   py -3.12 -m venv .venv
+#   .venv\Scripts\python.exe -m pip install -r requirements.txt
+#
+# Only the milestone currently in progress is installed. Later blocks are
+# commented out and get pinned when that milestone starts — installing the
+# indexing stack early pulls several GB of torch/CUDA wheels for code that
+# does not exist yet.
+
+# --- Phase 1: ingestion (active) -------------------------------------------
+pymupdf==1.28.2         # page-preserving text + coordinates
+pdfplumber==0.11.10     # word-level coordinates for the schedule tables
+pyyaml==6.0.3           # config/config.yaml
+python-dotenv==1.2.3    # .env (API keys, never committed)
+
+# --- Testing (active) ------------------------------------------------------
+pytest==9.1.1
+
+# --- Phase 2: indexing / retrieval (deferred) ------------------------------
+# FlagEmbedding          # bge-m3 dense embeddings
+# rank-bm25              # sparse retrieval over section text + section numbers
+# faiss-cpu              # dense vector index
+# sentence-transformers  # cross-encoder reranker
+
+# --- Phase 3: generation (deferred) ----------------------------------------
+# Hosted API for generation (provider not yet chosen — see config.yaml).
+# The local 4-bit path from the CP1 proposal is not on the critical path, so
+# transformers / bitsandbytes / accelerate are intentionally absent.
+
+# --- Phase 4: API + evaluation (deferred) ----------------------------------
+# fastapi
+# uvicorn
+# pydantic
+# ragas
+# datasets

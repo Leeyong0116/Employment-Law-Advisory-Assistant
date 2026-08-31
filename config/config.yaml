@@ -1,0 +1,200 @@
+# Malaysian Labour Law RAG — configuration
+# Secrets (API keys) live in .env, never here. See .env.example.
+
+corpus:
+  raw_dir: data/raw
+  processed_dir: data/processed
+
+  # Explicit registry: the source filenames are inconsistent, and every
+  # citation the system emits is built from this metadata, so the mapping is
+  # declared rather than inferred from filenames.
+  documents:
+    - id: employment_act_1955
+      jurisdiction_label: Peninsular Malaysia and Labuan
+      source_version: as at 1 January 2023
+      source_url: https://lom.agc.gov.my/
+      short_name: Employment Act 1955
+      act_number: Act 265
+      file: Akta Kerja 1955 (Akta 265).pdf
+      jurisdiction: peninsular_malaysia_and_labuan
+      doc_type: principal
+      status: in_force
+      as_at: 2023-01-01           # AGC updated text, incorporates Act A1651
+      pages: 127
+      consolidated: true
+      # 14 inline "NOTE--" blocks are AGC editorial annotation, not statutory
+      # text. They must be lifted into metadata during parsing, never left in a
+      # chunk's content, or retrieval serves commentary as law.
+      has_inline_editorial_notes: true
+
+    - id: industrial_relations_act_1967
+      jurisdiction_label: Malaysia
+      source_version: as at 1 November 2021
+      source_url: https://lom.agc.gov.my/
+      short_name: Industrial Relations Act 1967
+      act_number: Act 177
+      file: INDUSTRIAL RELATION.pdf
+      jurisdiction: malaysia
+      doc_type: principal
+      status: in_force
+      as_at: 2021-11-01           # AGC updated text, incorporates Act A1615
+      pages: 81
+      consolidated: true
+      has_inline_editorial_notes: true
+      # Act A1615 commenced only in part. 17 inline notes mark provisions that
+      # are still not in force, at finer granularity than a subsection: whole
+      # sections (12A, 12B), a subparagraph (62(fb)), inserted provisos, and
+      # individual words ("three years" substituted for "one year"). A binary
+      # chunk-level status cannot express these, so affected chunks carry an
+      # in_force_notes[] list instead.
+      partial_commencement: true
+
+    - id: labour_ordinance_sabah
+      jurisdiction_label: Sabah
+      source_version: for reference only, June 2026
+      source_url: null      # TODO: record the exact source URL
+      short_name: Labour Ordinance (Sabah)
+      act_number: Sabah Cap. 67
+      file: Labour Ordinance (Sabah Cap. 67).pdf
+      jurisdiction: sabah
+      doc_type: principal
+      status: in_force
+      as_at: 2026-06-01           # "FOR REFERENCE ONLY (JUNE 2026)"
+      pages: 155
+      # Verified consolidated: AA1753 (in force 2025-05-01) is folded in --
+      # it is cited 21x as the authority for deletions, maternity already reads
+      # "ninety-eight consecutive days", and worker->employee is applied
+      # (employee 469x vs worker 3x). Sabah therefore needs no amends/
+      # amended_by linking; that stays confined to Sarawak.
+      consolidated: true
+      # Same substantive provision as Sarawak's uncommenced Part IVa, but this
+      # text annotates it inline: the TOC reads "(NOT YET IN FORCE) (Section
+      # 121A - 121AU)" and the body heading "PART IVA (Not yet in force)".
+      commencement_exceptions:
+        - source_section: 121A-121AU
+          inserts_part: IVA
+          subject: >
+            Special provisions relating to employees' minimum standards of
+            housing, accommodations and amenities.
+          status: not_yet_in_force
+          commencement: null
+
+    - id: labour_ordinance_sarawak
+      jurisdiction_label: Sarawak
+      source_version: incorporating amendments up to 31 July 2006
+      source_url: null      # TODO: record the exact source URL
+      short_name: Labour Ordinance (Sarawak)
+      act_number: Sarawak Cap. 76
+      file: sarawak ordinance.pdf
+      jurisdiction: sarawak
+      doc_type: principal
+      status: in_force
+      as_at: 2006-07-31           # incorporates amendments only to this date
+      pages: 113
+      currency_caveat: >
+        The text held here incorporates amendments only up to 31 July 2006.
+        Act A1754 has been in force since 1 May 2025, so every provision it
+        amends still carries pre-amendment wording in this document. Those
+        sections are marked status: superseded at chunk level and carry an
+        amended_by link to the operative A1754 provision.
+
+    # Indexed as a separate document, NOT merged into Cap. 76. Merging would
+    # produce a consolidated text that no authority has published, which the
+    # user could not verify against a source. Linked by metadata instead.
+    - id: sarawak_amendment_act_2025
+      jurisdiction_label: Sarawak
+      source_version: as passed, Act A1754 of 2025
+      source_url: https://www.jtkswk.gov.my/v2/wp-content/uploads/2025/04/Act-A1754-LABOUR-ORDINANCE-OF-SARAWAK-AMENDMENT-ACT-2025-1.pdf
+      short_name: Labour Ordinance of Sarawak (Amendment) Act 2025
+      act_number: Act A1754
+      file: Sarawak amendment.pdf
+      jurisdiction: sarawak
+      doc_type: amending
+      amends: labour_ordinance_sarawak
+      status: in_force
+      royal_assent: 2025-03-20
+      commencement: 2025-05-01     # gazetted 2025-04-28
+      pages: 88
+      # s.1(2) lets the Minister appoint different dates for different
+      # provisions, and he did: everything commenced on 1 May 2025 except the
+      # new Part IVa. The PDF is the as-passed text and predates the
+      # notification, so its own s.1(2) still reads "a date to be appointed".
+      commencement_exceptions:
+        - source_section: "52"
+          inserts_part: IVa
+          subject: >
+            Special provisions relating to employees' minimum standards of
+            housing, accommodation and amenities (Cap. 76 ss. 122a onward).
+          status: not_yet_in_force
+          commencement: null
+
+# Amendments that apply across a whole statute rather than to one section.
+# Attached to the prompt whenever a chunk from that jurisdiction is retrieved;
+# the principal text itself is never rewritten.
+jurisdiction_notes:
+  sarawak:
+    - source: sarawak_amendment_act_2025
+      source_section: "2"
+      status: in_force
+      effective: 2025-05-01
+      substitutions:
+        - {from: worker, to: employee}
+        - {from: domestic servant, to: domestic employee}
+        - {from: domestic servants, to: domestic employees}
+      note: >
+        Act A1754 section 2 substituted "worker" with "employee", "domestic
+        servant" with "domestic employee", and "domestic servants" with
+        "domestic employees" throughout Cap. 76, with effect from 1 May 2025.
+        The Cap. 76 text retrieved here predates that substitution, so where it
+        reads "worker" or "domestic servant" the operative term is now
+        "employee" or "domestic employee". The wording is not rewritten in the
+        source text, so that the user can still verify it against the
+        published Ordinance.
+
+ingestion:
+  sections_path: data/processed/sections.jsonl
+  # Page furniture, footnotes, watermarks and letter-spaced lines are all
+  # handled unconditionally by src/ingestion/extract.py, detected from the
+  # documents themselves rather than configured per file. The earlier
+  # watermark_patterns list was derived from pdftotext output and is gone:
+  # PyMuPDF returns "Sarawak Lawnet" as a clean line, and the generic
+  # running-furniture rule removes it without needing a pattern.
+  #
+  # Section ids are upper-cased: A1754 writes "section 8a", Cap. 76 writes "8A".
+  normalise_section_case: true
+  schedules:
+    # The EA schedule tables have no ruling lines, so extract_tables() cannot
+    # find them; columns are split on word x-coordinates instead.
+    employment_act_1955:
+      first_schedule_page: 111    # 0-based PDF page index
+      column_split_x: 310
+
+indexing:
+  embedding_model: BAAI/bge-m3
+  dense_index_path: data/processed/index/dense
+  sparse_index_path: data/processed/index/sparse
+
+retrieval:
+  top_k_dense: 20
+  top_k_sparse: 20
+  reranker_model: null            # cross-encoder, chosen at the retrieval milestone
+  top_k_final: 5
+  # When a chunk with amended_by is retrieved, pull its amending chunk into
+  # context too, the same way internal cross-references are followed. This is
+  # load-bearing for Sarawak: A1754 has been in force since 2025-05-01, so for
+  # amended sections the A1754 wording is operative and the Cap. 76 wording is
+  # superseded. Without the link the system answers from repealed text.
+  follow_amendment_links: true
+  # Answers must lead with the in-force wording and cite the principal
+  # section it amends, never present superseded wording as current.
+  prefer_in_force_wording: true
+
+generation:
+  provider: null                  # hosted API; provider chosen at the generation milestone
+  model: null
+  api_key_env: null               # name of the .env var holding the key
+  abstention_threshold: null      # calibrated in CP2 W8-W9
+
+evaluation:
+  gold_set_path: data/eval/gold_set.jsonl
+  metrics: [faithfulness, answer_relevancy, context_precision, context_recall]
