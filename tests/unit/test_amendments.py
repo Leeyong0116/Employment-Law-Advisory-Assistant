@@ -105,7 +105,7 @@ class TestAgainstTheRealCorpus:
     def test_a_deleted_definition_is_its_own_chunk_and_link(self, linked):
         # p.6: "(ix) by deleting the definition of “family”;" is short but is
         # the only record of the deletion, so it must not be merged away.
-        principal, amending, _, _ = linked
+        principal, _, _, _ = linked
         family = principal["SWK76_s2_1_def_family"]
         assert family["status"] == "deleted" and family["deleted_by"] == "Act A1754"
         assert family["amended_by"] == ["A1754_s3_a_ix"]

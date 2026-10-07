@@ -134,11 +134,14 @@ Deferred to future work: Bahasa Malaysia, case law, extra statutes, agentic/grap
  
 ## Current status (update as work progresses)
  
-- Phase: M1 ingestion.
-- Done: `extract.py` (564 pages, 5 documents, 25 footnotes lifted, no editorial notes in body text).
-- Done: `toc.py` (expected-section inventory from each ARRANGEMENT OF SECTIONS, written to `data/processed/toc_inventory.jsonl`). EA 158 sections, IRA 83, Sabah 275 (47 not yet in force), Sarawak 205. Counts cross-checked against raw text. Act A1754 excluded (no contents pages). Sarawak contents list no schedule, so the validator must take it from the body. 85 tests passing.
-- Next: check whether `extract.py` leaks running headers on body pages (it does on contents pages: EA verso pages, `Laws of Malaysia ACT 177`, `CAP. 76 (1948 ED.)`), then the section parser, starting with EA 1955.
-- Open items: confirm Act A1754 commencement against the P.U. gazette; settle Sarawak handling with Dr Azam.
+- Phase: M1 ingestion **complete**. Next: M2 indexing (PostgreSQL + pgvector, bge-m3, BM25). Start collecting gold-set questions in parallel.
+- Run it: `python -m src.ingestion.pipeline` writes `data/processed/chunks.jsonl`, `toc_inventory.jsonl` and `ingestion_report.json`; exits 1 if validation finds problems.
+- Result: 1,849 chunks (EA 368, IRA 273, Sabah 626, Sarawak 435, A1754 147). All 721 listed sections and every schedule have chunks; validation clean; 173 tests passing.
+- Modules: `extract.py` (pages, furniture incl. three-line headers, footnotes), `toc.py` (inventory), `sections.py` (subsection chunks, definitions per term, placeholders), `schedules.py` (coverage tables from coordinates), `amendments.py` (A1754 chunks + links to Cap. 76), `validate.py`, `pipeline.py`.
+- Sarawak: Cap. 76 chunks amended by A1754 are `superseded` with `amended_by` links (138); deleted by A1754 are `deleted` (29). A1754 s.52 (Part IVa) is `not_yet_in_force`.
+- Check by hand once: the 8 inferred section titles in `ingestion_report.json` (all verified 2026-10-08), and a sample of A1754 links.
+- Open items: confirm Act A1754 commencement against the P.U. gazette; settle Sarawak handling with Dr Azam; Sarawak has no Part III anywhere in the 2006 text (source fact, worth mentioning).
+- Deferred (in `docs/chunk_schema.md`): LIST OF AMENDMENTS provenance tables; EA Second Schedule is a three-column table chunked as plain text.
 - Other context docs: `docs/chunk_schema.md`, `docs/plans/`.
 ## How to work with me
  

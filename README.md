@@ -77,6 +77,22 @@ py -3.12 -m venv .venv
 .venv\Scripts\python.exe -m pytest
 ```
 
+## Ingestion
+
+```powershell
+.venv\Scripts\python.exe -m src.ingestion.pipeline
+```
+
+Reads the five PDFs and writes to `data/processed/`:
+
+- `chunks.jsonl`: one citation-ready chunk per line (schema in
+  `docs/chunk_schema.md`)
+- `toc_inventory.jsonl`: every section each ARRANGEMENT OF SECTIONS lists
+- `ingestion_report.json`: counts, inferred titles, and validation problems
+
+It exits with status 1 if any listed section has no chunk, or if editorial
+text, missing citation fields or broken amendment links are found.
+
 `requirements.txt` installs only the milestone in progress; the indexing,
 generation, and evaluation blocks are commented out and get pinned when that
 work starts. Copy `.env.example` to `.env` for API keys — `.env` is gitignored.
