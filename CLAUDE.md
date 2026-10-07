@@ -135,10 +135,11 @@ Deferred to future work: Bahasa Malaysia, case law, extra statutes, agentic/grap
 ## Current status (update as work progresses)
  
 - Phase: M1 ingestion.
-- Done: `extract.py` (42 tests passing, 564 pages, 5 documents, 25 footnotes lifted, no editorial notes in body text).
-- In progress: `toc.py`, parses each ARRANGEMENT OF SECTIONS into an expected-section inventory for validation diffing. Sabah TOC lists the NOT YET IN FORCE range s.121A to 121AU.
+- Done: `extract.py` (564 pages, 5 documents, 25 footnotes lifted, no editorial notes in body text).
+- Done: `toc.py` (expected-section inventory from each ARRANGEMENT OF SECTIONS, written to `data/processed/toc_inventory.jsonl`). EA 158 sections, IRA 83, Sabah 275 (47 not yet in force), Sarawak 205. Counts cross-checked against raw text. Act A1754 excluded (no contents pages). Sarawak contents list no schedule, so the validator must take it from the body. 85 tests passing.
+- Next: check whether `extract.py` leaks running headers on body pages (it does on contents pages: EA verso pages, `Laws of Malaysia ACT 177`, `CAP. 76 (1948 ED.)`), then the section parser, starting with EA 1955.
 - Open items: confirm Act A1754 commencement against the P.U. gazette; settle Sarawak handling with Dr Azam.
-- Other context docs: `docs/ingestion-decisions.md`, `docs/chunk-schema-reference.md`.
+- Other context docs: `docs/chunk_schema.md`, `docs/plans/`.
 ## How to work with me
  
 - Plan first, then TDD (Superpowers workflow).

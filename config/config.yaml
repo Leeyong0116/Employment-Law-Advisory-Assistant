@@ -21,6 +21,9 @@ corpus:
       status: in_force
       as_at: 2023-01-01           # AGC updated text, incorporates Act A1651
       pages: 127
+      # ARRANGEMENT OF SECTIONS, 0-based PDF page index, inclusive. Declared
+      # rather than detected: a wrong guess would silently drop sections.
+      toc_pages: [2, 10]
       consolidated: true
       # 14 inline "NOTE--" blocks are AGC editorial annotation, not statutory
       # text. They must be lifted into metadata during parsing, never left in a
@@ -39,6 +42,9 @@ corpus:
       status: in_force
       as_at: 2021-11-01           # AGC updated text, incorporates Act A1615
       pages: 81
+      # ARRANGEMENT OF SECTIONS, 0-based PDF page index, inclusive. Declared
+      # rather than detected: a wrong guess would silently drop sections.
+      toc_pages: [2, 6]
       consolidated: true
       has_inline_editorial_notes: true
       # Act A1615 commenced only in part. 17 inline notes mark provisions that
@@ -61,6 +67,9 @@ corpus:
       status: in_force
       as_at: 2026-06-01           # "FOR REFERENCE ONLY (JUNE 2026)"
       pages: 155
+      # ARRANGEMENT OF SECTIONS, 0-based PDF page index, inclusive. Declared
+      # rather than detected: a wrong guess would silently drop sections.
+      toc_pages: [0, 12]
       # Verified consolidated: AA1753 (in force 2025-05-01) is folded in --
       # it is cited 21x as the authority for deletions, maternity already reads
       # "ninety-eight consecutive days", and worker->employee is applied
@@ -91,6 +100,9 @@ corpus:
       status: in_force
       as_at: 2006-07-31           # incorporates amendments only to this date
       pages: 113
+      # ARRANGEMENT OF SECTIONS, 0-based PDF page index, inclusive. Declared
+      # rather than detected: a wrong guess would silently drop sections.
+      toc_pages: [2, 11]
       currency_caveat: >
         The text held here incorporates amendments only up to 31 July 2006.
         Act A1754 has been in force since 1 May 2025, so every provision it
@@ -153,6 +165,9 @@ jurisdiction_notes:
 
 ingestion:
   sections_path: data/processed/sections.jsonl
+  # Expected-section list from each ARRANGEMENT OF SECTIONS (src/ingestion/toc.py).
+  # The validator diffs the parser's chunks against it.
+  toc_inventory_path: data/processed/toc_inventory.jsonl
   # Page furniture, footnotes, watermarks and letter-spaced lines are all
   # handled unconditionally by src/ingestion/extract.py, detected from the
   # documents themselves rather than configured per file. The earlier
