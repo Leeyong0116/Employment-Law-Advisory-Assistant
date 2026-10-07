@@ -142,7 +142,7 @@ Deferred to future work: Bahasa Malaysia, case law, extra statutes, agentic/grap
 - Check by hand once: the 8 inferred section titles in `ingestion_report.json` (all verified 2026-10-08), and a sample of A1754 links.
 - Open items: confirm Act A1754 commencement against the P.U. gazette; settle Sarawak handling with Dr Azam; Sarawak has no Part III anywhere in the 2006 text (source fact, worth mentioning).
 - Deferred (in `docs/chunk_schema.md`): LIST OF AMENDMENTS provenance tables; EA Second Schedule is a three-column table chunked as plain text.
-- Other context docs: `docs/chunk_schema.md`, `docs/plans/`.
+- Other context docs: `docs/chunk_schema.md`, `docs/plans/`, `docs/devlog/` (one English log per working session, written as source material for the CP2 report: decisions, problems and fixes, evidence, numbers).
 ## How to work with me
  
 - Plan first, then TDD (Superpowers workflow).
