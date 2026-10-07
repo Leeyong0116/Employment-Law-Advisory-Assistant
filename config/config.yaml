@@ -10,6 +10,7 @@ corpus:
   # declared rather than inferred from filenames.
   documents:
     - id: employment_act_1955
+      chunk_prefix: EA1955          # chunk_id prefix, e.g. EA1955_s10_1
       jurisdiction_label: Peninsular Malaysia and Labuan
       source_version: as at 1 January 2023
       source_url: https://lom.agc.gov.my/
@@ -31,6 +32,7 @@ corpus:
       has_inline_editorial_notes: true
 
     - id: industrial_relations_act_1967
+      chunk_prefix: IRA1967          # chunk_id prefix, e.g. IRA1967_s10_1
       jurisdiction_label: Malaysia
       source_version: as at 1 November 2021
       source_url: https://lom.agc.gov.my/
@@ -56,6 +58,7 @@ corpus:
       partial_commencement: true
 
     - id: labour_ordinance_sabah
+      chunk_prefix: SBH67          # chunk_id prefix, e.g. SBH67_s10_1
       jurisdiction_label: Sabah
       source_version: for reference only, June 2026
       source_url: null      # TODO: record the exact source URL
@@ -89,6 +92,7 @@ corpus:
           commencement: null
 
     - id: labour_ordinance_sarawak
+      chunk_prefix: SWK76          # chunk_id prefix, e.g. SWK76_s10_1
       jurisdiction_label: Sarawak
       source_version: incorporating amendments up to 31 July 2006
       source_url: null      # TODO: record the exact source URL
@@ -114,6 +118,7 @@ corpus:
     # produce a consolidated text that no authority has published, which the
     # user could not verify against a source. Linked by metadata instead.
     - id: sarawak_amendment_act_2025
+      chunk_prefix: A1754          # chunk_id prefix, e.g. A1754_s10_1
       jurisdiction_label: Sarawak
       source_version: as passed, Act A1754 of 2025
       source_url: https://www.jtkswk.gov.my/v2/wp-content/uploads/2025/04/Act-A1754-LABOUR-ORDINANCE-OF-SARAWAK-AMENDMENT-ACT-2025-1.pdf

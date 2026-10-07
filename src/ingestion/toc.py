@@ -35,7 +35,7 @@ import yaml
 from src.ingestion.extract import extract_pages
 
 _ARRANGEMENT = re.compile(r"^ARRANGEMENT OF SECTIONS$")
-_HEADING = re.compile(r"^(PART|CHAPTER) ([IVXLC]+[A-Z]?|\d+)(?: [—–-] .*)?$")
+_HEADING = re.compile(r"^(PART|CHAPTER) ([IVXLC]+[A-Z]?|\d+)(?: [—–-] (.*))?$")
 _RANGE = re.compile(r"^(\d+) ?[—–-] ?(\d+)\.(?: (.*))?$")
 _ENTRY = re.compile(r"^(\d+[A-Za-z]*)\.(?: (.*))?$")
 _SCHEDULE = re.compile(r"^\*?((?:FIRST|SECOND|THIRD|FOURTH|FIFTH|SIXTH) )?SCHEDULE$")
@@ -78,7 +78,9 @@ class TocEntry:
     """None for a placeholder, which carries no title."""
 
     part: str | None
+    part_title: str | None
     chapter: str | None
+    chapter_title: str | None
     status: str
     """"listed", "deleted" or "omitted"."""
 
@@ -94,8 +96,7 @@ class TocEntry:
 class _Draft:
     ids: list[str]
     kind: str
-    part: str | None
-    chapter: str | None
+    headings: dict
     page_index: int
     not_yet_in_force: bool = False
     title_parts: list[str] | None = None
@@ -124,8 +125,10 @@ def _finish(draft: _Draft, doc_id: str) -> list[TocEntry]:
             kind=draft.kind,
             section=section,
             title=title,
-            part=draft.part,
-            chapter=draft.chapter,
+            part=draft.headings["part"],
+            part_title=draft.headings["part_title"],
+            chapter=draft.headings["chapter"],
+            chapter_title=draft.headings["chapter_title"],
             status=status,
             deleted_by=deleted_by,
             not_yet_in_force=draft.not_yet_in_force,
@@ -163,7 +166,20 @@ def parse_toc(pages: list[str], doc_id: str, first_page_index: int = 0) -> list[
     start = next((i + 1 for i, (_, ln) in enumerate(lines) if _ARRANGEMENT.match(ln)), 0)
 
     drafts: list[_Draft] = []
+    # Heading titles can wrap, so they are collected line by line and joined
+    # when the first entry under them is drafted.
     part = chapter = None
+    part_title: list[str] = []
+    chapter_title: list[str] = []
+    heading_title = part_title
+
+    def headings() -> dict:
+        return {
+            "part": part,
+            "part_title": " ".join(part_title) or None,
+            "chapter": chapter,
+            "chapter_title": " ".join(chapter_title) or None,
+        }
     state = None  # "heading" while reading a heading title, "entry" while reading a section title
     pending_range: tuple[str, str] | None = None
     in_range = False
@@ -179,16 +195,19 @@ def parse_toc(pages: list[str], doc_id: str, first_page_index: int = 0) -> list[
 
         if heading := _HEADING.match(line):
             label = f"{heading.group(1).title()} {heading.group(2)}"
+            inline = [heading.group(3)] if heading.group(3) else []
             if heading.group(1) == "PART":
-                part, chapter = label, None
+                part, part_title, chapter, chapter_title = label, inline, None, []
+                heading_title = part_title
             else:
-                chapter = label
+                chapter, chapter_title = label, inline
+                heading_title = chapter_title
             state = "heading"
             continue
 
         if schedule := _SCHEDULE.match(line):
             name = f"{schedule.group(1) or ''}SCHEDULE"
-            drafts.append(_Draft([name], "schedule", part, chapter, page_index))
+            drafts.append(_Draft([name], "schedule", headings(), page_index))
             state = None
             continue
 
@@ -202,11 +221,13 @@ def parse_toc(pages: list[str], doc_id: str, first_page_index: int = 0) -> list[
                 if line[0].isdigit():
                     raise TocParseError(f"malformed entry {line!r} (page {page_index})")
                 drafts[-1].title_parts.append(line)
+            elif state == "heading":
+                heading_title.append(line)
             elif state is None:
                 raise TocParseError(f"unrecognised line {line!r} (page {page_index})")
             continue
 
-        draft = _Draft(ids, "section", part, chapter, page_index, title_parts=[rest] if rest else [])
+        draft = _Draft(ids, "section", headings(), page_index, title_parts=[rest] if rest else [])
         if pending_range and ids[0] == pending_range[0]:
             in_range = True
         elif pending_range and not in_range:
