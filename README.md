@@ -63,8 +63,8 @@ the principal Ordinance and its 2025 amending Act are held as separate
 documents rather than merged into a consolidated text. `config/config.yaml`
 declares the registry (jurisdiction, currency date, in-force status, amendment
 links); the filenames themselves are inconsistent and are never parsed for
-meaning. The PDFs are gitignored, so a fresh clone needs them supplied
-separately.
+meaning. The PDFs are committed, so a fresh clone has the full corpus and
+the `corpus` tests run without extra setup.
 
 ## Setup
 
