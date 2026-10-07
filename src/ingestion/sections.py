@@ -51,7 +51,7 @@ _RANGE_START = re.compile(
 _RULE_LINE = re.compile(r"^\s*(?:_{5,}|[\[\]])\s*$")
 _HEADING = re.compile(r"^\s*(?:PART|CHAPTER)\s+(?:[IVXLC]+[A-Z]?|\d+)\b")
 _SCHEDULE_HEADING = re.compile(r"^\s*\*?(?:(?:FIRST|SECOND|THIRD|FOURTH|FIFTH) )?SCHEDULE\s*$")
-_END_MATTER = re.compile(r"^\s*(?:LIST OF AMENDMENTS|LIST OF SECTIONS AMENDED)\s*$")
+_END_MATTER = re.compile(r"^\s*LIST\s+OF\s+(?:AMENDMENTS|SECTIONS\s+AMENDED)\s*$")
 _SUBSECTION = re.compile(r"^\s*\((\d+)([A-Z]{0,2})\)\s*")
 _PARAGRAPH = re.compile(r"^\s*(?:\((?:[a-z]{1,3}|[ivxl]+|[A-Z])\)|Provided\b)")
 _DEFINITION = re.compile(r'^\s*[“"]([^”"]{1,80})[”"]')
@@ -591,9 +591,16 @@ def _emit_section(builder: _Builder, loc: _Located, lines: list[BodyLine]) -> No
 
 
 def parse_document(doc: dict, raw_dir: str | Path) -> tuple[list[dict], dict]:
-    """Parse one registry document into chunks plus a coverage report."""
+    """Parse one registry document's sections into chunks plus a coverage report."""
     pages = extract_pages(Path(raw_dir) / doc["file"])
-    inventory = inventory_for_document(doc, raw_dir)
+    chunks, report, _ = parse_body(doc, pages, inventory_for_document(doc, raw_dir))
+    return chunks, report
+
+
+def parse_body(
+    doc: dict, pages: list[Page], inventory: list[TocEntry]
+) -> tuple[list[dict], dict, list[BodyLine]]:
+    """Parse the sections; also return the lines after them (the schedules)."""
     expected = [e for e in inventory if e.kind == "section"]
     lines = body_lines(pages, doc["toc_pages"][1] + 1)
 
@@ -627,4 +634,4 @@ def parse_document(doc: dict, raw_dir: str | Path) -> tuple[list[dict], dict]:
         "chunks": len(builder.chunks),
         "schedule_start_line": end,
     }
-    return builder.chunks, report
+    return builder.chunks, report, lines[end:]

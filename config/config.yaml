@@ -183,10 +183,18 @@ ingestion:
   # Section ids are upper-cased: A1754 writes "section 8a", Cap. 76 writes "8A".
   normalise_section_case: true
   schedules:
-    # The EA schedule tables have no ruling lines, so extract_tables() cannot
-    # find them; columns are split on word x-coordinates instead.
+    # The coverage schedules ("Employee" / "Provision ... not applicable")
+    # have no ruling lines, so extract_tables() cannot find them; columns are
+    # split on word x-coordinates instead. Measured: right column starts at
+    # x 316-327 in all three, left column text ends by x 305.
     employment_act_1955:
-      first_schedule_page: 111    # 0-based PDF page index
+      two_column: [FIRST SCHEDULE]
+      column_split_x: 310
+    labour_ordinance_sabah:
+      two_column: [FIRST SCHEDULE]
+      column_split_x: 310
+    labour_ordinance_sarawak:
+      two_column: [SCHEDULE]
       column_split_x: 310
 
 indexing:
