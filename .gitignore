@@ -2,9 +2,11 @@
 __pycache__/
 *.pyc
 .env
-data/processed/
+data/processed/*
+!data/processed/.gitkeep
 *.index
 .DS_Store
 notebooks/.ipynb_checkpoints/
 .pytest_cache/
 *.egg-info/
+.claude/settings.local.json
