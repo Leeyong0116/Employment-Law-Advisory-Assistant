@@ -116,6 +116,57 @@ class TestFurniturePositions:
         assert 2 not in extract.furniture_positions(pages[0], signatures, deep)
 
 
+class TestRewriteFractions:
+    def test_a_fraction_becomes_numerator_over_denominator(self):
+        # EA p.68, s.60I(1A): the fraction bar is a drawn line, so the text
+        # layer has the numerator, a stray full stop, and the denominator.
+        lines = ["following formula:", "monthly rate of pay", ".", "26", "(1B) Where an employee"]
+        assert extract.rewrite_fractions(lines, [("monthly rate of pay", "26")]) == [
+            "following formula:", "monthly rate of pay / 26.", "(1B) Where an employee",
+        ]
+
+    def test_a_denominator_over_two_lines(self):
+        # EA p.30, s.18A.
+        lines = ["Monthly wages", "Number of days of the particular", "wage period", "X"]
+        fractions = [("Monthly wages", "Number of days of the particular wage period")]
+        assert extract.rewrite_fractions(lines, fractions) == [
+            "(Monthly wages) / (Number of days of the particular wage period)", "X",
+        ]
+
+    def test_a_stray_semicolon(self):
+        # Sabah p.22: the text layer gives ";" where the EA gives ".".
+        lines = ["monthly rate of pay", ";", "26", "(b)"]
+        assert extract.rewrite_fractions(lines, [("monthly rate of pay", "26")]) == [
+            "monthly rate of pay / 26;", "(b)",
+        ]
+
+    def test_a_product_printed_between_numerator_and_denominator(self):
+        # EA p.30, s.18A: "X" and the second factor come out of the text
+        # layer between the numerator and the denominator.
+        lines = ["Monthly wages", "X", "Number of days", "eligible in the", "wage period.",
+                 "Number of days of the particular", "wage period", "Time of payment of wages"]
+        fractions = [("Monthly wages", "Number of days of the particular wage period")]
+        assert extract.rewrite_fractions(lines, fractions) == [
+            "(Monthly wages) / (Number of days of the particular wage period) X Number of days "
+            "eligible in the wage period.",
+            "Time of payment of wages",
+        ]
+
+    def test_the_multiplication_sign_is_put_back_in_front(self):
+        # A1754 p.29: the second factor comes out before the "X".
+        lines = ["Monthly wages", "Number of", "days eligible", "in the wage", "period.”.", "X",
+                 "Number of days of the", "particular wage period"]
+        fractions = [("Monthly wages", "Number of days of the particular wage period")]
+        assert extract.rewrite_fractions(lines, fractions) == [
+            "(Monthly wages) / (Number of days of the particular wage period) X Number of days "
+            "eligible in the wage period.”.",
+        ]
+
+    def test_text_that_is_not_found_is_left_alone(self):
+        lines = ["Every employee shall"]
+        assert extract.rewrite_fractions(lines, [("monthly rate of pay", "26")]) == lines
+
+
 class TestPrintedPageNumber:
     def test_number_on_its_own_line(self):
         assert extract.printed_page_number(["FOR REFERENCE ONLY (JUNE 2026)", "41"]) == 41
@@ -245,6 +296,16 @@ class TestAgainstTheRealCorpus:
         assert pages[40].printed_page == 39
         numbered = sum(p.printed_page is not None for p in pages)
         assert numbered >= 110, f"only {numbered}/{len(pages)} pages carry a page number"
+
+    def test_formulas_keep_their_division(self, ea_pages):
+        # EA s.60I(1A)/(1B): daily rate = monthly rate / 26, weekly rate / 6.
+        text = ea_pages[67].text
+        assert "monthly rate of pay / 26." in text
+        assert "weekly rate of pay / 6." in text
+
+    def test_a_footnote_rule_is_not_a_fraction_bar(self, ea_pages):
+        # EA p.44 draws a short rule above its *NOTE; nothing may be rewritten.
+        assert " / " not in ea_pages[43].text
 
     def test_third_line_running_titles_are_removed(self):
         # Sarawak Cap. 76 and Act A1754 both run three-line verso headers. Left

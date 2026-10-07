@@ -136,7 +136,8 @@ Deferred to future work: Bahasa Malaysia, case law, extra statutes, agentic/grap
  
 - Phase: M1 ingestion **complete**. Next: M2 indexing (PostgreSQL + pgvector, bge-m3, BM25). Start collecting gold-set questions in parallel.
 - Run it: `python -m src.ingestion.pipeline` writes `data/processed/chunks.jsonl`, `toc_inventory.jsonl` and `ingestion_report.json`; exits 1 if validation finds problems.
-- Result: 1,849 chunks (EA 368, IRA 273, Sabah 626, Sarawak 435, A1754 147). All 721 listed sections and every schedule have chunks; validation clean; 173 tests passing.
+- Result: 1,852 chunks (EA 370, IRA 273, Sabah 627, Sarawak 435, A1754 147). All 721 listed sections and every schedule have chunks; validation clean; 184 tests passing. Formula fractions are rebuilt from drawn bars (`monthly rate of pay / 26`).
+- Manual audit: `data/eval/chunk_audit_sample.csv` (60 chunks, seed 42) is waiting to be checked by hand against the PDFs; record the result in the devlog.
 - Modules: `extract.py` (pages, furniture incl. three-line headers, footnotes), `toc.py` (inventory), `sections.py` (subsection chunks, definitions per term, placeholders), `schedules.py` (coverage tables from coordinates), `amendments.py` (A1754 chunks + links to Cap. 76), `validate.py`, `pipeline.py`.
 - Sarawak: Cap. 76 chunks amended by A1754 are `superseded` with `amended_by` links (138); deleted by A1754 are `deleted` (29). A1754 s.52 (Part IVa) is `not_yet_in_force`.
 - Check by hand once: the 8 inferred section titles in `ingestion_report.json` (all verified 2026-10-08), and a sample of A1754 links.

@@ -160,6 +160,20 @@ def _closes(lines: list[BodyLine]) -> bool:
     return not last or bool(re.search(r"[.;:—\])]$", last)) or _is_bare_marker(last)
 
 
+def _opens_sentence(lines: list[BodyLine], index: int, marker_end: int) -> bool:
+    """Whether the text after a marker starts a new sentence (a capital letter).
+
+    Covers a source that omits the full stop ending the previous subsection
+    (Sabah s.121I: "(b) of good quality" / "(4) Any employer"). A wrapped
+    reference continues in lower case ("(3) of section 18;"), so it still
+    does not open a subsection. A bare marker looks at the next line.
+    """
+    rest = lines[index].text[marker_end:].strip()
+    if not rest and index + 1 < len(lines):
+        rest = lines[index + 1].text.strip()
+    return rest[:1].isupper()
+
+
 def split_subsections(lines: list[BodyLine]) -> list[tuple[str | None, list[BodyLine]]]:
     """Split a section body at its subsection markers.
 
@@ -173,10 +187,13 @@ def split_subsections(lines: list[BodyLine]) -> list[tuple[str | None, list[Body
 
     parts: list[tuple[str | None, list[BodyLine]]] = []
     current: tuple[int, str] | None = None
-    for line in lines:
+    for index, line in enumerate(lines):
         match = _SUBSECTION.match(line.text)
         key = (int(match.group(1)), match.group(2)) if match else None
-        if key and (current is None or (_successor(current, key) and _closes(parts[-1][1]))):
+        if key and (
+            current is None
+            or (_successor(current, key) and (_closes(parts[-1][1]) or _opens_sentence(lines, index, match.end())))
+        ):
             current = key
             rest = line.text[match.end():]
             parts.append((f"({key[0]}{key[1]})", [BodyLine(line.page_index, line.printed_page, rest)]))

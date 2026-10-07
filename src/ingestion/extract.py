@@ -257,6 +257,91 @@ def furniture_positions(
     return positions | bare_page_number_positions(lines)
 
 
+# A fraction bar is a short drawn line, not a character, so the text layer
+# loses it: EA s.60I(1A) "monthly rate of pay / 26" extracts as
+# "monthly rate of pay" / "." / "26", and the division is gone. Text within
+# this distance above and below such a line is its numerator and denominator.
+_FRACTION_REACH = 16.0
+
+
+def _normal(text: str) -> str:
+    return " ".join(text.split())
+
+
+def find_fractions(page: pymupdf.Page) -> list[tuple[str, str]]:
+    """(numerator, denominator) for each fraction bar drawn on the page.
+
+    A short rule above a "*NOTE" is a footnote separator, not a fraction.
+    """
+    words = page.get_text("words")
+    fractions = []
+    for drawing in page.get_drawings():
+        bar = drawing["rect"]
+        if bar.height > 2 or not 15 < bar.width < 320:
+            continue
+
+        def side(top: float, bottom: float) -> str:
+            hits = [w for w in words if top <= (w[3] if bottom <= bar.y0 + 2 else w[1]) <= bottom
+                    and w[2] > bar.x0 and w[0] < bar.x1]
+            return _normal(" ".join(w[4] for w in sorted(hits, key=lambda w: (round(w[1]), w[0]))))
+
+        numerator = side(bar.y0 - _FRACTION_REACH, bar.y0 + 1.5)
+        denominator = side(bar.y1 - 1.5, bar.y1 + _FRACTION_REACH)
+        if numerator and denominator and not denominator.lstrip("*").startswith("NOTE"):
+            fractions.append((numerator, denominator))
+    return fractions
+
+
+def _find_run(lines: list[str], text: str, start: int, stop: int) -> tuple[int, int] | None:
+    """Where consecutive lines, joined, read exactly `text`: (index, count)."""
+    wanted = _normal(text)
+    for k in range(start, min(stop, len(lines))):
+        for count in range(1, 5):
+            if _normal(" ".join(lines[k : k + count])) == wanted:
+                return k, count
+    return None
+
+
+_STRAY = {".", ";"}
+# How far below the numerator the denominator may come out of the text
+# layer: EA s.18A prints "X" and a second factor beside the fraction, and
+# those lines arrive in between.
+_DENOMINATOR_WINDOW = 8
+
+
+def rewrite_fractions(lines: list[str], fractions: list[tuple[str, str]]) -> list[str]:
+    """Rejoin each fraction as "numerator / denominator".
+
+    Sides of more than four words are bracketed, so the division stays
+    unambiguous next to other terms. Lines that came out between the two
+    sides (the "X" and second factor of EA s.18A) follow the fraction, with
+    "X" first. A stray full stop or semicolon from beside the bar ends it.
+    """
+    out = list(lines)
+    for numerator, denominator in fractions:
+        top = _find_run(out, numerator, 0, len(out))
+        if top is None:
+            continue
+        start = top[0] + top[1]
+        bottom = _find_run(out, denominator, start, start + _DENOMINATOR_WINDOW)
+        if bottom is None:
+            continue
+        between = [ln.strip() for ln in out[start : bottom[0]]]
+        end = bottom[0] + bottom[1]
+        stray = [ln for ln in between if ln in _STRAY]
+        if end < len(out) and out[end].strip() in _STRAY:
+            stray.append(out[end].strip())
+            end += 1
+        between = [ln for ln in between if ln not in _STRAY]
+        if "X" in between:
+            between = ["X"] + [ln for ln in between if ln != "X"]
+        wrap = max(len(numerator.split()), len(denominator.split())) > 4
+        formula = f"({numerator}) / ({denominator})" if wrap else f"{numerator} / {denominator}"
+        formula = " ".join([formula] + between) + (stray[0] if stray else "")
+        out[top[0] : end] = [formula]
+    return out
+
+
 def _repair(line: str, repairs: dict[str, str]) -> str:
     if not _LETTER_SPACED.search(line):
         return line
@@ -278,6 +363,7 @@ def extract_pages(
                 for ln in lines
                 if ln.strip() and not any(p in ln for p in watermark_patterns)
             ]
+            lines = rewrite_fractions(lines, find_fractions(page))
             raw_pages.append(lines)
             repairs.append(_repaired_lines(page))
 

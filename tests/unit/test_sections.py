@@ -72,6 +72,27 @@ class TestSplitSubsections:
         assert [m for m, _ in parts] == ["(1)", "(2)", "(3)"]
         assert "(1) of section 3." in [l.text for l in parts[1][1]]
 
+    def test_a_new_sentence_opens_a_subsection_even_without_a_full_stop(self):
+        # Sabah p.106, s.121I: the source omits the full stop after (3)(b),
+        # but "(4) Any employer" plainly starts a new subsection.
+        parts = sections.split_subsections(
+            _lines("(1) A.\n(2) B.\n(3) supply of milk —\n(a) in sufficient quantity; and\n"
+                   "(b) of good quality\n(4) Any employer who fails to comply")
+        )
+        assert [m for m, _ in parts] == ["(1)", "(2)", "(3)", "(4)"]
+
+    def test_a_wrapped_reference_followed_by_lower_case_is_still_not_split(self):
+        # Sabah s.130O: "required under subsection" / "(3) of section 18;"
+        parts = sections.split_subsections(
+            _lines("(1) A.\n(2) B prescribing the contents required under subsection\n(3) of section 18;")
+        )
+        assert [m for m, _ in parts] == ["(1)", "(2)"]
+
+    def test_a_bare_marker_looks_at_the_next_line(self):
+        # Sabah puts the marker alone: "(2)" / "[Deleted by AA1753]" or a sentence.
+        parts = sections.split_subsections(_lines("(1) A of good quality\n(2)\nThe Director may"))
+        assert [m for m, _ in parts] == ["(1)", "(2)"]
+
     def test_lettered_subsections_follow_their_number(self):
         parts = sections.split_subsections(_lines("(1) A.\n(1A) B.\n(1B) C.\n(2) D."))
         assert [m for m, _ in parts] == ["(1)", "(1A)", "(1B)", "(2)"]
