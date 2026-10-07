@@ -85,6 +85,37 @@ class TestFindFurnitureSignatures:
         assert extract.digit_signature("42    Laws of Malaysia    ACT 265") in found
 
 
+class TestFurniturePositions:
+    @staticmethod
+    def _pages(third_line):
+        # Sarawak Cap. 76 verso pages: "Sarawak Lawnet" / "12" / "CAP. 76 (1948 ED.)",
+        # so the running title sits one line beyond the two-line window.
+        return [
+            ["Sarawak Lawnet", str(n), third_line, f"body line {n} of the statute", "For Reference Only"]
+            for n in range(10, 20)
+        ]
+
+    def test_a_third_line_running_title_is_furniture(self):
+        pages = self._pages("CAP. 76 (1948 ED.)")
+        signatures = extract.find_furniture_signatures(pages)
+        deep = extract.find_furniture_signatures(pages, depth=extract._DEEP_EDGE_LINES)
+        positions = extract.furniture_positions(pages[0], signatures, deep)
+        assert 2 in positions
+
+    def test_a_recurring_subsection_marker_on_the_third_line_survives(self):
+        # "(2)" can recur at the same slot by chance; it is numbering, not furniture.
+        pages = self._pages("(2)")
+        signatures = extract.find_furniture_signatures(pages)
+        deep = extract.find_furniture_signatures(pages, depth=extract._DEEP_EDGE_LINES)
+        assert 2 not in extract.furniture_positions(pages[0], signatures, deep)
+
+    def test_a_recurring_section_number_on_the_third_line_survives(self):
+        pages = self._pages("12.")
+        signatures = extract.find_furniture_signatures(pages)
+        deep = extract.find_furniture_signatures(pages, depth=extract._DEEP_EDGE_LINES)
+        assert 2 not in extract.furniture_positions(pages[0], signatures, deep)
+
+
 class TestPrintedPageNumber:
     def test_number_on_its_own_line(self):
         assert extract.printed_page_number(["FOR REFERENCE ONLY (JUNE 2026)", "41"]) == 41
@@ -214,6 +245,14 @@ class TestAgainstTheRealCorpus:
         assert pages[40].printed_page == 39
         numbered = sum(p.printed_page is not None for p in pages)
         assert numbered >= 110, f"only {numbered}/{len(pages)} pages carry a page number"
+
+    def test_third_line_running_titles_are_removed(self):
+        # Sarawak Cap. 76 and Act A1754 both run three-line verso headers. Left
+        # in, the title lands mid-provision wherever a section crosses a page.
+        sarawak = "\n".join(p.text for p in _pages_for("sarawak ordinance.pdf"))
+        assert "CAP. 76 (1948 ED.)" not in sarawak
+        a1754 = _pages_for("Sarawak amendment.pdf")
+        assert sum(p.text.startswith("Act A1754") for p in a1754) == 0
 
     def test_subsection_markers_survive_the_wider_page_number_window(self):
         # "(2)" and "(c)" sit at the same position as Cap. 76's page number.

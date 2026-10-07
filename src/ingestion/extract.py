@@ -61,6 +61,15 @@ _FURNITURE_RATIO = 0.3
 # which at a page edge is always a page number and never statutory text.
 _PAGE_NUMBER_WINDOW = 3
 
+# The same three-line header puts a running title on the third line too:
+# "CAP. 76 (1948 ED.)" in Cap. 76 and "Act A1754" in the amending Act, both on
+# verso pages. Left in, it lands mid-provision wherever a section crosses a
+# page. The third line is furniture only when its signature recurs in that
+# slot across the document AND it is not numbering: "(2)" or "12." can recur
+# there by chance and must never be stripped.
+_DEEP_EDGE_LINES = 3
+_STRUCTURAL = re.compile(r"^\s*(?:\(\w{1,5}\)|\d+[A-Za-z]*\.)")
+
 
 @dataclass(frozen=True)
 class Page:
@@ -99,7 +108,7 @@ def digit_signature(line: str) -> str:
     return _DIGIT_RUN.sub("#", " ".join(line.split())).strip()
 
 
-def _edge_slots(lines: list[str]) -> list[tuple[str, str]]:
+def _edge_slots(lines: list[str], depth: int = _EDGE_LINES) -> list[tuple[str, str]]:
     """Yield (slot, signature) pairs for the lines at each edge of a page.
 
     The slot matters as much as the frequency. Sabah has 143 lines reading
@@ -107,18 +116,20 @@ def _edge_slots(lines: list[str]) -> list[tuple[str, str]]:
     look like furniture on frequency alone; they are not pinned to a page edge.
     """
     slots: list[tuple[str, str]] = []
-    for offset in range(min(_EDGE_LINES, len(lines))):
+    for offset in range(min(depth, len(lines))):
         slots.append((f"top{offset}", digit_signature(lines[offset])))
-    for offset in range(min(_EDGE_LINES, len(lines))):
+    for offset in range(min(depth, len(lines))):
         slots.append((f"bot{offset}", digit_signature(lines[-1 - offset])))
     return slots
 
 
-def find_furniture_signatures(pages_lines: list[list[str]]) -> set[str]:
+def find_furniture_signatures(
+    pages_lines: list[list[str]], depth: int = _EDGE_LINES
+) -> set[str]:
     """Return the digit signatures of recurring running headers and footers."""
     counts: Counter[tuple[str, str]] = Counter()
     for lines in pages_lines:
-        counts.update(set(_edge_slots([ln for ln in lines if ln.strip()])))
+        counts.update(set(_edge_slots([ln for ln in lines if ln.strip()], depth)))
     threshold = max(2, int(_FURNITURE_RATIO * len(pages_lines)))
     return {signature for (_slot, signature), n in counts.items() if n >= threshold}
 
@@ -230,6 +241,22 @@ def bare_page_number_positions(lines: list[str]) -> set[int]:
     }
 
 
+def furniture_positions(
+    lines: list[str], signatures: set[str], deep_signatures: set[str]
+) -> set[int]:
+    """Positions on one page that hold running headers, footers or page numbers."""
+    positions = {
+        position
+        for position in _edge_positions(lines)
+        if digit_signature(lines[position]) in signatures
+    }
+    for position in set(_edge_positions(lines, _DEEP_EDGE_LINES)) - set(_edge_positions(lines)):
+        line = lines[position]
+        if digit_signature(line) in deep_signatures and not _STRUCTURAL.match(line):
+            positions.add(position)
+    return positions | bare_page_number_positions(lines)
+
+
 def _repair(line: str, repairs: dict[str, str]) -> str:
     if not _LETTER_SPACED.search(line):
         return line
@@ -254,20 +281,17 @@ def extract_pages(
             raw_pages.append(lines)
             repairs.append(_repaired_lines(page))
 
-    furniture_signatures = find_furniture_signatures(raw_pages)
+    signatures = find_furniture_signatures(raw_pages)
+    deep_signatures = find_furniture_signatures(raw_pages, _DEEP_EDGE_LINES)
 
     pages: list[Page] = []
     for index, lines in enumerate(raw_pages):
-        furniture_positions = {
-            position
-            for position in _edge_positions(lines)
-            if digit_signature(lines[position]) in furniture_signatures
-        } | bare_page_number_positions(lines)
-        furniture = [lines[p] for p in sorted(furniture_positions)]
+        positions = furniture_positions(lines, signatures, deep_signatures)
+        furniture = [lines[p] for p in sorted(positions)]
         body = [
             _repair(line, repairs[index])
             for position, line in enumerate(lines)
-            if position not in furniture_positions
+            if position not in positions
         ]
         body, footnotes = split_footnotes(body)
         pages.append(
