@@ -78,6 +78,11 @@ corpus:
       # "ninety-eight consecutive days", and worker->employee is applied
       # (employee 469x vs worker 3x). Sabah therefore needs no amends/
       # amended_by linking; that stays confined to Sarawak.
+      # Re-checked 2026-10-08 against the Act A1753 PDF itself: all 21 sections
+      # it inserts or deletes are already in this text, and s.83 carries the
+      # substituted wording. A1753 is deliberately NOT indexed: linking it
+      # would mark current text as superseded and duplicate Part IVA. Only its
+      # s.70 (saving and transitional) is absent from this text; accepted.
       consolidated: true
       # Same substantive provision as Sarawak's uncommenced Part IVa, but this
       # text annotates it inline: the TOC reads "(NOT YET IN FORCE) (Section
