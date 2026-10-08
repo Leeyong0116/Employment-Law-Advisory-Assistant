@@ -93,6 +93,23 @@ Reads the five PDFs and writes to `data/processed/`:
 It exits with status 1 if any listed section has no chunk, or if editorial
 text, missing citation fields or broken amendment links are found.
 
+## Indexing
+
+Needs Docker Desktop (with the WSL 2 backend and an NVIDIA GPU). Copy
+`.env.example` to `.env` and set `POSTGRES_PASSWORD` to any random string.
+
+```powershell
+docker compose up -d                                        # PostgreSQL + pgvector
+docker compose --profile ml build ml                        # ML image, once
+docker compose run --rm ml python -m src.indexing.build     # embed + index
+docker compose run --rm ml python -m src.indexing.smoke     # sanity checks
+```
+
+The ML code (bge-m3, BM25) runs in the `ml` container rather than the
+Windows venv: Windows Smart App Control blocks some native DLLs these
+packages ship. The same image can run on the HPC through Apptainer.
+`build` skips work when `chunks.jsonl` has not changed; `--force` rebuilds.
+
 `requirements.txt` installs only the milestone in progress; the indexing,
 generation, and evaluation blocks are commented out and get pinned when that
 work starts. Copy `.env.example` to `.env` for API keys — `.env` is gitignored.

@@ -1,0 +1,9 @@
+# The image only needs requirements.txt; the source is mounted at run time.
+.venv/
+.git/
+data/
+docs/
+notebooks/
+**/__pycache__/
+.pytest_cache/
+.env

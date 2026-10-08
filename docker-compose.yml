@@ -1,0 +1,58 @@
+# PostgreSQL 16 with pgvector, for the chunk index (M2), and the ML runtime.
+#
+#   docker compose up -d      start the database (data persists in a volume)
+#   docker compose down       stop
+#   docker compose down -v    stop AND delete all indexed data
+#
+#   docker compose run --rm ml python -m src.indexing.build
+#   docker compose run --rm ml python -m src.indexing.smoke
+#       run ML code on the GPU inside the container (see docker/ml.Dockerfile)
+#
+# The password comes from .env (gitignored); see .env.example.
+# Bound to 127.0.0.1 only, so the database is not reachable from the network.
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: getright-db
+    environment:
+      POSTGRES_DB: getright
+      POSTGRES_USER: getright
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - getright-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U getright -d getright"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  ml:
+    build:
+      context: .
+      dockerfile: docker/ml.Dockerfile
+    image: getright-ml
+    profiles: [ml]          # not started by `up -d`; used with `run`
+    working_dir: /app
+    volumes:
+      - .:/app
+      - getright-hf-cache:/root/.cache/huggingface   # model weights, downloaded once
+    environment:
+      DB_HOST: db           # the database service, on the compose network
+      DB_PORT: "5432"
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+    depends_on:
+      db:
+        condition: service_healthy
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+volumes:
+  getright-pgdata:
+  getright-hf-cache:

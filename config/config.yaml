@@ -202,12 +202,33 @@ ingestion:
       two_column: [SCHEDULE]
       column_split_x: 310
 
+# Local PostgreSQL + pgvector (docker-compose.yml). Password from .env.
+database:
+  host: 127.0.0.1
+  port: 5432
+  name: getright
+  user: getright
+  password_env: POSTGRES_PASSWORD
+
 indexing:
   embedding_model: BAAI/bge-m3
-  dense_index_path: data/processed/index/dense
-  sparse_index_path: data/processed/index/sparse
+  embedding_dim: 1024
+  embed_batch_size: 16
+  # Exact cosine search, no approximate (HNSW) index. 1,852 vectors scan in
+  # milliseconds, and an approximate index can return fewer than k rows once
+  # a jurisdiction filter is applied, and is not guaranteed to be stable.
+  # Retrieval must be deterministic (CLAUDE.md), so exact search it is.
+  bm25_dir: data/processed/index/bm25
+  manifest_path: data/processed/index/manifest.json
 
 retrieval:
+  # Which chunk jurisdictions apply to a user in each region. The IRA
+  # ("Malaysia") applies everywhere; the EA does not apply in Sabah or
+  # Sarawak (CLAUDE.md, core contribution 4).
+  regions:
+    peninsular: [Peninsular Malaysia and Labuan, Malaysia]
+    sabah: [Sabah, Malaysia]
+    sarawak: [Sarawak, Malaysia]
   top_k_dense: 20
   top_k_sparse: 20
   reranker_model: null            # cross-encoder, chosen at the retrieval milestone

@@ -18,11 +18,16 @@ python-dotenv==1.2.3    # .env (API keys, never committed)
 # --- Testing (active) ------------------------------------------------------
 pytest==9.1.1
 
-# --- Phase 2: indexing / retrieval (deferred) ------------------------------
-# FlagEmbedding          # bge-m3 dense embeddings
-# rank-bm25              # sparse retrieval over section text + section numbers
-# faiss-cpu              # dense vector index
-# sentence-transformers  # cross-encoder reranker
+# --- Phase 2: indexing (active) ---------------------------------------------
+# The ML packages run inside the Docker image (docker/ml.Dockerfile), because
+# Windows Smart App Control blocks some of their native DLLs on the dev
+# machine. torch comes from the CUDA 12.8 index and is installed by the
+# Dockerfile, not here: torch==2.11.0 (+cu128).
+FlagEmbedding==1.4.2    # bge-m3: dense vectors + learned sparse weights
+transformers==5.19.0    # pinned with FlagEmbedding
+bm25s==0.3.13           # BM25 over citation + title + content
+psycopg[binary]==3.3.6  # PostgreSQL client
+pgvector==0.5.0         # vector type for psycopg
 
 # --- Phase 3: generation (deferred) ----------------------------------------
 # Hosted API for generation (provider not yet chosen — see config.yaml).

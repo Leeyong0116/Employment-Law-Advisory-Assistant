@@ -11,4 +11,5 @@ addopts = "-q --strict-markers"
 markers = [
     "corpus: requires the source PDFs in data/raw (skipped if absent)",
     "slow: takes more than a couple of seconds",
+    "db: needs the PostgreSQL index database (docker compose up -d)",
 ]
