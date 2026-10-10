@@ -33,14 +33,16 @@ pgvector==0.5.0         # vector type for psycopg
 lingua-language-detector==2.2.0   # language gate before retrieval
 pydantic==2.13.5        # typed retrieval result; reused by the FastAPI layer
 
+# --- Evaluation (active) -------------------------------------------------------
+ragas==0.4.3            # RAGAS; ID-based context precision/recall need no judge LLM
+langchain-community==0.3.31  # ragas 0.4.3 imports a module removed in 0.4.x
+
 # --- Phase 3: generation (deferred) ----------------------------------------
 # Hosted API for generation (provider not yet chosen — see config.yaml).
 # The local 4-bit path from the CP1 proposal is not on the critical path, so
 # transformers / bitsandbytes / accelerate are intentionally absent.
 
-# --- Phase 4: API + evaluation (deferred) ----------------------------------
+# --- Phase 4: API (deferred) ------------------------------------------------
 # fastapi
 # uvicorn
-# pydantic
-# ragas
-# datasets
+# (pydantic and ragas are active above; ragas pulls in datasets)

@@ -242,14 +242,15 @@ retrieval:
   # queries; BM25 still finds them by section number.
   exclude_placeholders_from_dense: true
   # Gate on each mode's own score (src/retrieval/pipeline.py). null = no
-  # score gate. PROVISIONAL: from the developer-written dev list
-  # (data/eval/dev_questions.jsonl, 15 in / 10 out, budget 10%,
-  # scripts/calibrate.py, 2026-10-10). Never report these; the gold set
-  # replaces them.
+  # score gate. Calibrated on gold set v1 (data/eval/gold_set.jsonl, 54 in /
+  # 20 out of scope), rule: highest threshold declining at most 10% of
+  # in-scope items (src/evaluation/retrieval_eval.py, 2026-10-10). These are
+  # in-sample values for running the system; report the 5-fold
+  # cross-validated rates from data/eval/runs/, not rates at these values.
   abstention_threshold:
-    dense: 0.6044
-    hybrid: 0.6044
-    hybrid_rerank: 0.0240
+    dense: 0.5555
+    hybrid: 0.5555
+    hybrid_rerank: 0.0325
   # Share of English words needed to pass; measured on 27 questions, see
   # src/retrieval/language.py.
   language_gate:
