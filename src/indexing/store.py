@@ -117,8 +117,15 @@ class ChunkStore:
         k: int = 20,
         jurisdictions: list[str] | None = None,
         index_version: str | None = None,
+        exclude_parse_rules: list[str] | None = None,
     ) -> list[tuple[str, float]]:
-        """Top k (chunk_id, cosine similarity), filtered in SQL."""
+        """Top k (chunk_id, cosine similarity), filtered in SQL.
+
+        `exclude_parse_rules` leaves out chunks made by those parser rules.
+        Used for the "(Omitted)." / "(Deleted by ...)" placeholders: their
+        near-empty content is a little similar to every query, so nonsense
+        queries land on them. BM25 still finds them by section number.
+        """
         import numpy as np
 
         query_vector = np.asarray(vector, dtype=np.float32)
@@ -129,6 +136,9 @@ class ChunkStore:
         if index_version is not None:
             conditions.append("index_version = %s")
             params.append(index_version)
+        if exclude_parse_rules:
+            conditions.append("NOT (coalesce(metadata->>'parse_rule', '') = ANY(%s))")
+            params.append(list(exclude_parse_rules))
         where = f"WHERE {' AND '.join(conditions)}" if conditions else ""
         rows = self.conn.execute(
             f"SELECT chunk_id, 1 - (embedding <=> %s) AS score FROM {self.table} {where} "
@@ -136,3 +146,18 @@ class ChunkStore:
             (query_vector, *params, query_vector, k),
         ).fetchall()
         return [(chunk_id, float(score)) for chunk_id, score in rows]
+
+    def similarities(
+        self, vector: Sequence[float], chunk_ids: list[str], index_version: str | None = None
+    ) -> dict[str, float]:
+        """Cosine similarity of the query to each named chunk (any that exist)."""
+        import numpy as np
+
+        if not chunk_ids:
+            return {}
+        sql = f"SELECT chunk_id, 1 - (embedding <=> %s) FROM {self.table} WHERE chunk_id = ANY(%s)"
+        params: list = [np.asarray(vector, dtype=np.float32), list(chunk_ids)]
+        if index_version is not None:
+            sql += " AND index_version = %s"
+            params.append(index_version)
+        return {chunk_id: float(score) for chunk_id, score in self.conn.execute(sql, params).fetchall()}

@@ -50,9 +50,9 @@ def _rows(version):
     sabah = dict(CHUNK, chunk_id="SBH67_s104B_1", jurisdiction="Sabah", doc_id="labour_ordinance_sabah")
     ira = dict(CHUNK, chunk_id="IRA1967_s5_1", jurisdiction="Malaysia", doc_id="industrial_relations_act_1967")
     return [
-        store.chunk_row(CHUNK, [1, 0, 0, 0], {}, version),
-        store.chunk_row(sabah, [0.9, 0.1, 0, 0], {}, version),
-        store.chunk_row(ira, [0, 1, 0, 0], {}, version),
+        store.chunk_row(dict(CHUNK, parse_rule="subsection"), [1, 0, 0, 0], {}, version),
+        store.chunk_row(dict(sabah, parse_rule="placeholder"), [0.9, 0.1, 0, 0], {}, version),
+        store.chunk_row(dict(ira, parse_rule="subsection"), [0, 1, 0, 0], {}, version),
     ]
 
 
@@ -83,3 +83,13 @@ class TestChunkStore:
         db.upsert([dict(r, index_version="v2") for r in _rows("v2")[:1]])
         removed = db.delete_other_versions("v2")
         assert removed == 2 and db.count("v2") == 1
+
+    def test_placeholders_can_be_excluded_in_sql(self, db):
+        db.upsert(_rows("v1"))
+        hits = db.dense_search([1, 0, 0, 0], k=3, index_version="v1", exclude_parse_rules=["placeholder"])
+        assert [h[0] for h in hits] == ["EA1955_s59_1", "IRA1967_s5_1"]
+
+    def test_similarities_for_named_chunks(self, db):
+        db.upsert(_rows("v1"))
+        sims = db.similarities([1, 0, 0, 0], ["IRA1967_s5_1", "EA1955_s59_1", "missing"], index_version="v1")
+        assert sims == {"EA1955_s59_1": pytest.approx(1.0), "IRA1967_s5_1": pytest.approx(0.0)}

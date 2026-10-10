@@ -1,0 +1,564 @@
+{
+  "questions": "data/eval/dev_questions.jsonl",
+  "budget": 0.1,
+  "modes": {
+    "dense": {
+      "summary": {
+        "auc": 0.9666666666666667,
+        "threshold": 0.6044176942742242,
+        "out_of_scope_declined": 1.0,
+        "in_scope_declined": 0.06666666666666667,
+        "stopped_before_scoring": []
+      },
+      "rows": [
+        {
+          "id": "dev_in_01",
+          "in_scope": true,
+          "gate_score": 0.7349754823294218,
+          "abstain_reason": null,
+          "top": "Employment Act 1955, s. 60E(1)"
+        },
+        {
+          "id": "dev_in_02",
+          "in_scope": true,
+          "gate_score": 0.6712625989905858,
+          "abstain_reason": null,
+          "top": "Labour Ordinance (Sabah), s. 104E(1)"
+        },
+        {
+          "id": "dev_in_03",
+          "in_scope": true,
+          "gate_score": 0.6961449564857957,
+          "abstain_reason": null,
+          "top": "Labour Ordinance (Sarawak), s. 84(3)"
+        },
+        {
+          "id": "dev_in_04",
+          "in_scope": true,
+          "gate_score": 0.7011809355381108,
+          "abstain_reason": null,
+          "top": "Employment Act 1955, s. 60(3)"
+        },
+        {
+          "id": "dev_in_05",
+          "in_scope": true,
+          "gate_score": 0.6893346052681929,
+          "abstain_reason": null,
+          "top": "Employment Act 1955, s. 12(2)"
+        },
+        {
+          "id": "dev_in_06",
+          "in_scope": true,
+          "gate_score": 0.7009552527624994,
+          "abstain_reason": null,
+          "top": "Industrial Relations Act 1967, s. 59(1)"
+        },
+        {
+          "id": "dev_in_07",
+          "in_scope": true,
+          "gate_score": 0.5366398878264672,
+          "abstain_reason": null,
+          "top": "Employment Act 1955, Second Schedule"
+        },
+        {
+          "id": "dev_in_08",
+          "in_scope": true,
+          "gate_score": 0.6388770829371131,
+          "abstain_reason": null,
+          "top": "Employment Act 1955, s. 14(1)"
+        },
+        {
+          "id": "dev_in_09",
+          "in_scope": true,
+          "gate_score": 0.675781327301221,
+          "abstain_reason": null,
+          "top": "Employment Act 1955, s. 60D(1)"
+        },
+        {
+          "id": "dev_in_10",
+          "in_scope": true,
+          "gate_score": 0.678056071479626,
+          "abstain_reason": null,
+          "top": "Labour Ordinance (Sabah), s. 104A(1)"
+        },
+        {
+          "id": "dev_in_11",
+          "in_scope": true,
+          "gate_score": 0.7050993184812673,
+          "abstain_reason": null,
+          "top": "Labour Ordinance of Sarawak (Amendment) Act 2025, s. 40"
+        },
+        {
+          "id": "dev_in_12",
+          "in_scope": true,
+          "gate_score": 0.641208695173618,
+          "abstain_reason": null,
+          "top": "Employment Act 1955, s. 14(1)"
+        },
+        {
+          "id": "dev_in_13",
+          "in_scope": true,
+          "gate_score": 0.6767666568852353,
+          "abstain_reason": null,
+          "top": "Employment Act 1955, s. 60FA(3)"
+        },
+        {
+          "id": "dev_in_14",
+          "in_scope": true,
+          "gate_score": 0.6342174652131155,
+          "abstain_reason": null,
+          "top": "Industrial Relations Act 1967, s. 20(1A)"
+        },
+        {
+          "id": "dev_in_15",
+          "in_scope": true,
+          "gate_score": 0.6044176942742242,
+          "abstain_reason": null,
+          "top": "Employment Act 1955, s. 60F(1)"
+        },
+        {
+          "id": "dev_out_01",
+          "in_scope": false,
+          "gate_score": 0.46847711584431584,
+          "abstain_reason": null,
+          "top": "Employment Act 1955, s. 39"
+        },
+        {
+          "id": "dev_out_02",
+          "in_scope": false,
+          "gate_score": 0.515819600678901,
+          "abstain_reason": null,
+          "top": "Labour Ordinance of Sarawak (Amendment) Act 2025, s. 52 (new section 122n)"
+        },
+        {
+          "id": "dev_out_03",
+          "in_scope": false,
+          "gate_score": 0.5693758016689525,
+          "abstain_reason": null,
+          "top": "Labour Ordinance (Sarawak), Schedule, para. 1"
+        },
+        {
+          "id": "dev_out_04",
+          "in_scope": false,
+          "gate_score": 0.5264397922584904,
+          "abstain_reason": null,
+          "top": "Labour Ordinance (Sarawak), s. 79(1)"
+        },
+        {
+          "id": "dev_out_05",
+          "in_scope": false,
+          "gate_score": 0.5401854522892732,
+          "abstain_reason": null,
+          "top": "Labour Ordinance (Sabah), s. 121AB(2)"
+        },
+        {
+          "id": "dev_out_06",
+          "in_scope": false,
+          "gate_score": 0.5269793951710033,
+          "abstain_reason": null,
+          "top": "Labour Ordinance (Sarawak), s. 74B(1)"
+        },
+        {
+          "id": "dev_out_07",
+          "in_scope": false,
+          "gate_score": 0.4967378748567782,
+          "abstain_reason": null,
+          "top": "Labour Ordinance of Sarawak (Amendment) Act 2025, s. 42"
+        },
+        {
+          "id": "dev_out_08",
+          "in_scope": false,
+          "gate_score": 0.5645298658371629,
+          "abstain_reason": null,
+          "top": "Labour Ordinance (Sabah), s. 59A(1)"
+        },
+        {
+          "id": "dev_out_09",
+          "in_scope": false,
+          "gate_score": 0.5463782843418453,
+          "abstain_reason": null,
+          "top": "Labour Ordinance (Sabah), s. 130F(1)"
+        },
+        {
+          "id": "dev_out_10",
+          "in_scope": false,
+          "gate_score": 0.5471486621984541,
+          "abstain_reason": null,
+          "top": "Labour Ordinance (Sabah), s. 73D(5)"
+        }
+      ]
+    },
+    "hybrid": {
+      "summary": {
+        "auc": 0.9733333333333334,
+        "threshold": 0.6044176942742242,
+        "out_of_scope_declined": 1.0,
+        "in_scope_declined": 0.06666666666666667,
+        "stopped_before_scoring": []
+      },
+      "rows": [
+        {
+          "id": "dev_in_01",
+          "in_scope": true,
+          "gate_score": 0.7349754823294218,
+          "abstain_reason": null,
+          "top": "Employment Act 1955, s. 60E(1A)"
+        },
+        {
+          "id": "dev_in_02",
+          "in_scope": true,
+          "gate_score": 0.6712625989905858,
+          "abstain_reason": null,
+          "top": "Labour Ordinance (Sabah), s. 104D(3)"
+        },
+        {
+          "id": "dev_in_03",
+          "in_scope": true,
+          "gate_score": 0.6961449564857957,
+          "abstain_reason": null,
+          "top": "Labour Ordinance (Sarawak), s. 84(1)"
+        },
+        {
+          "id": "dev_in_04",
+          "in_scope": true,
+          "gate_score": 0.7011809355381108,
+          "abstain_reason": null,
+          "top": "Employment Act 1955, s. 60(3)"
+        },
+        {
+          "id": "dev_in_05",
+          "in_scope": true,
+          "gate_score": 0.6893346052681929,
+          "abstain_reason": null,
+          "top": "Employment Act 1955, s. 13(1)"
+        },
+        {
+          "id": "dev_in_06",
+          "in_scope": true,
+          "gate_score": 0.7009552527624994,
+          "abstain_reason": null,
+          "top": "Industrial Relations Act 1967, s. 5(1)"
+        },
+        {
+          "id": "dev_in_07",
+          "in_scope": true,
+          "gate_score": 0.5366398878264672,
+          "abstain_reason": null,
+          "top": "Employment Act 1955, s. 59(4)"
+        },
+        {
+          "id": "dev_in_08",
+          "in_scope": true,
+          "gate_score": 0.6388770829371131,
+          "abstain_reason": null,
+          "top": "Employment Act 1955, s. 15(1)"
+        },
+        {
+          "id": "dev_in_09",
+          "in_scope": true,
+          "gate_score": 0.675781327301221,
+          "abstain_reason": null,
+          "top": "Employment Act 1955, s. 60D(1)"
+        },
+        {
+          "id": "dev_in_10",
+          "in_scope": true,
+          "gate_score": 0.678056071479626,
+          "abstain_reason": null,
+          "top": "Labour Ordinance (Sabah), s. 104A(1)"
+        },
+        {
+          "id": "dev_in_11",
+          "in_scope": true,
+          "gate_score": 0.7050993184812673,
+          "abstain_reason": null,
+          "top": "Labour Ordinance (Sarawak), s. 105D(6)"
+        },
+        {
+          "id": "dev_in_12",
+          "in_scope": true,
+          "gate_score": 0.641208695173618,
+          "abstain_reason": null,
+          "top": "Employment Act 1955, s. 14(1)"
+        },
+        {
+          "id": "dev_in_13",
+          "in_scope": true,
+          "gate_score": 0.6767666568852353,
+          "abstain_reason": null,
+          "top": "Employment Act 1955, s. 60FA(1)"
+        },
+        {
+          "id": "dev_in_14",
+          "in_scope": true,
+          "gate_score": 0.6342174652131155,
+          "abstain_reason": null,
+          "top": "Industrial Relations Act 1967, s. 20(1A)"
+        },
+        {
+          "id": "dev_in_15",
+          "in_scope": true,
+          "gate_score": 0.6044176942742242,
+          "abstain_reason": null,
+          "top": "Employment Act 1955, s. 60F(1)"
+        },
+        {
+          "id": "dev_out_01",
+          "in_scope": false,
+          "gate_score": 0.46847711584431584,
+          "abstain_reason": null,
+          "top": "Labour Ordinance (Sabah), s. 83(10)"
+        },
+        {
+          "id": "dev_out_02",
+          "in_scope": false,
+          "gate_score": 0.515819600678901,
+          "abstain_reason": null,
+          "top": "Labour Ordinance of Sarawak (Amendment) Act 2025, s. 52 (new section 122n)"
+        },
+        {
+          "id": "dev_out_03",
+          "in_scope": false,
+          "gate_score": 0.5693758016689525,
+          "abstain_reason": null,
+          "top": "Employment Act 1955, s. 18(2)"
+        },
+        {
+          "id": "dev_out_04",
+          "in_scope": false,
+          "gate_score": 0.5264397922584904,
+          "abstain_reason": null,
+          "top": "Labour Ordinance (Sarawak), s. 79(1)"
+        },
+        {
+          "id": "dev_out_05",
+          "in_scope": false,
+          "gate_score": 0.5401854522892732,
+          "abstain_reason": null,
+          "top": "Labour Ordinance (Sabah), s. 121AB(2)"
+        },
+        {
+          "id": "dev_out_06",
+          "in_scope": false,
+          "gate_score": 0.5269793951710033,
+          "abstain_reason": null,
+          "top": "Labour Ordinance (Sarawak), s. 74B(1)"
+        },
+        {
+          "id": "dev_out_07",
+          "in_scope": false,
+          "gate_score": 0.4949256014232146,
+          "abstain_reason": null,
+          "top": "Employment Act 1955, s. 2(1), definition of “wages”"
+        },
+        {
+          "id": "dev_out_08",
+          "in_scope": false,
+          "gate_score": 0.5330717225445589,
+          "abstain_reason": null,
+          "top": "Labour Ordinance of Sarawak (Amendment) Act 2025, s. 47"
+        },
+        {
+          "id": "dev_out_09",
+          "in_scope": false,
+          "gate_score": 0.5400788770943963,
+          "abstain_reason": null,
+          "top": "Labour Ordinance of Sarawak (Amendment) Act 2025, s. 69"
+        },
+        {
+          "id": "dev_out_10",
+          "in_scope": false,
+          "gate_score": 0.5471486621984541,
+          "abstain_reason": null,
+          "top": "Labour Ordinance (Sabah), s. 73D(5)"
+        }
+      ]
+    },
+    "hybrid_rerank": {
+      "summary": {
+        "auc": 0.96,
+        "threshold": 0.02400774592105549,
+        "out_of_scope_declined": 0.8,
+        "in_scope_declined": 0.06666666666666667,
+        "stopped_before_scoring": []
+      },
+      "rows": [
+        {
+          "id": "dev_in_01",
+          "in_scope": true,
+          "gate_score": 0.9352282990285242,
+          "abstain_reason": null,
+          "top": "Employment Act 1955, s. 60E(1)"
+        },
+        {
+          "id": "dev_in_02",
+          "in_scope": true,
+          "gate_score": 0.3364400521016135,
+          "abstain_reason": null,
+          "top": "Labour Ordinance (Sabah), s. 104E(1)"
+        },
+        {
+          "id": "dev_in_03",
+          "in_scope": true,
+          "gate_score": 0.3091279825873879,
+          "abstain_reason": null,
+          "top": "Labour Ordinance (Sarawak), s. 84(1)"
+        },
+        {
+          "id": "dev_in_04",
+          "in_scope": true,
+          "gate_score": 0.7104274451600889,
+          "abstain_reason": null,
+          "top": "Employment Act 1955, s. 60(3)"
+        },
+        {
+          "id": "dev_in_05",
+          "in_scope": true,
+          "gate_score": 0.9605095953512194,
+          "abstain_reason": null,
+          "top": "Employment Act 1955, s. 12(2)"
+        },
+        {
+          "id": "dev_in_06",
+          "in_scope": true,
+          "gate_score": 0.8509647055213694,
+          "abstain_reason": null,
+          "top": "Industrial Relations Act 1967, s. 5(1)"
+        },
+        {
+          "id": "dev_in_07",
+          "in_scope": true,
+          "gate_score": 0.1617170062064985,
+          "abstain_reason": null,
+          "top": "Employment Act 1955, s. 84(1)"
+        },
+        {
+          "id": "dev_in_08",
+          "in_scope": true,
+          "gate_score": 0.02400774592105549,
+          "abstain_reason": null,
+          "top": "Employment Act 1955, s. 24(2)"
+        },
+        {
+          "id": "dev_in_09",
+          "in_scope": true,
+          "gate_score": 0.36330797838435036,
+          "abstain_reason": null,
+          "top": "Employment Act 1955, s. 60D(1)"
+        },
+        {
+          "id": "dev_in_10",
+          "in_scope": true,
+          "gate_score": 0.18257121981177252,
+          "abstain_reason": null,
+          "top": "Labour Ordinance (Sabah), s. 104A(1)"
+        },
+        {
+          "id": "dev_in_11",
+          "in_scope": true,
+          "gate_score": 0.11696559054638425,
+          "abstain_reason": null,
+          "top": "Labour Ordinance (Sarawak), s. 109(1)"
+        },
+        {
+          "id": "dev_in_12",
+          "in_scope": true,
+          "gate_score": 0.9771538025943493,
+          "abstain_reason": null,
+          "top": "Employment Act 1955, s. 14(1)"
+        },
+        {
+          "id": "dev_in_13",
+          "in_scope": true,
+          "gate_score": 0.9812389160218716,
+          "abstain_reason": null,
+          "top": "Employment Act 1955, s. 60FA(3)"
+        },
+        {
+          "id": "dev_in_14",
+          "in_scope": true,
+          "gate_score": 0.542742107426404,
+          "abstain_reason": null,
+          "top": "Industrial Relations Act 1967, s. 20(1A)"
+        },
+        {
+          "id": "dev_in_15",
+          "in_scope": true,
+          "gate_score": 0.007039045597401516,
+          "abstain_reason": null,
+          "top": "Employment Act 1955, s. 60D(1B)"
+        },
+        {
+          "id": "dev_out_01",
+          "in_scope": false,
+          "gate_score": 8.957788551478938e-05,
+          "abstain_reason": null,
+          "top": "Labour Ordinance of Sarawak (Amendment) Act 2025, s. 42"
+        },
+        {
+          "id": "dev_out_02",
+          "in_scope": false,
+          "gate_score": 0.0006825019082634147,
+          "abstain_reason": null,
+          "top": "Labour Ordinance (Sabah), s. 104(5)"
+        },
+        {
+          "id": "dev_out_03",
+          "in_scope": false,
+          "gate_score": 0.1621145618863116,
+          "abstain_reason": null,
+          "top": "Employment Act 1955, First Schedule, para. 1A"
+        },
+        {
+          "id": "dev_out_04",
+          "in_scope": false,
+          "gate_score": 0.03102617939183979,
+          "abstain_reason": null,
+          "top": "Labour Ordinance (Sabah), s. 72(2A)"
+        },
+        {
+          "id": "dev_out_05",
+          "in_scope": false,
+          "gate_score": 0.00015843621910252592,
+          "abstain_reason": null,
+          "top": "Employment Act 1955, s. 60K(2)"
+        },
+        {
+          "id": "dev_out_06",
+          "in_scope": false,
+          "gate_score": 0.0003150386940813393,
+          "abstain_reason": null,
+          "top": "Labour Ordinance of Sarawak (Amendment) Act 2025, s. 74"
+        },
+        {
+          "id": "dev_out_07",
+          "in_scope": false,
+          "gate_score": 0.0006959536838949576,
+          "abstain_reason": null,
+          "top": "Employment Act 1955, s. 2(1), definition of “wages”"
+        },
+        {
+          "id": "dev_out_08",
+          "in_scope": false,
+          "gate_score": 0.0013045066466158164,
+          "abstain_reason": null,
+          "top": "Employment Act 1955, s. 33A(1)"
+        },
+        {
+          "id": "dev_out_09",
+          "in_scope": false,
+          "gate_score": 0.0039762279744753005,
+          "abstain_reason": null,
+          "top": "Labour Ordinance (Sabah), s. 130F(1)"
+        },
+        {
+          "id": "dev_out_10",
+          "in_scope": false,
+          "gate_score": 0.000302973407808812,
+          "abstain_reason": null,
+          "top": "Labour Ordinance of Sarawak (Amendment) Act 2025, s. 50 (new section 119f)"
+        }
+      ]
+    }
+  }
+}

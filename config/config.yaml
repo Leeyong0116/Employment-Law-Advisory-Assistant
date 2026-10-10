@@ -231,8 +231,30 @@ retrieval:
     sarawak: [Sarawak, Malaysia]
   top_k_dense: 20
   top_k_sparse: 20
-  reranker_model: null            # cross-encoder, chosen at the retrieval milestone
+  rerank_pool: 20                 # fused candidates rescored by the reranker
+  # Reads citation + section title + content, long chunks in 512-token
+  # windows (src/retrieval/rerank.py; plan 2026-10-10, Section 3).
+  reranker_model: BAAI/bge-reranker-large
   top_k_final: 5
+  max_chunks: 12                  # top_k_final + at most 7 expansion chunks
+  reverse_amendment_cap: 3        # principal chunks added per retrieved A1754 chunk
+  # "(Omitted)." / "(Deleted by ...)" placeholders attract nonsense dense
+  # queries; BM25 still finds them by section number.
+  exclude_placeholders_from_dense: true
+  # Gate on each mode's own score (src/retrieval/pipeline.py). null = no
+  # score gate. PROVISIONAL: from the developer-written dev list
+  # (data/eval/dev_questions.jsonl, 15 in / 10 out, budget 10%,
+  # scripts/calibrate.py, 2026-10-10). Never report these; the gold set
+  # replaces them.
+  abstention_threshold:
+    dense: 0.6044
+    hybrid: 0.6044
+    hybrid_rerank: 0.0240
+  # Share of English words needed to pass; measured on 27 questions, see
+  # src/retrieval/language.py.
+  language_gate:
+    min_words: 3
+    min_english_share: 0.3
   # When a chunk with amended_by is retrieved, pull its amending chunk into
   # context too, the same way internal cross-references are followed. This is
   # load-bearing for Sarawak: A1754 has been in force since 2025-05-01, so for
@@ -247,7 +269,8 @@ generation:
   provider: null                  # hosted API; provider chosen at the generation milestone
   model: null
   api_key_env: null               # name of the .env var holding the key
-  abstention_threshold: null      # calibrated in CP2 W8-W9
+  # The abstention threshold moved to retrieval.abstention_threshold: it is
+  # a reranker score, decided before generation runs.
 
 evaluation:
   gold_set_path: data/eval/gold_set.jsonl

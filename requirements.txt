@@ -29,6 +29,10 @@ bm25s==0.3.13           # BM25 over citation + title + content
 psycopg[binary]==3.3.6  # PostgreSQL client
 pgvector==0.5.0         # vector type for psycopg
 
+# --- Phase 2b: retrieval, M3 (active) ----------------------------------------
+lingua-language-detector==2.2.0   # language gate before retrieval
+pydantic==2.13.5        # typed retrieval result; reused by the FastAPI layer
+
 # --- Phase 3: generation (deferred) ----------------------------------------
 # Hosted API for generation (provider not yet chosen — see config.yaml).
 # The local 4-bit path from the CP1 proposal is not on the critical path, so

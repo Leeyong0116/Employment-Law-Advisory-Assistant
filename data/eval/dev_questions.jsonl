@@ -1,0 +1,25 @@
+{"id": "dev_in_01", "question": "How many days of annual leave am I entitled to?", "region": "peninsular", "in_scope": true, "source": "developer-written, dev only"}
+{"id": "dev_in_02", "question": "How many days of paid sick leave can I take in a year?", "region": "sabah", "in_scope": true, "source": "developer-written, dev only"}
+{"id": "dev_in_03", "question": "How long is maternity leave?", "region": "sarawak", "in_scope": true, "source": "developer-written, dev only"}
+{"id": "dev_in_04", "question": "What is the pay rate if I work on my rest day?", "region": "peninsular", "in_scope": true, "source": "developer-written, dev only"}
+{"id": "dev_in_05", "question": "How much notice must my employer give before terminating my contract?", "region": "peninsular", "in_scope": true, "source": "developer-written, dev only"}
+{"id": "dev_in_06", "question": "Can my employer dismiss me for joining a trade union?", "region": null, "in_scope": true, "source": "developer-written, dev only"}
+{"id": "dev_in_07", "question": "What does section 92 of the Employment Act say?", "region": "peninsular", "in_scope": true, "source": "developer-written, dev only"}
+{"id": "dev_in_08", "question": "Can my employer cut my salary?", "region": "peninsular", "in_scope": true, "source": "developer-written, dev only"}
+{"id": "dev_in_09", "question": "How many paid public holidays do I get in a year?", "region": "peninsular", "in_scope": true, "source": "developer-written, dev only"}
+{"id": "dev_in_10", "question": "What are the maximum working hours in a week?", "region": "sabah", "in_scope": true, "source": "developer-written, dev only"}
+{"id": "dev_in_11", "question": "When must my employer pay my wages each month?", "region": "sarawak", "in_scope": true, "source": "developer-written, dev only"}
+{"id": "dev_in_12", "question": "Can I be dismissed for misconduct without an inquiry?", "region": "peninsular", "in_scope": true, "source": "developer-written, dev only"}
+{"id": "dev_in_13", "question": "Am I entitled to paternity leave?", "region": "peninsular", "in_scope": true, "source": "developer-written, dev only"}
+{"id": "dev_in_14", "question": "How long do I have to file a complaint of unfair dismissal?", "region": null, "in_scope": true, "source": "developer-written, dev only"}
+{"id": "dev_in_15", "question": "Can I claim cuti sakit?", "region": "peninsular", "in_scope": true, "source": "developer-written, dev only"}
+{"id": "dev_out_01", "question": "What is the EPF contribution rate for employers?", "region": null, "in_scope": false, "source": "developer-written, dev only"}
+{"id": "dev_out_02", "question": "How do I claim SOCSO after an accident on the way to work?", "region": null, "in_scope": false, "source": "developer-written, dev only"}
+{"id": "dev_out_03", "question": "What is the current minimum wage in Malaysia?", "region": null, "in_scope": false, "source": "developer-written, dev only"}
+{"id": "dev_out_04", "question": "What is the minimum retirement age?", "region": null, "in_scope": false, "source": "developer-written, dev only"}
+{"id": "dev_out_05", "question": "How do I apply for a passport?", "region": null, "in_scope": false, "source": "developer-written, dev only"}
+{"id": "dev_out_06", "question": "Can I bring my dog to work?", "region": null, "in_scope": false, "source": "developer-written, dev only"}
+{"id": "dev_out_07", "question": "Do I pay income tax on my bonus?", "region": null, "in_scope": false, "source": "developer-written, dev only"}
+{"id": "dev_out_08", "question": "How do I register a new company?", "region": null, "in_scope": false, "source": "developer-written, dev only"}
+{"id": "dev_out_09", "question": "What is the penalty for drunk driving?", "region": null, "in_scope": false, "source": "developer-written, dev only"}
+{"id": "dev_out_10", "question": "How do I renew my driving licence?", "region": null, "in_scope": false, "source": "developer-written, dev only"}
