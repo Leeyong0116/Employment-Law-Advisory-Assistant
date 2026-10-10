@@ -1,0 +1,642 @@
+{
+ "_about": "Deep check of the selected gold-set candidates against the corpus (chunks.jsonl, index 5d82173e1a7e). One entry per candidate id in data/eval/faq_candidates_all.csv. expected = chunk_ids that hold the answer (citations are built from these). check: verified = answer fully in these chunks; partial = only part is, reference trimmed to that part; inference = answer follows from the text but is not stated in it; corrected = source answer wrong or outdated, reference rewritten from the statute; excluded = dropped after checking. reference = null means use the source answer (answer_en) as it is. Checked by Claude 2026-10-10; to be confirmed by the author.",
+ "JTKSM-05": {
+  "expected": [
+   "EA1955_s1_2"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": "s.1(2) reads 'This Act shall apply to Peninsular Malaysia only'. The FAQ (and CLAUDE.md) say Peninsular Malaysia and Labuan; application to Labuan must come from another instrument not in the corpus. Open question."
+ },
+ "JTKSM-07": {
+  "expected": [
+   "EA1955_sch1_1A",
+   "EA1955_sch1_2"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": "para. 1A: wages over four thousand ringgit a month, ss. 60(3), 60A(3), 60C(2A), 60D(3), 60D(4) and 60J not applicable; para. 2 covers manual workers irrespective of wages."
+ },
+ "JTKSM-10": {
+  "expected": [
+   "EA1955_s44A",
+   "EA1955_sch1_1"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": "s.44A is a placeholder '(Deleted by Act A1651)'. Tests deleted-section handling."
+ },
+ "JTKSM-11": {
+  "expected": [
+   "EA1955_s37_1_def_children"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": "s.37(1)(aa): may commence work during the eligible period with employer's consent and medical certification. CITATION LABEL ISSUE: this whole-subsection chunk is cited as 's. 37(1), definition of children' (M1 parser names a subsection after a mid-sentence definition)."
+ },
+ "JTKSM-13": {
+  "expected": [
+   "EA1955_s41A_1",
+   "EA1955_s41A_2"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": "Statute says 'wilful breach', confirming the correction of the CentralHR translation."
+ },
+ "JTKSM-15": {
+  "expected": [
+   "EA1955_s60FA_1",
+   "EA1955_s60FA_2",
+   "EA1955_s60FA_3"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": ""
+ },
+ "JTKSM-16": {
+  "expected": [
+   "EA1955_s2_1_def_confinement",
+   "EA1955_s60FA_1"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": "Needs a definition (s.2 confinement, 22 weeks)."
+ },
+ "JTKSM-19": {
+  "expected": [
+   "EA1955_s60FA_1"
+  ],
+  "check": "partial",
+  "reference": "Paternity leave is for a period of seven consecutive days in respect of each confinement, so it cannot be split.",
+  "notes": "'Starts on the date of the wife's delivery' (FAQ) is not in the statute text; reference trimmed."
+ },
+ "JTKSM-26": {
+  "expected": [
+   "EA1955_s60F_1"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": ""
+ },
+ "JTKSM-30": {
+  "expected": [],
+  "check": "excluded",
+  "reference": null,
+  "notes": "s.60A(1)(d) sets 45 hours, but nothing in the statute says break time is excluded; the FAQ answer is interpretation. Replaced by JTKSM-44."
+ },
+ "JTKSM-44": {
+  "expected": [
+   "EA1955_s60KA_2"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": "Replacement for JTKSM-30."
+ },
+ "JTKSM-34": {
+  "expected": [
+   "EA1955_s60A_1"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": "s.60A(1) proviso (iii): up to nine hours a day, forty-five a week."
+ },
+ "JTKSM-35": {
+  "expected": [
+   "EA1955_s60I_1A",
+   "EA1955_s60I_1_def_ordinary_rate_of_pay"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": "ORP = monthly rate / 26 (s.60I(1A)); hourly rate = ORP / normal hours of work (s.60I(1)(b), inside the ORP definition chunk)."
+ },
+ "JTKSM-37": {
+  "expected": [
+   "EA1955_s18A"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": ""
+ },
+ "JTKSM-40": {
+  "expected": [
+   "EA1955_s25A_1",
+   "EA1955_s25A_2"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": ""
+ },
+ "JTKSM-45": {
+  "expected": [
+   "EA1955_s34",
+   "EA1955_s35",
+   "EA1955_s36"
+  ],
+  "check": "inference",
+  "reference": null,
+  "notes": "Part VIII (ss. 34-36) deleted by Act A1651; 'no permission needed' follows from the deletion. Tests deleted Part."
+ },
+ "JTKSM-64": {
+  "expected": [
+   "EA1955_s60Q_2",
+   "EA1955_s60Q_3"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": ""
+ },
+ "JTKSM-68": {
+  "expected": [
+   "EA1955_s69F_1"
+  ],
+  "check": "inference",
+  "reference": null,
+  "notes": "s.69F covers disputes 'between an employee and his employer'; that an applicant is not covered is an inference. Ask the supervisor whether to keep."
+ },
+ "JTKSM-71": {
+  "expected": [
+   "EA1955_s90B"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": ""
+ },
+ "JTKSM-74": {
+  "expected": [
+   "EA1955_s101C_1"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": ""
+ },
+ "JPPM-002": {
+  "expected": [
+   "IRA1967_s20_1"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": ""
+ },
+ "JPPM-003": {
+  "expected": [
+   "IRA1967_s20_1",
+   "IRA1967_s20_3"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": "s.20(1): representations 'to be reinstated'; s.20(3): referral to the Court for an award."
+ },
+ "JPPM-005": {
+  "expected": [
+   "IRA1967_s20_1",
+   "IRA1967_s20_1A"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": "60 days; nearest office."
+ },
+ "JPPM-008": {
+  "expected": [
+   "IRA1967_s13_1",
+   "IRA1967_s13_4"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": "s.13(1) carries in_force_notes (Act A1615 words not yet in force): tests that notes reach the answer."
+ },
+ "JPPM-009": {
+  "expected": [
+   "IRA1967_s16_1"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": ""
+ },
+ "JPPM-011": {
+  "expected": [
+   "IRA1967_s17_1",
+   "IRA1967_s17_2"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": ""
+ },
+ "SWK-008": {
+  "expected": [
+   "A1754_s40"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": "Cap. 76 s.109 is superseded; A1754 s.40 substitutes s.109: not later than the seventh day after the last day of the wage period."
+ },
+ "SWK-023": {
+  "expected": [
+   "SWK76_s12_2"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": "Not amended by A1754. Question edited by author to stand alone (original: 'What is the notice period required to be given by the employer or the employee? If not stated in the service contract, the notice period is as follows:').",
+  "question_final": "What is the notice period required to be given by the employer or the employee?"
+ },
+ "SWK-028": {
+  "expected": [
+   "SWK76_s84_1",
+   "A1754_s24"
+  ],
+  "check": "corrected",
+  "reference": "98 consecutive days. Act A1754 (in force 1 May 2025) substituted section 84: the 'eligible period' of maternity leave is now not less than ninety-eight consecutive days. The Cap. 76 text still reads sixty consecutive days, which is superseded.",
+  "notes": "Source answer (older part of the JTK Sarawak page) says 60 days, which predates A1754. Tests amendment links: the top dense hit is the superseded s.84(1)."
+ },
+ "SWK-040": {
+  "expected": [
+   "SWK76_s105D_1"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": "Not amended by A1754."
+ },
+ "SWK-044": {
+  "expected": [
+   "SWK76_s105E_3"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": "Replacement for SWK-120."
+ },
+ "SWK-106": {
+  "expected": [
+   "A1754_s13_9E"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": "New s.9E inserted by A1754 s.13."
+ },
+ "SWK-120": {
+  "expected": [],
+  "check": "excluded",
+  "reference": null,
+  "notes": "s.19B (A1754 s.15) defines the offence but says nothing about the employee's consent; the FAQ answer goes beyond the text. Replaced by SWK-044."
+ },
+ "SWK-124": {
+  "expected": [
+   "SWK76_s73_3",
+   "A1754_s19"
+  ],
+  "check": "inference",
+  "reference": null,
+  "notes": "A1754 s.19 deletes s.73(3)(b) 'domestic servant' and the words 'bars' and 'club' from the list of employment a young person may take; 'now prohibited' follows from the deletions. Needs principal + amendment together."
+ },
+ "SWK-134": {
+  "expected": [
+   "A1754_s26"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": "New s.92B inserted by A1754 s.26."
+ },
+ "SWK-145": {
+  "expected": [
+   "SWK76_s105_1",
+   "A1754_s34"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": "Nine-hour rule is in proviso (ac) of the superseded Cap. 76 s.105(1); A1754 s.34 only substitutes 'forty-five' for 'forty-eight'. Needs both chunks."
+ },
+ "SWK-152": {
+  "expected": [
+   "SWK76_s105E_1",
+   "A1754_s37"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": "Cap. 76 s.105E(1) already had 14/18/22 days plus 60 days hospitalisation, capped at 60 in total by the first proviso; A1754 s.37 deletes that proviso. Needs both chunks."
+ },
+ "SWK-155": {
+  "expected": [
+   "A1754_s38"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": "New s.105EA."
+ },
+ "SWK-165": {
+  "expected": [
+   "A1754_s40"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": "New s.109(2)."
+ },
+ "SWK-184": {
+  "expected": [
+   "A1754_s52_122J"
+  ],
+  "check": "corrected",
+  "reference": "Section 122J, in the new Part IVa inserted by Act A1754, says an employee shall not be required to pay rent or charges for housing, nursery, community hall, sports and recreational facilities, sanitation or allotments. Part IVa has not yet come into force, so this rule does not yet apply.",
+  "notes": "FAQ answers as if in force; A1754 s.52 (Part IVa) is not_yet_in_force (config commencement_exceptions). Tests not-yet-in-force handling."
+ },
+ "SBH-022": {
+  "expected": [
+   "SBH67_s108_1"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": ""
+ },
+ "SBH-026": {
+  "expected": [
+   "SBH67_s113_2"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": "Three months, s.113(2)(a)."
+ },
+ "SBH-027": {
+  "expected": [
+   "SBH67_s113_4"
+  ],
+  "check": "partial",
+  "reference": "A deduction for rental of accommodation can be made only at the written request of the employee and with the prior written permission of the Director (s.113(4)(e)). The section does not mention uniforms.",
+  "notes": "FAQ omits the employee's written request; uniforms are not listed in s.113(4)."
+ },
+ "SBH-038": {
+  "expected": [
+   "SBH67_s9"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": ""
+ },
+ "SBH-040": {
+  "expected": [
+   "SBH67_s11_2"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": "Question edited by author to stand alone (original: 'What is the notice period that must be given by the employer or employee? If it is not specified in the employment contract, the period is as follows:').",
+  "question_final": "What is the notice period that must be given by the employer or employee?"
+ },
+ "SBH-041": {
+  "expected": [
+   "SBH67_s12_2",
+   "SBH67_s13_1"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": "Wilful breach (s.12(2)); misconduct after due inquiry (s.13(1))."
+ },
+ "SBH-043": {
+  "expected": [
+   "SBH67_s83_1",
+   "SBH67_s2_1_def_eligible_period"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": "98 days is in the s.2 definition of 'eligible period', not in s.83: needs a definition."
+ },
+ "SBH-046": {
+  "expected": [
+   "SBH67_s83_3"
+  ],
+  "check": "verified",
+  "reference": null,
+  "notes": ""
+ },
+ "SBH-051": {
+  "expected": [
+   "SBH67_s104EA_1"
+  ],
+  "check": "partial",
+  "reference": "Seven consecutive days of paid paternity leave in respect of each confinement (s.104EA(1)).",
+  "notes": "'Begins on the date the wife gives birth' is not in the text. Sabah's section is 104EA; other Sabah FAQ answers cite '105EA' (Sarawak's number)."
+ },
+ "SBH-078": {
+  "expected": [
+   "SBH67_s130J"
+  ],
+  "check": "corrected",
+  "reference": "Failing to pay wages within the time prescribed in section 108 is an offence under section 130J(c), punishable on conviction by a fine not exceeding fifty thousand ringgit.",
+  "notes": "FAQ says up to RM10,000; the current Sabah text says fifty thousand ringgit. The FAQ's section number 130J(c) is right."
+ },
+ "SBH-094": {
+  "expected": [
+   "SBH67_s118_1",
+   "SBH67_s130L"
+  ],
+  "check": "corrected",
+  "reference": "Yes. No person may employ a non-resident employee without a Licence to Employ Non-Resident Employee from the Director (s.118(1)). An employer who fails to comply with Chapter XIVA commits an offence under s.130L: a fine not exceeding fifty thousand ringgit, imprisonment not exceeding one year, or both.",
+  "notes": "FAQ cites s.119, which is deleted in the current Sabah text ('[Deleted by AA1238]')."
+ },
+ "RDT-005": {
+  "expected": [
+   "EA1955_s12_1",
+   "EA1955_s13_1",
+   "EA1955_s14_1",
+   "IRA1967_s20_1",
+   "IRA1967_s20_1A",
+   "SBH67_s11_1",
+   "SBH67_s12_1",
+   "SBH67_s13_1",
+   "SWK76_s12_1",
+   "SWK76_s13_1",
+   "SWK76_s14_1"
+  ],
+  "check": "partial",
+  "reference": "The rules depend on where you work: the Employment Act 1955 applies in Peninsular Malaysia and the Labour Ordinances in Sabah and Sarawak. Under each, either party may end a contract of service by notice, or without notice by paying the other party an indemnity equal to the wages for the notice period (EA ss. 12-13; Sabah ss. 11-12; Sarawak ss. 12-13). An employer may dismiss an employee without notice for misconduct only after due inquiry (EA s.14(1); Sabah s.13(1); Sarawak s.14(1)). A workman who considers he was dismissed without just cause or excuse may make written representations to the Director General of Industrial Relations to be reinstated, within sixty days of the dismissal (Industrial Relations Act 1967, s.20(1) and (1A)). The statutes do not deal with an employer asking a dismissed employee to sign a resignation letter.",
+  "notes": "Reference answer drafted by Claude from the statute text (forum posts have no reliable answer); author to confirm. No region: tests multiple_jurisdictions."
+ },
+ "RDT-006": {
+  "expected": [
+   "EA1955_s15_1",
+   "EA1955_s13_2",
+   "SBH67_s13A_1",
+   "SBH67_s12_2",
+   "SWK76_s14A_1",
+   "SWK76_s13_2"
+  ],
+  "check": "inference",
+  "reference": "An employer who fails to pay wages as required is deemed to have broken the contract of service (EA s.15(1); Sabah s.13A(1); Sarawak s.14A(1)). Either party may terminate a contract of service without notice in the event of a wilful breach of a condition of the contract by the other party (EA s.13(2); Sabah s.12(2); Sarawak s.13(2)); terminating on that ground does not require notice.",
+  "notes": "Reference answer drafted by Claude from the statute text (forum posts have no reliable answer); author to confirm. That no indemnity is owed follows from s.13(2) ('without notice') but is not stated outright. No region."
+ },
+ "RDT-007": {
+  "expected": [
+   "EA1955_s10_1",
+   "EA1955_s12_1",
+   "EA1955_s12_2",
+   "IRA1967_s20_1",
+   "IRA1967_s20_1A",
+   "SBH67_s11_2",
+   "SWK76_s12_2"
+  ],
+  "check": "partial",
+  "reference": "A contract of service for a period exceeding one month must be in writing (EA s.10(1)). Either party may end a contract of service by notice; where the contract has no written notice term, the notice must be at least four weeks if the employee has been employed for less than two years (EA s.12(2); Sabah s.11(2); Sarawak s.12(2)). A workman who considers he was dismissed without just cause or excuse may make written representations to be reinstated within sixty days of the dismissal (Industrial Relations Act 1967, s.20(1) and (1A)).",
+  "notes": "Reference answer drafted by Claude from the statute text (forum posts have no reliable answer); author to confirm. Whether 'poor performance' is just cause is decided by the Industrial Court (case law, not held). No region."
+ },
+ "RDT-008": {
+  "expected": [
+   "EA1955_s12_2",
+   "EA1955_s13_1",
+   "SBH67_s11_2",
+   "SWK76_s12_2"
+  ],
+  "check": "partial",
+  "reference": "The length of notice is set by the written contract of service and must be the same for both employer and employee (EA s.12(2); Sabah s.11(2); Sarawak s.12(2)). Either party may instead end the contract by paying the other an indemnity equal to the wages for the notice period (EA s.13(1)). Whether an additional penalty for leaving before the end of a fixed-term contract is enforceable is a question of contract law, which GetRight does not hold.",
+  "notes": "Reference answer drafted by Claude from the statute text (forum posts have no reliable answer); author to confirm. Penalty clause depends on the Contracts Act 1950 (not held). No region."
+ },
+ "RDT-010": {
+  "expected": [
+   "EA1955_s60A_1",
+   "EA1955_s60A_3_def_overtime",
+   "EA1955_s69_1",
+   "SBH67_s104_6",
+   "SWK76_s105_6"
+  ],
+  "check": "partial",
+  "reference": "Overtime work must be paid at a rate not less than one and a half times the hourly rate of pay, irrespective of the basis on which the rate of pay is fixed (EA s.60A(3)(a); Sabah s.104(6); Sarawak s.105(6)); the statute sets no point after which a lower rate applies. Normal hours are limited to eight a day, a spread over of ten hours and forty-five hours a week (EA s.60A(1)). The Director General of Labour may inquire into and decide disputes over wages due under the contract or the Act (EA s.69(1)).",
+  "notes": "Reference answer drafted by Claude from the statute text (forum posts have no reliable answer); author to confirm. The monthly overtime limit (104 hours) is in regulations not held. Sarawak s.105(6) is marked superseded although A1754 s.34 did not change it (see data issue). No region."
+ },
+ "JTKSM-49": {
+  "expected": [],
+  "check": "external",
+  "reference": "GetRight does not hold the Employment (Exemption) Order 2012, so it cannot say whether that order still applies. The question depends on an instrument outside the statutes it holds.",
+  "notes": "Expected behaviour: decline or state the dependency, without guessing."
+ },
+ "SBH-073": {
+  "expected": [
+   "SBH67_s104F_1"
+  ],
+  "check": "external",
+  "reference": "Section 104F allows the Minister to make rules on the entitlement to and payment of termination benefits. The rates are set in those rules, which GetRight does not hold.",
+  "notes": "Same gap as EA s.60J and Sarawak s.105F: the empowering section is held, the rates are not, and cross_references_external is empty."
+ },
+ "SWK-033": {
+  "expected": [],
+  "check": "external",
+  "reference": "The monthly limit on overtime is set in subsidiary legislation that GetRight does not hold, so it cannot state the limit.",
+  "notes": "FAQ answer: 104 hours a month; not in the corpus text."
+ },
+ "JPPM-012": {
+  "expected": [],
+  "check": "out_of_scope_confirmed",
+  "reference": null,
+  "notes": "Searched the corpus: no provision answers it."
+ },
+ "JPPM-013": {
+  "expected": [],
+  "check": "out_of_scope_confirmed",
+  "reference": null,
+  "notes": "Near miss: IRA s.33C(2) mentions the Rules of Court for appeals, but judicial review of a Minister's decision and its time limit are not in the corpus."
+ },
+ "SWK-064": {
+  "expected": [],
+  "check": "out_of_scope_confirmed",
+  "reference": null,
+  "notes": "Near miss: s.8G (case book; copies of decisions) may be retrieved but does not answer filing cost."
+ },
+ "SWK-069": {
+  "expected": [],
+  "check": "out_of_scope_confirmed",
+  "reference": null,
+  "notes": "Searched the corpus: no provision answers it."
+ },
+ "SWK-086": {
+  "expected": [],
+  "check": "out_of_scope_confirmed",
+  "reference": null,
+  "notes": "Searched the corpus: no provision answers it."
+ },
+ "SWK-088": {
+  "expected": [],
+  "check": "out_of_scope_confirmed",
+  "reference": null,
+  "notes": "Searched the corpus: no provision answers it."
+ },
+ "SWK-089": {
+  "expected": [],
+  "check": "out_of_scope_confirmed",
+  "reference": null,
+  "notes": "Searched the corpus: no provision answers it. Question edited by author to stand alone (original: 'Who is eligible to receive it?').",
+  "question_final": "Who is eligible to receive the minimum wage?"
+ },
+ "SWK-091": {
+  "expected": [],
+  "check": "out_of_scope_confirmed",
+  "reference": null,
+  "notes": "Minimum Wages Order: outside the corpus. EA s.60K(4) mentions the National Wages Consultative Council Act only as a licensing condition."
+ },
+ "SWK-092": {
+  "expected": [],
+  "check": "out_of_scope_confirmed",
+  "reference": null,
+  "notes": "Searched the corpus: no provision answers it."
+ },
+ "SWK-093": {
+  "expected": [],
+  "check": "out_of_scope_confirmed",
+  "reference": null,
+  "notes": "Searched the corpus: no provision answers it."
+ },
+ "SBH-007": {
+  "expected": [],
+  "check": "out_of_scope_confirmed",
+  "reference": null,
+  "notes": "Searched the corpus: no provision answers it."
+ },
+ "SBH-008": {
+  "expected": [],
+  "check": "out_of_scope_confirmed",
+  "reference": null,
+  "notes": "Searched the corpus: no provision answers it."
+ },
+ "SBH-010": {
+  "expected": [],
+  "check": "out_of_scope_confirmed",
+  "reference": null,
+  "notes": "Searched the corpus: no provision answers it."
+ },
+ "SBH-011": {
+  "expected": [],
+  "check": "out_of_scope_confirmed",
+  "reference": null,
+  "notes": "Searched the corpus: no provision answers it."
+ },
+ "SBH-014": {
+  "expected": [],
+  "check": "out_of_scope_confirmed",
+  "reference": null,
+  "notes": "Searched the corpus: no provision answers it."
+ },
+ "SBH-019": {
+  "expected": [],
+  "check": "out_of_scope_confirmed",
+  "reference": null,
+  "notes": "Searched the corpus: no provision answers it. Question edited by author to stand alone (original: 'What is the amount of the license fee?').",
+  "question_final": "What is the amount of the private employment agency licence fee?"
+ },
+ "SBH-020": {
+  "expected": [],
+  "check": "out_of_scope_confirmed",
+  "reference": null,
+  "notes": "Searched the corpus: no provision answers it. Question edited by author to stand alone (original: 'What is a security deposit?').",
+  "question_final": "What is the security deposit for a private employment agency licence?"
+ },
+ "SBH-033": {
+  "expected": [],
+  "check": "out_of_scope_confirmed",
+  "reference": null,
+  "notes": "Near miss: s.104F empowers lay-off benefit rules; the FAQ answer rests on a court ruling (case law, not held)."
+ },
+ "SBH-103": {
+  "expected": [],
+  "check": "out_of_scope_confirmed",
+  "reference": null,
+  "notes": "Searched the corpus: no provision answers it."
+ },
+ "RDT-009": {
+  "expected": [],
+  "check": "out_of_scope_confirmed",
+  "reference": null,
+  "notes": "Near miss: provident fund deductions appear in the lawful-deduction sections, but the duty to contribute (EPF Act) is not held."
+ }
+}
