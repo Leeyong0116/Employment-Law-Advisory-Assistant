@@ -1,4 +1,4 @@
-"""Run the whole ingestion: five PDFs in, one validated chunks.jsonl out.
+"""Run the whole ingestion: the registry's PDFs in, one validated chunks.jsonl out.
 
     python -m src.ingestion.pipeline
 
@@ -27,7 +27,7 @@ from pathlib import Path
 import yaml
 
 from src.ingestion import amendments, schedules, sections, validate
-from src.ingestion.extract import extract_pages
+from src.ingestion.extract import extract_document
 from src.ingestion.toc import inventory_for_document
 
 _LIST_FIELDS = {"cross_references_internal", "cross_references_external", "in_force_notes",
@@ -55,9 +55,9 @@ def run(config_path: str | Path = "config/config.yaml", out_dir: str | Path | No
     principal_by_id: dict[str, list[dict]] = {}
 
     for doc in config["corpus"]["documents"]:
-        if "toc_pages" not in doc:
+        if doc.get("doc_type") == "amending":
             continue
-        pages = extract_pages(raw_dir / doc["file"])
+        pages = extract_document(doc, raw_dir)
         entries = inventory_for_document(doc, raw_dir)
         doc_chunks, doc_report, schedule_lines = sections.parse_body(doc, pages, entries)
         settings = config["ingestion"]["schedules"].get(doc["id"], {})

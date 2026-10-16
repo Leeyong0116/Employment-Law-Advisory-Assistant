@@ -147,6 +147,37 @@ class TestHeadings:
         assert _sections(toc.parse_toc([page], "sabah")) == [str(n) for n in range(44, 55)]
 
 
+class TestRegulations:
+    def test_an_arrangement_of_regulations_is_read(self):
+        # Termination Regulations 1980 (JTKSM) p.1: "Regulation" column header,
+        # one-line entries, and a title that wraps onto "payment.".
+        page = (
+            "_________________________\nARRANGEMENT OF REGULATIONS\nRegulation\n1. Citation.\n"
+            "2. Interpretation.\n3. General provisions for the entitlement of employees to "
+            "termination of lay-off benefits\npayment.\n4. Termination."
+        )
+        entries = toc.parse_toc([page], "tlb")
+        assert [(e.section, e.title) for e in entries] == [
+            ("1", "Citation."),
+            ("2", "Interpretation."),
+            ("3", "General provisions for the entitlement of employees to termination of lay-off benefits payment."),
+            ("4", "Termination."),
+        ]
+
+    def test_declared_sections_stand_in_for_a_missing_contents_page(self):
+        # The Overtime Regulations print no contents page; the two regulations
+        # are declared in the registry, as read from the PDF.
+        doc = {"id": "ot", "declared_sections": [
+            {"section": "1", "title": "Citation."},
+            {"section": "2", "title": "Limit of overtime work."},
+        ]}
+        entries = toc.inventory_for_document(doc, "unused")
+        assert [(e.doc_id, e.kind, e.section, e.title, e.status) for e in entries] == [
+            ("ot", "section", "1", "Citation.", "listed"),
+            ("ot", "section", "2", "Limit of overtime work.", "listed"),
+        ]
+
+
 class TestNoise:
     def test_the_title_block_before_the_heading_is_skipped(self):
         # EA p.3 opens with the Act's title block.
@@ -271,7 +302,13 @@ class TestAgainstTheRealCorpus:
             "industrial_relations_act_1967",
             "labour_ordinance_sabah",
             "labour_ordinance_sarawak",
+            "ea_termination_benefits_regulations_1980",
         }
+
+    def test_termination_regulations(self):
+        entries = _inventory_for("ea_termination_benefits_regulations_1980")
+        assert _sections(entries) == [str(n) for n in range(1, 16)]
+        assert _by_id(entries)["6"].title == "Amount of termination or lay-off benefits payment."
 
     def test_ea(self, ea):
         sections = _sections(ea)

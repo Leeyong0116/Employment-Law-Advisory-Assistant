@@ -25,7 +25,7 @@ from __future__ import annotations
 
 import re
 from collections import Counter
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 
 import pymupdf
@@ -43,8 +43,10 @@ _TRAILING_NUMBER = re.compile(r"\b(\d{1,3})\s*$")
 _NOT_A_PAGE_NUMBER = re.compile(r"\b(?:act|cap\.?|chapter|no\.?)\s*\d+\s*$", re.IGNORECASE)
 _LETTER_SPACED = re.compile(r"(?:\b\w ){4,}\w\b")
 # The EA marks footnotes with a bare "*NOTE"; a second note on the same page
-# uses "**NOTE". Statutory text never begins this way.
-_NOTE_MARKER = re.compile(r"^\*+\s*NOTE\b")
+# uses "**NOTE". The JTKSM copies of the EA regulations open their gazette
+# history with "*Originally published" or "*Revised and published". Statutory
+# text never begins this way.
+_NOTE_MARKER = re.compile(r"^\*+\s*(?:NOTE\b|Originally published\b|Revised and published\b)")
 
 # How many lines at each edge of a page can be furniture, and how often a line
 # must recur in the same slot before it counts as furniture. The EA alternates
@@ -90,6 +92,18 @@ class Page:
 
     footnotes: tuple[str, ...] = ()
     """Editorial footnotes, verbatim. These feed a chunk in_force_notes."""
+
+
+def number_by_pdf_page(pages: list[Page]) -> list[Page]:
+    """Use the 1-based PDF page number where the source prints none.
+
+    Only for documents that declare it (registry `page_numbers: pdf_index`):
+    the EA regulations print no page numbers, and the PDF page is the one a
+    reader opens. A printed number is never overwritten.
+    """
+    if any(p.printed_page is not None for p in pages):
+        raise ValueError("this document prints page numbers; use those")
+    return [replace(p, printed_page=p.index + 1) for p in pages]
 
 
 def normalise_glyphs(text: str) -> str:
@@ -346,6 +360,12 @@ def _repair(line: str, repairs: dict[str, str]) -> str:
     if not _LETTER_SPACED.search(line):
         return line
     return repairs.get("".join(line.split()), line)
+
+
+def extract_document(doc: dict, raw_dir: str | Path) -> list[Page]:
+    """Extract one registry document, numbered as its registry entry says."""
+    pages = extract_pages(Path(raw_dir) / doc["file"])
+    return number_by_pdf_page(pages) if doc.get("page_numbers") == "pdf_index" else pages
 
 
 def extract_pages(

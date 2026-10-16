@@ -20,7 +20,7 @@ from src.ingestion.toc import TocEntry
 # Text that must never reach a chunk's content: editorial footnotes, Sarawak
 # amendment tags, and running headers.
 _EDITORIAL = ("*NOTE", "NOTE—", "[Am. Act", "[Sub. Act", "[Ins. Act", "CAP. 76 (1948 ED.)",
-              "FOR REFERENCE ONLY", "Sarawak Lawnet")
+              "FOR REFERENCE ONLY", "Sarawak Lawnet", "Originally published as", "Revised and published as")
 _REQUIRED = ("citation", "content", "source_page", "jurisdiction")
 
 

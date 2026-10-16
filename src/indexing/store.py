@@ -4,7 +4,7 @@ One row per chunk: the filter columns, the content, every chunk field in
 `metadata` (jsonb), the bge-m3 dense vector, and bge-m3's learned sparse
 weights (kept for the alternative sparse configuration).
 
-Search is exact cosine distance with no approximate (HNSW) index: 1,852
+Search is exact cosine distance with no approximate (HNSW) index: 1,897
 vectors scan in milliseconds, and an approximate index can drop rows once a
 jurisdiction filter applies. Equal distances are broken by chunk_id, so
 results are deterministic. The jurisdiction filter runs inside the SQL

@@ -45,6 +45,11 @@ class TestIntegrity:
         problems = validate.check_integrity([_chunk("X", "1", content="*NOTE—not yet in force")])
         assert any("editorial" in p for p in problems)
 
+    def test_gazette_history_in_content(self):
+        # Termination Regulations footnote: publication history, not law.
+        problems = validate.check_integrity([_chunk("X", "1", content="*Originally published as PU (A) 278/80")])
+        assert any("editorial" in p for p in problems)
+
     def test_missing_citation_metadata(self):
         problems = validate.check_integrity([_chunk("X", "1", source_page=None)])
         assert any("source_page" in p for p in problems)

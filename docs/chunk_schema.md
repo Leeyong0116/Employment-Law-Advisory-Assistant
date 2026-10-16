@@ -169,3 +169,23 @@ the store can load one schema. Beyond Sections 1 and 2:
   section's start line in the body", not an independent re-read. The
   independent check is the inventory itself, whose counts match a separate
   raw-text count (see `tests/unit/test_toc.py`).
+
+## 4. Subsidiary legislation (added 2026-10-16)
+
+The EA Overtime Regulations 1980 and Termination and Lay-Off Benefits
+Regulations 1980 (plan `docs/plans/2026-10-16-ea-regulations.md`). Same 40
+keys; no new chunk field. The field names stay canonical, so `section` and
+`subsection` hold regulation numbers.
+
+| Registry field | Effect |
+|---|---|
+| `doc_type: subsidiary`, `parent` | Made under the parent Act; same `jurisdiction_label` (config test). |
+| `provision_label: reg.` | Citation `..., reg. 6(1)`; chunk id `TLB1980_r6_1`; internal references read from "regulation N". |
+| `inline_titles: true` | Title read from the number's line ("2. Interpretation."), not from above it. |
+| `page_numbers: pdf_index` | The source prints no page numbers; `source_page` is the 1-based PDF page. |
+| `declared_sections` | Inventory for a document with no contents page (Overtime Regulations, 2 regs). |
+
+- "section N" inside the regulations means the EA's section N. It is not
+  recorded as an internal reference, and not linked to the EA chunk.
+- The gazette-history footnote ("*Originally published as PU (A) ...")
+  goes to `in_force_notes` of the chunks on its page, like the EA notes.

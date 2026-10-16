@@ -9,7 +9,8 @@ import pathlib
 import pytest
 import yaml
 
-from src.ingestion import sections
+from src.ingestion import sections, toc
+from src.ingestion.extract import Page
 from src.ingestion.sections import BodyLine
 
 
@@ -203,6 +204,93 @@ class TestCrossReferences:
             "Trade Unions Act 1959 [Act 262]"
         ]
 
+    def test_a_document_never_lists_itself_as_external(self):
+        # Overtime Regulations reg. 1: the pattern cannot read "(Limitation",
+        # so it picks up only the tail of the document's own name.
+        own = "Employment (Limitation of Overtime Work) Regulations 1980"
+        text = f"These Regulations may be cited as the {own}."
+        assert sections.external_references(text, own=own) == []
+
+    def test_regulations_refer_to_each_other_as_regulations(self):
+        # Termination Regulations reg. 3(1)(b) and 5(1).
+        text = "calculated in accordance with regulation 6 ... within the meaning of regulation 5."
+        assert sections.internal_references(text, {"5", "6"}, label="reg.") == ["reg. 6", "reg. 5"]
+
+    def test_a_section_in_regulations_is_the_parent_acts_not_internal(self):
+        # Termination Regulations reg. 4(1)(c): "section 13 (2)" is EA s.13(2),
+        # and the Regulations also have a regulation 13. Linking it would be wrong.
+        text = "other than under section 13 (2) or for the reasons specified in section 14 (3) of the Act."
+        assert sections.internal_references(text, {"13", "14"}, label="reg.") == []
+
+
+class TestInlineTitles:
+    """Regulations print the title on the number's line: "2. Interpretation."."""
+
+    def test_a_one_line_title_is_taken_off_the_text(self):
+        lines = _lines("Limit of overtime work.\nThe limit of overtime work for the purpose")
+        title, rest = sections.split_inline_title(lines, "Limit of overtime work.")
+        assert title == "Limit of overtime work"
+        assert [ln.text for ln in rest] == ["The limit of overtime work for the purpose"]
+
+    def test_a_wrapped_title_ends_at_the_first_full_stop(self):
+        # Termination Regulations p.3; the contents say "of lay-off", the body "or lay-off".
+        lines = _lines(
+            "General provisions for the entitlement of employees to termination or lay-off benefits\n"
+            "payment.\n(1) Subject to these Regulations, an employer shall be liable"
+        )
+        title, rest = sections.split_inline_title(
+            lines, "General provisions for the entitlement of employees to termination of lay-off benefits payment."
+        )
+        assert title == "General provisions for the entitlement of employees to termination or lay-off benefits payment"
+        assert rest[0].text.startswith("(1) Subject to these Regulations")
+
+    def test_text_that_does_not_match_the_title_is_left_alone(self):
+        lines = _lines("The limit of overtime work for the purpose.\nMore text.")
+        title, rest = sections.split_inline_title(lines, "Citation.")
+        assert title is None and rest == lines
+
+
+REG_DOC = {
+    "id": "ot", "short_name": "Employment (Limitation of Overtime Work) Regulations 1980",
+    "act_number": "P.U. (A) 339/1983", "chunk_prefix": "OT1980",
+    "jurisdiction_label": "Peninsular Malaysia and Labuan", "source_version": "v", "as_at": "1991-10-17",
+    "source_url": None, "provision_label": "reg.", "inline_titles": True, "body_start_page": 0,
+}
+
+
+class TestRegulationDocument:
+    def _parse(self):
+        # Overtime Regulations p.1, as extract_pages() returns it.
+        page = Page(0, 1, (
+            "1. Citation.\nThese Regulations may be cited as the Employment (Limitation of Overtime Work)\n"
+            "Regulations 1980.\n2. Limit of overtime work.\n"
+            "The limit of overtime work for the purpose of section 60A (4) (a) of the Act shall be a\n"
+            "total of one hundred and four hours in any one month."
+        ))
+        inventory = toc.inventory_for_document({"id": "ot", "declared_sections": [
+            {"section": "1", "title": "Citation."}, {"section": "2", "title": "Limit of overtime work."}]}, "unused")
+        chunks, report, _ = sections.parse_body(REG_DOC, [page], inventory)
+        return {c["chunk_id"]: c for c in chunks}, report
+
+    def test_citations_and_ids_name_regulations(self):
+        chunks, _ = self._parse()
+        assert list(chunks) == ["OT1980_r1", "OT1980_r2"]
+        assert chunks["OT1980_r2"]["citation"] == "Employment (Limitation of Overtime Work) Regulations 1980, reg. 2"
+
+    def test_the_title_is_metadata_not_content(self):
+        chunks, report = self._parse()
+        assert chunks["OT1980_r2"]["section_title"] == "Limit of overtime work"
+        assert chunks["OT1980_r2"]["content"].startswith("The limit of overtime work")
+        assert report["titles_unmatched"] == []
+
+    def test_the_previous_regulation_keeps_its_last_line(self):
+        # The title-above-the-number search would take "Regulations 1980." as
+        # the title of reg. 2.
+        chunks, _ = self._parse()
+        assert chunks["OT1980_r1"]["content"] == (
+            "These Regulations may be cited as the Employment (Limitation of Overtime Work) Regulations 1980."
+        )
+
 
 # --------------------------------------------------------------------------
 # Against the real corpus
@@ -323,3 +411,71 @@ class TestAgainstTheRealCorpus:
             for c in chunks.values():
                 assert c["citation"] and c["source_page"] is not None, c["chunk_id"]
                 assert c["content"].strip(), c["chunk_id"]
+
+
+@pytest.fixture(scope="module")
+def overtime():
+    return _chunks_for("ea_overtime_regulations_1980")
+
+
+@pytest.fixture(scope="module")
+def termination():
+    return _chunks_for("ea_termination_benefits_regulations_1980")
+
+
+@pytest.mark.corpus
+class TestEmploymentActRegulations:
+    def test_every_regulation_is_found_and_titled(self, overtime, termination):
+        for _, report in (overtime, termination):
+            assert report["missing"] == [] and report["titles_unmatched"] == [], report["doc_id"]
+
+    def test_the_overtime_limit(self, overtime):
+        chunks, _ = overtime
+        c = chunks["OT1980_r2"]
+        assert c["citation"] == "Employment (Limitation of Overtime Work) Regulations 1980, reg. 2"
+        assert c["content"] == (
+            "The limit of overtime work for the purpose of section 60A (4) (a) of the Act shall be a "
+            "total of one hundred and four hours in any one month."
+        )
+        assert c["jurisdiction"] == "Peninsular Malaysia and Labuan"
+        assert c["source_page"] == 1  # PDF page: the source prints none
+        assert any(n.startswith("*Revised and published") for n in c["in_force_notes"])
+
+    def test_the_benefit_rates_cross_a_page_whole(self, termination):
+        chunks, _ = termination
+        c = chunks["TLB1980_r6_1"]
+        assert c["citation"] == "Employment (Termination and Lay-Off Benefits) Regulations 1980, reg. 6(1)"
+        for words in ("ten days’ wages", "fifteen days’ wages", "twenty days’ wages",
+                      "and pro-rata as respect an incomplete year"):
+            assert words in c["content"]
+        assert (c["source_page"], c["source_page_end"]) == (4, 5)
+
+    def test_a_proviso_across_a_page_break_stays(self, termination):
+        chunks, _ = termination
+        assert "Provided that the period of employment immediately prior" in chunks["TLB1980_r4_2"]["content"]
+
+    def test_the_footnote_never_reaches_a_definition(self, termination):
+        chunks, _ = termination
+        c = chunks["TLB1980_r2_def_relevant_date"]
+        assert c["chunk_type"] == "definition"
+        assert c["definition_scope"] == "In these Regulations unless the context otherwise requires —"
+        assert "(b) in relation to a lay-off" in c["content"]
+        for c in chunks.values():
+            assert "published as PU" not in c["content"], c["chunk_id"]
+            assert "Amending law" not in c["content"], c["chunk_id"]
+
+    def test_titles_stay_out_of_content(self, termination):
+        chunks, _ = termination
+        assert chunks["TLB1980_r1"]["content"].startswith("These Regulations may be cited")
+        assert chunks["TLB1980_r3_1"]["section_title"].startswith("General provisions for the entitlement")
+        assert chunks["TLB1980_r3_1"]["content"].startswith("Subject to these Regulations")
+
+    def test_source_wording_is_kept_verbatim(self, termination):
+        # A retyped source: its typos are the source's, never corrected here.
+        chunks, _ = termination
+        assert "may be death with" in chunks["TLB1980_r13"]["content"]
+
+    def test_references_are_to_regulations(self, termination):
+        chunks, _ = termination
+        assert chunks["TLB1980_r3_1"]["cross_references_internal"] == ["reg. 6", "reg. 5"]
+        assert chunks["TLB1980_r4_1"]["cross_references_internal"] == []

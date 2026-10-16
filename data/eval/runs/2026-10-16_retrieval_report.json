@@ -1,0 +1,716 @@
+{
+  "gold": "data/eval/gold_set.jsonl",
+  "items": 77,
+  "index_version": "459843bf28ba",
+  "budget": 0.1,
+  "modes": {
+    "dense": {
+      "retrieval": {
+        "overall": {
+          "n": 54,
+          "hit@1": 0.611,
+          "hit@5": 0.815,
+          "mrr": 0.682,
+          "recall_top5": 0.719,
+          "recall_final": 0.747,
+          "ragas_id_precision": 0.177,
+          "ragas_id_recall": 0.747
+        },
+        "by_region": {
+          "all (IRA)": {
+            "n": 6,
+            "hit@1": 0.5,
+            "hit@5": 0.667,
+            "mrr": 0.556,
+            "recall_top5": 0.667,
+            "recall_final": 0.667,
+            "ragas_id_precision": 0.189,
+            "ragas_id_recall": 0.667
+          },
+          "no region": {
+            "n": 5,
+            "hit@1": 0.2,
+            "hit@5": 0.4,
+            "mrr": 0.24,
+            "recall_top5": 0.13,
+            "recall_final": 0.13,
+            "ragas_id_precision": 0.09,
+            "ragas_id_recall": 0.13
+          },
+          "peninsular": {
+            "n": 19,
+            "hit@1": 0.526,
+            "hit@5": 0.737,
+            "mrr": 0.607,
+            "recall_top5": 0.64,
+            "recall_final": 0.64,
+            "ragas_id_precision": 0.167,
+            "ragas_id_recall": 0.64
+          },
+          "sabah": {
+            "n": 11,
+            "hit@1": 0.636,
+            "hit@5": 1,
+            "mrr": 0.753,
+            "recall_top5": 0.955,
+            "recall_final": 0.955,
+            "ragas_id_precision": 0.221,
+            "ragas_id_recall": 0.955
+          },
+          "sarawak": {
+            "n": 13,
+            "hit@1": 0.923,
+            "hit@5": 1,
+            "mrr": 0.962,
+            "recall_top5": 0.885,
+            "recall_final": 1.0,
+            "ragas_id_precision": 0.18,
+            "ragas_id_recall": 1.0
+          }
+        },
+        "by_difficulty": {
+          "multi": {
+            "n": 13,
+            "hit@1": 0.462,
+            "hit@5": 0.692,
+            "mrr": 0.541,
+            "recall_top5": 0.486,
+            "recall_final": 0.486,
+            "ragas_id_precision": 0.171,
+            "ragas_id_recall": 0.486
+          },
+          "single": {
+            "n": 41,
+            "hit@1": 0.659,
+            "hit@5": 0.854,
+            "mrr": 0.727,
+            "recall_top5": 0.793,
+            "recall_final": 0.829,
+            "ragas_id_precision": 0.178,
+            "ragas_id_recall": 0.829
+          }
+        },
+        "by_check": {
+          "corrected": {
+            "n": 4,
+            "hit@1": 0.75,
+            "hit@5": 1,
+            "mrr": 0.8,
+            "recall_top5": 0.875,
+            "recall_final": 1.0,
+            "ragas_id_precision": 0.263,
+            "ragas_id_recall": 1.0
+          },
+          "inference": {
+            "n": 4,
+            "hit@1": 0.25,
+            "hit@5": 0.25,
+            "mrr": 0.25,
+            "recall_top5": 0.25,
+            "recall_final": 0.25,
+            "ragas_id_precision": 0.062,
+            "ragas_id_recall": 0.25
+          },
+          "partial": {
+            "n": 7,
+            "hit@1": 0.429,
+            "hit@5": 0.714,
+            "mrr": 0.529,
+            "recall_top5": 0.521,
+            "recall_final": 0.521,
+            "ragas_id_precision": 0.15,
+            "ragas_id_recall": 0.521
+          },
+          "verified": {
+            "n": 39,
+            "hit@1": 0.667,
+            "hit@5": 0.872,
+            "mrr": 0.742,
+            "recall_top5": 0.786,
+            "recall_final": 0.812,
+            "ragas_id_precision": 0.184,
+            "ragas_id_recall": 0.812
+          }
+        },
+        "by_topic": {
+          "coverage": {
+            "n": 2,
+            "hit@1": 0.5,
+            "hit@5": 0.5,
+            "mrr": 0.5,
+            "recall_top5": 0.5,
+            "recall_final": 0.5,
+            "ragas_id_precision": 0.1,
+            "ragas_id_recall": 0.5
+          },
+          "dismissal": {
+            "n": 5,
+            "hit@1": 0.4,
+            "hit@5": 0.4,
+            "mrr": 0.4,
+            "recall_top5": 0.4,
+            "recall_final": 0.4,
+            "ragas_id_precision": 0.107,
+            "ragas_id_recall": 0.4
+          },
+          "hours": {
+            "n": 6,
+            "hit@1": 0.333,
+            "hit@5": 0.833,
+            "mrr": 0.506,
+            "recall_top5": 0.483,
+            "recall_final": 0.567,
+            "ragas_id_precision": 0.168,
+            "ragas_id_recall": 0.567
+          },
+          "leave": {
+            "n": 15,
+            "hit@1": 0.733,
+            "hit@5": 0.933,
+            "mrr": 0.817,
+            "recall_top5": 0.811,
+            "recall_final": 0.878,
+            "ragas_id_precision": 0.198,
+            "ragas_id_recall": 0.878
+          },
+          "other": {
+            "n": 11,
+            "hit@1": 0.545,
+            "hit@5": 0.727,
+            "mrr": 0.606,
+            "recall_top5": 0.727,
+            "recall_final": 0.727,
+            "ragas_id_precision": 0.18,
+            "ragas_id_recall": 0.727
+          },
+          "termination": {
+            "n": 7,
+            "hit@1": 0.714,
+            "hit@5": 1,
+            "mrr": 0.814,
+            "recall_top5": 0.821,
+            "recall_final": 0.821,
+            "ragas_id_precision": 0.197,
+            "ragas_id_recall": 0.821
+          },
+          "wages": {
+            "n": 8,
+            "hit@1": 0.75,
+            "hit@5": 0.875,
+            "mrr": 0.775,
+            "recall_top5": 0.875,
+            "recall_final": 0.875,
+            "ragas_id_precision": 0.182,
+            "ragas_id_recall": 0.875
+          }
+        },
+        "misses_at_5": [
+          "JPPM-003",
+          "JPPM-008",
+          "JTKSM-07",
+          "JTKSM-10",
+          "JTKSM-45",
+          "JTKSM-68",
+          "JTKSM-71",
+          "RDT-005",
+          "RDT-006",
+          "RDT-007"
+        ]
+      },
+      "abstention": {
+        "auc": 0.893,
+        "in_sample": {
+          "threshold": 0.5555,
+          "out_of_scope_declined": 0.6,
+          "in_scope_declined": 0.093
+        },
+        "cross_validated_5fold": {
+          "out_of_scope_declined": 0.55,
+          "in_scope_declined": 0.13,
+          "fold_thresholds": [
+            0.5598,
+            0.5482,
+            0.5652,
+            0.5555,
+            0.5555
+          ]
+        },
+        "external": {
+          "JTKSM-49": 0.5292139223504159,
+          "SBH-073": 0.5379253211778124,
+          "SWK-033": 0.6609948842382949
+        },
+        "stopped_by_language": []
+      }
+    },
+    "hybrid": {
+      "retrieval": {
+        "overall": {
+          "n": 54,
+          "hit@1": 0.537,
+          "hit@5": 0.87,
+          "mrr": 0.67,
+          "recall_top5": 0.751,
+          "recall_final": 0.769,
+          "ragas_id_precision": 0.186,
+          "ragas_id_recall": 0.769
+        },
+        "by_region": {
+          "all (IRA)": {
+            "n": 6,
+            "hit@1": 0.667,
+            "hit@5": 1,
+            "mrr": 0.778,
+            "recall_top5": 0.75,
+            "recall_final": 0.75,
+            "ragas_id_precision": 0.224,
+            "ragas_id_recall": 0.75
+          },
+          "no region": {
+            "n": 5,
+            "hit@1": 0.2,
+            "hit@5": 0.4,
+            "mrr": 0.3,
+            "recall_top5": 0.109,
+            "recall_final": 0.109,
+            "ragas_id_precision": 0.083,
+            "ragas_id_recall": 0.109
+          },
+          "peninsular": {
+            "n": 19,
+            "hit@1": 0.474,
+            "hit@5": 0.842,
+            "mrr": 0.632,
+            "recall_top5": 0.763,
+            "recall_final": 0.763,
+            "ragas_id_precision": 0.198,
+            "ragas_id_recall": 0.763
+          },
+          "sabah": {
+            "n": 11,
+            "hit@1": 0.545,
+            "hit@5": 0.909,
+            "mrr": 0.677,
+            "recall_top5": 0.818,
+            "recall_final": 0.818,
+            "ragas_id_precision": 0.191,
+            "ragas_id_recall": 0.818
+          },
+          "sarawak": {
+            "n": 13,
+            "hit@1": 0.692,
+            "hit@5": 1,
+            "mrr": 0.814,
+            "recall_top5": 0.923,
+            "recall_final": 1.0,
+            "ragas_id_precision": 0.188,
+            "ragas_id_recall": 1.0
+          }
+        },
+        "by_difficulty": {
+          "multi": {
+            "n": 13,
+            "hit@1": 0.538,
+            "hit@5": 0.692,
+            "mrr": 0.596,
+            "recall_top5": 0.465,
+            "recall_final": 0.465,
+            "ragas_id_precision": 0.169,
+            "ragas_id_recall": 0.465
+          },
+          "single": {
+            "n": 41,
+            "hit@1": 0.537,
+            "hit@5": 0.927,
+            "mrr": 0.694,
+            "recall_top5": 0.841,
+            "recall_final": 0.866,
+            "ragas_id_precision": 0.192,
+            "ragas_id_recall": 0.866
+          }
+        },
+        "by_check": {
+          "corrected": {
+            "n": 4,
+            "hit@1": 0.75,
+            "hit@5": 0.75,
+            "mrr": 0.75,
+            "recall_top5": 0.75,
+            "recall_final": 0.75,
+            "ragas_id_precision": 0.206,
+            "ragas_id_recall": 0.75
+          },
+          "inference": {
+            "n": 4,
+            "hit@1": 0.25,
+            "hit@5": 0.5,
+            "mrr": 0.375,
+            "recall_top5": 0.5,
+            "recall_final": 0.5,
+            "ragas_id_precision": 0.106,
+            "ragas_id_recall": 0.5
+          },
+          "partial": {
+            "n": 7,
+            "hit@1": 0.429,
+            "hit@5": 0.714,
+            "mrr": 0.548,
+            "recall_top5": 0.506,
+            "recall_final": 0.506,
+            "ragas_id_precision": 0.145,
+            "ragas_id_recall": 0.506
+          },
+          "verified": {
+            "n": 39,
+            "hit@1": 0.564,
+            "hit@5": 0.949,
+            "mrr": 0.715,
+            "recall_top5": 0.821,
+            "recall_final": 0.846,
+            "ragas_id_precision": 0.2,
+            "ragas_id_recall": 0.846
+          }
+        },
+        "by_topic": {
+          "coverage": {
+            "n": 2,
+            "hit@1": 0.5,
+            "hit@5": 0.5,
+            "mrr": 0.5,
+            "recall_top5": 0.5,
+            "recall_final": 0.5,
+            "ragas_id_precision": 0.1,
+            "ragas_id_recall": 0.5
+          },
+          "dismissal": {
+            "n": 5,
+            "hit@1": 0.6,
+            "hit@5": 0.8,
+            "mrr": 0.7,
+            "recall_top5": 0.529,
+            "recall_final": 0.529,
+            "ragas_id_precision": 0.182,
+            "ragas_id_recall": 0.529
+          },
+          "hours": {
+            "n": 6,
+            "hit@1": 0.5,
+            "hit@5": 0.833,
+            "mrr": 0.639,
+            "recall_top5": 0.567,
+            "recall_final": 0.65,
+            "ragas_id_precision": 0.206,
+            "ragas_id_recall": 0.65
+          },
+          "leave": {
+            "n": 15,
+            "hit@1": 0.533,
+            "hit@5": 0.933,
+            "mrr": 0.691,
+            "recall_top5": 0.833,
+            "recall_final": 0.867,
+            "ragas_id_precision": 0.208,
+            "ragas_id_recall": 0.867
+          },
+          "other": {
+            "n": 11,
+            "hit@1": 0.545,
+            "hit@5": 1,
+            "mrr": 0.727,
+            "recall_top5": 0.909,
+            "recall_final": 0.909,
+            "ragas_id_precision": 0.217,
+            "ragas_id_recall": 0.909
+          },
+          "termination": {
+            "n": 7,
+            "hit@1": 0.429,
+            "hit@5": 0.857,
+            "mrr": 0.571,
+            "recall_top5": 0.786,
+            "recall_final": 0.786,
+            "ragas_id_precision": 0.165,
+            "ragas_id_recall": 0.786
+          },
+          "wages": {
+            "n": 8,
+            "hit@1": 0.625,
+            "hit@5": 0.75,
+            "mrr": 0.688,
+            "recall_top5": 0.688,
+            "recall_final": 0.688,
+            "ragas_id_precision": 0.132,
+            "ragas_id_recall": 0.688
+          }
+        },
+        "misses_at_5": [
+          "JTKSM-07",
+          "JTKSM-10",
+          "JTKSM-45",
+          "RDT-005",
+          "RDT-006",
+          "RDT-008",
+          "SBH-078"
+        ]
+      },
+      "abstention": {
+        "auc": 0.905,
+        "in_sample": {
+          "threshold": 0.5555,
+          "out_of_scope_declined": 0.65,
+          "in_scope_declined": 0.093
+        },
+        "cross_validated_5fold": {
+          "out_of_scope_declined": 0.6,
+          "in_scope_declined": 0.13,
+          "fold_thresholds": [
+            0.5598,
+            0.5482,
+            0.5652,
+            0.5555,
+            0.5555
+          ]
+        },
+        "external": {
+          "JTKSM-49": 0.5292139223504159,
+          "SBH-073": 0.5191524753847482,
+          "SWK-033": 0.6609948842382949
+        },
+        "stopped_by_language": []
+      }
+    },
+    "hybrid_rerank": {
+      "retrieval": {
+        "overall": {
+          "n": 54,
+          "hit@1": 0.704,
+          "hit@5": 0.926,
+          "mrr": 0.793,
+          "recall_top5": 0.808,
+          "recall_final": 0.836,
+          "ragas_id_precision": 0.21,
+          "ragas_id_recall": 0.836
+        },
+        "by_region": {
+          "all (IRA)": {
+            "n": 6,
+            "hit@1": 0.667,
+            "hit@5": 1,
+            "mrr": 0.806,
+            "recall_top5": 0.833,
+            "recall_final": 0.833,
+            "ragas_id_precision": 0.267,
+            "ragas_id_recall": 0.833
+          },
+          "no region": {
+            "n": 5,
+            "hit@1": 0.4,
+            "hit@5": 0.8,
+            "mrr": 0.567,
+            "recall_top5": 0.227,
+            "recall_final": 0.227,
+            "ragas_id_precision": 0.197,
+            "ragas_id_recall": 0.227
+          },
+          "peninsular": {
+            "n": 19,
+            "hit@1": 0.737,
+            "hit@5": 0.895,
+            "mrr": 0.8,
+            "recall_top5": 0.816,
+            "recall_final": 0.842,
+            "ragas_id_precision": 0.225,
+            "ragas_id_recall": 0.842
+          },
+          "sabah": {
+            "n": 11,
+            "hit@1": 0.636,
+            "hit@5": 0.909,
+            "mrr": 0.745,
+            "recall_top5": 0.909,
+            "recall_final": 0.909,
+            "ragas_id_precision": 0.197,
+            "ragas_id_recall": 0.909
+          },
+          "sarawak": {
+            "n": 13,
+            "hit@1": 0.846,
+            "hit@5": 1,
+            "mrr": 0.904,
+            "recall_top5": 0.923,
+            "recall_final": 1.0,
+            "ragas_id_precision": 0.177,
+            "ragas_id_recall": 1.0
+          }
+        },
+        "by_difficulty": {
+          "multi": {
+            "n": 13,
+            "hit@1": 0.538,
+            "hit@5": 0.846,
+            "mrr": 0.656,
+            "recall_top5": 0.549,
+            "recall_final": 0.587,
+            "ragas_id_precision": 0.236,
+            "ragas_id_recall": 0.587
+          },
+          "single": {
+            "n": 41,
+            "hit@1": 0.756,
+            "hit@5": 0.951,
+            "mrr": 0.836,
+            "recall_top5": 0.89,
+            "recall_final": 0.915,
+            "ragas_id_precision": 0.201,
+            "ragas_id_recall": 0.915
+          }
+        },
+        "by_check": {
+          "corrected": {
+            "n": 4,
+            "hit@1": 0.75,
+            "hit@5": 1,
+            "mrr": 0.8,
+            "recall_top5": 1.0,
+            "recall_final": 1.0,
+            "ragas_id_precision": 0.22,
+            "ragas_id_recall": 1.0
+          },
+          "inference": {
+            "n": 4,
+            "hit@1": 0.5,
+            "hit@5": 0.5,
+            "mrr": 0.5,
+            "recall_top5": 0.5,
+            "recall_final": 0.5,
+            "ragas_id_precision": 0.106,
+            "ragas_id_recall": 0.5
+          },
+          "partial": {
+            "n": 7,
+            "hit@1": 0.714,
+            "hit@5": 1,
+            "mrr": 0.833,
+            "recall_top5": 0.591,
+            "recall_final": 0.591,
+            "ragas_id_precision": 0.227,
+            "ragas_id_recall": 0.591
+          },
+          "verified": {
+            "n": 39,
+            "hit@1": 0.718,
+            "hit@5": 0.949,
+            "mrr": 0.815,
+            "recall_top5": 0.859,
+            "recall_final": 0.897,
+            "ragas_id_precision": 0.216,
+            "ragas_id_recall": 0.897
+          }
+        },
+        "by_topic": {
+          "coverage": {
+            "n": 2,
+            "hit@1": 0,
+            "hit@5": 0.5,
+            "mrr": 0.25,
+            "recall_top5": 0.5,
+            "recall_final": 0.5,
+            "ragas_id_precision": 0.071,
+            "ragas_id_recall": 0.5
+          },
+          "dismissal": {
+            "n": 5,
+            "hit@1": 0.6,
+            "hit@5": 1,
+            "mrr": 0.767,
+            "recall_top5": 0.547,
+            "recall_final": 0.547,
+            "ragas_id_precision": 0.233,
+            "ragas_id_recall": 0.547
+          },
+          "hours": {
+            "n": 6,
+            "hit@1": 0.333,
+            "hit@5": 0.833,
+            "mrr": 0.506,
+            "recall_top5": 0.567,
+            "recall_final": 0.733,
+            "ragas_id_precision": 0.227,
+            "ragas_id_recall": 0.733
+          },
+          "leave": {
+            "n": 15,
+            "hit@1": 0.867,
+            "hit@5": 0.933,
+            "mrr": 0.9,
+            "recall_top5": 0.833,
+            "recall_final": 0.867,
+            "ragas_id_precision": 0.206,
+            "ragas_id_recall": 0.867
+          },
+          "other": {
+            "n": 11,
+            "hit@1": 0.909,
+            "hit@5": 1,
+            "mrr": 0.955,
+            "recall_top5": 0.955,
+            "recall_final": 0.955,
+            "ragas_id_precision": 0.222,
+            "ragas_id_recall": 0.955
+          },
+          "termination": {
+            "n": 7,
+            "hit@1": 0.714,
+            "hit@5": 1,
+            "mrr": 0.857,
+            "recall_top5": 0.929,
+            "recall_final": 0.929,
+            "ragas_id_precision": 0.232,
+            "ragas_id_recall": 0.929
+          },
+          "wages": {
+            "n": 8,
+            "hit@1": 0.625,
+            "hit@5": 0.875,
+            "mrr": 0.681,
+            "recall_top5": 0.875,
+            "recall_final": 0.875,
+            "ragas_id_precision": 0.186,
+            "ragas_id_recall": 0.875
+          }
+        },
+        "misses_at_5": [
+          "JTKSM-07",
+          "JTKSM-45",
+          "RDT-006",
+          "SBH-043"
+        ]
+      },
+      "abstention": {
+        "auc": 0.918,
+        "in_sample": {
+          "threshold": 0.0325,
+          "out_of_scope_declined": 0.65,
+          "in_scope_declined": 0.093
+        },
+        "cross_validated_5fold": {
+          "out_of_scope_declined": 0.6,
+          "in_scope_declined": 0.111,
+          "fold_thresholds": [
+            0.0325,
+            0.0286,
+            0.0325,
+            0.0325,
+            0.0419
+          ]
+        },
+        "external": {
+          "JTKSM-49": 0.004117917643959035,
+          "SBH-073": 0.0011786720362815634,
+          "SWK-033": 0.09982066756762313
+        },
+        "stopped_by_language": []
+      }
+    }
+  }
+}

@@ -150,6 +150,63 @@ corpus:
           status: not_yet_in_force
           commencement: null
 
+    # Subsidiary legislation made under the EA (added 2026-10-16, plan
+    # docs/plans/2026-10-16-ea-regulations.md). They hold the numbers the EA
+    # leaves to regulations: the monthly overtime limit and the termination
+    # benefit rates. Made under the EA, so they apply only where the EA
+    # applies; a Sabah or Sarawak user must never be cited them.
+    # Source: JTKSM copies. They are retyped, not AGC reprints, and their
+    # typos ("may be death with", "within ant period") are kept verbatim.
+    - id: ea_overtime_regulations_1980
+      chunk_prefix: OT1980          # chunk_id prefix, e.g. OT1980_r2
+      jurisdiction_label: Peninsular Malaysia and Labuan
+      source_version: revised edition P.U. (A) 339/1983, as amended by P.U. (A) 433/1991 (JTKSM copy)
+      source_url: https://jtksm.mohr.gov.my/sites/default/files/2023-03/7.%20EMPLOYMENT%20%28LIMITATION%20OF%20OVERTIME%20WORK%29%20REGULATIONS%201980.pdf
+      short_name: Employment (Limitation of Overtime Work) Regulations 1980
+      act_number: P.U. (A) 339/1983
+      file: Employment (Limitation of Overtime Work) Regulations 1980.pdf
+      jurisdiction: peninsular_malaysia_and_labuan
+      doc_type: subsidiary
+      parent: employment_act_1955   # made for EA s.60A(4)(a)
+      status: in_force
+      as_at: 1991-10-17           # P.U. (A) 433/1991, the last amendment the footnote names
+      pages: 2
+      provision_label: reg.
+      # "1. Citation." -- the title is on the number's line, not above it.
+      inline_titles: true
+      # No page numbers are printed; source_page is the 1-based PDF page.
+      page_numbers: pdf_index
+      # No contents page. The two regulations, as read from the PDF.
+      body_start_page: 0
+      declared_sections:
+        - {section: "1", title: Citation.}
+        - {section: "2", title: Limit of overtime work.}
+
+    - id: ea_termination_benefits_regulations_1980
+      chunk_prefix: TLB1980         # chunk_id prefix, e.g. TLB1980_r6_1
+      jurisdiction_label: Peninsular Malaysia and Labuan
+      source_version: revised edition P.U. (A) 338/1983, amendments to 31 December 1999 (JTKSM copy)
+      source_url: https://jtksm.mohr.gov.my/sites/default/files/2023-03/8.%20EMPLOYMENT%20%28TERMINATION%20%26%20LAY%20OFF%20BENEFITS%29%20REGULATIONS%201980.pdf
+      short_name: Employment (Termination and Lay-Off Benefits) Regulations 1980
+      act_number: P.U. (A) 338/1983
+      file: Employment (Termination and Lay-Off Benefits) Regulations 1980.pdf
+      jurisdiction: peninsular_malaysia_and_labuan
+      doc_type: subsidiary
+      parent: employment_act_1955   # "Made under section 60J of The Employment Act 1955"
+      status: in_force
+      as_at: 1999-12-31           # P.U. (A) 520/99, the last amendment the footnote names
+      pages: 8
+      provision_label: reg.
+      inline_titles: true
+      page_numbers: pdf_index
+      # ARRANGEMENT OF REGULATIONS, 0-based PDF page index, inclusive.
+      toc_pages: [0, 0]
+      currency_caveat: >
+        The footnote lists amendments to P.U. (A) 520/99 (31 December 1999).
+        The LIST OF AMENDMENTS also names P.U. (A) 92/11, in force 1 April
+        2011, and the text does not say whether it is incorporated. Not yet
+        checked against the 2011 instrument.
+
 # Amendments that apply across a whole statute rather than to one section.
 # Attached to the prompt whenever a chunk from that jurisdiction is retrieved;
 # the principal text itself is never rewritten.
@@ -214,7 +271,7 @@ indexing:
   embedding_model: BAAI/bge-m3
   embedding_dim: 1024
   embed_batch_size: 16
-  # Exact cosine search, no approximate (HNSW) index. 1,852 vectors scan in
+  # Exact cosine search, no approximate (HNSW) index. 1,897 vectors scan in
   # milliseconds, and an approximate index can return fewer than k rows once
   # a jurisdiction filter is applied, and is not guaranteed to be stable.
   # Retrieval must be deterministic (CLAUDE.md), so exact search it is.

@@ -21,6 +21,10 @@ below occurs in the real text:
 
 Act A1754 has no contents pages (it is an as-passed amending Act) and is not
 inventoried here; its sections are handled by amendment linking.
+
+The EA regulations: the Termination Regulations have an ARRANGEMENT OF
+REGULATIONS, read like the others; the Overtime Regulations have none, so
+their two regulations are declared in the registry (declared_sections).
 """
 
 from __future__ import annotations
@@ -34,7 +38,7 @@ import yaml
 
 from src.ingestion.extract import extract_pages
 
-_ARRANGEMENT = re.compile(r"^ARRANGEMENT OF SECTIONS$")
+_ARRANGEMENT = re.compile(r"^ARRANGEMENT OF (?:SECTIONS|REGULATIONS)$")
 _HEADING = re.compile(r"^(PART|CHAPTER) ([IVXLC]+[A-Z]?|\d+)(?: [—–-] (.*))?$")
 _RANGE = re.compile(r"^(\d+) ?[—–-] ?(\d+)\.(?: (.*))?$")
 _ENTRY = re.compile(r"^(\d+[A-Za-z]*)\.(?: (.*))?$")
@@ -43,10 +47,11 @@ _PLACEHOLDER = re.compile(r"^[\[(](Deleted|Omitted)(?: by (.+?))?\.?[\])]$")
 _NOT_YET_IN_FORCE = re.compile(r"^\(NOT YET IN FORCE\) \(Section (\w+) [—–-] (\w+)\)$")
 _LEADING_NUMBER = re.compile(r"^(\d+)")
 
-# Lines that are never part of an entry: the "Section" column header, rules,
-# and running headers that extract.py leaves on contents pages.
+# Lines that are never part of an entry: the "Section" (or "Regulation")
+# column header, rules, and running headers that extract.py leaves on
+# contents pages.
 _NOISE = [
-    re.compile(r"^Section$"),
+    re.compile(r"^(?:Section|Regulation)$"),
     re.compile(r"^_+$"),
     re.compile(r"^\\+$"),
     re.compile(r"^\d* ?Laws of Malaysia(?: ACT \d+)?$"),
@@ -249,8 +254,25 @@ def parse_toc(pages: list[str], doc_id: str, first_page_index: int = 0) -> list[
     return entries
 
 
+def _declared(doc: dict) -> list[TocEntry]:
+    """The inventory of a document that prints no contents page.
+
+    The Overtime Regulations hold two regulations and no ARRANGEMENT page, so
+    the registry lists them, as read from the PDF. Still a check on the
+    parser: each listed number must be found at the start of a body line.
+    """
+    return [
+        TocEntry(doc_id=doc["id"], kind="section", section=str(item["section"]).upper(),
+                 title=item["title"], part=None, part_title=None, chapter=None, chapter_title=None,
+                 status="listed", deleted_by=None, not_yet_in_force=False, page_index=-1)
+        for item in doc["declared_sections"]
+    ]
+
+
 def inventory_for_document(doc: dict, raw_dir: str | Path) -> list[TocEntry]:
     """Extract and parse one registry document's contents pages."""
+    if "declared_sections" in doc:
+        return _declared(doc)
     first, last = doc["toc_pages"]
     pages = extract_pages(Path(raw_dir) / doc["file"])[first : last + 1]
     return parse_toc([p.text for p in pages], doc["id"], first_page_index=first)
@@ -264,7 +286,7 @@ def build_inventory(config_path: str | Path = "config/config.yaml") -> Path:
     out.parent.mkdir(parents=True, exist_ok=True)
     with out.open("w", encoding="utf-8") as handle:
         for doc in corpus["documents"]:
-            if "toc_pages" not in doc:
+            if "toc_pages" not in doc and "declared_sections" not in doc:
                 continue
             for entry in inventory_for_document(doc, corpus["raw_dir"]):
                 handle.write(json.dumps(asdict(entry), ensure_ascii=False) + "\n")

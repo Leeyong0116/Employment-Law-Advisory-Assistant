@@ -115,6 +115,25 @@ def test_only_sarawak_needs_amendment_linking(documents):
     assert unconsolidated == ["labour_ordinance_sarawak"], unconsolidated
 
 
+def test_subsidiary_legislation_points_at_its_parent_act(documents):
+    # Regulations made under the EA apply where the EA applies. A different
+    # territory here would cite them to Sabah or Sarawak users.
+    by_id = {d["id"]: d for d in documents}
+    subsidiary = [d for d in documents if d["doc_type"] == "subsidiary"]
+    assert {d["id"] for d in subsidiary} == {"ea_overtime_regulations_1980", "ea_termination_benefits_regulations_1980"}
+    for d in subsidiary:
+        parent = by_id[d["parent"]]
+        assert parent["doc_type"] == "principal", d["id"]
+        assert d["jurisdiction_label"] == parent["jurisdiction_label"], d["id"]
+        assert d["provision_label"] == "reg.", d["id"]
+
+
+def test_pdf_page_numbering_is_declared_not_assumed(documents):
+    # source_page is the printed page unless a document declares it prints none.
+    for d in documents:
+        assert d.get("page_numbers", "printed") in {"printed", "pdf_index"}, d["id"]
+
+
 def test_documents_carry_every_listing1_citation_field(documents):
     # docs/chunk_schema.md Listing 1: these are copied verbatim onto each chunk,
     # so a missing one silently produces an uncitable chunk.

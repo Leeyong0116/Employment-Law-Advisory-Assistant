@@ -14,6 +14,8 @@ with every numbering layout in the corpus without a per-document rule:
                 "Section 14. [Deleted by AA1238]"
     Sarawak     "2.—(1)" / text               title above
     EA ranges   "34-36.   (Deleted by Act A1651)."
+    EA regs     "2. Interpretation." / text   title on the number's line
+                (registry inline_titles; cited as "reg. 2")
 
 Editorial material never reaches a chunk's content: page footnotes become
 in_force_notes, and Sarawak's "[Am. Act A1237.]" tags become
@@ -31,7 +33,7 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 
-from src.ingestion.extract import Page, extract_pages
+from src.ingestion.extract import Page, extract_document
 from src.ingestion.toc import TocEntry, inventory_for_document
 
 
@@ -66,9 +68,16 @@ _ANNOTATION = re.compile(r"^\s*\[(?:Am|Sub|Ins|Mod|Added)\.\s[^\]]*\]\.?\s*$")
 _ASTERISK = re.compile(r"\*+(?=[\w(])")
 _WORD = re.compile(r"[a-z0-9]+")
 
-_INTERNAL_REF = re.compile(
-    r"\b(?:sub)?sections?\s+((?:\d+[A-Z]*(?:\(\d+[A-Z]?\))?)(?:\s*(?:,|and|or|to)\s*\d+[A-Z]*(?:\(\d+[A-Z]?\))?)*)"
-)
+_REF_NUMBERS = r"\s+((?:\d+[A-Z]*(?:\(\d+[A-Z]?\))?)(?:\s*(?:,|and|or|to)\s*\d+[A-Z]*(?:\(\d+[A-Z]?\))?)*)"
+# Regulations call their own provisions "regulation N"; a "section N" in them
+# is the parent Act's (Termination Regulations reg. 4(1)(c), "section 13 (2)
+# ... of the Act"), so it is not an internal reference there.
+_INTERNAL_REF = {
+    "s.": re.compile(r"\b(?:sub)?sections?" + _REF_NUMBERS),
+    "reg.": re.compile(r"\b(?:sub)?regulations?" + _REF_NUMBERS),
+}
+# Chunk id letter for each citation label: EA1955_s59_1, TLB1980_r6_1.
+_ID_MARKER = {"s.": "s", "reg.": "r"}
 _OTHER_STATUTE_AFTER = re.compile(r"^[^.;]{0,40}?\bof the [A-Z][\w’' ]*(?:Act|Ordinance|Enactment)\b")
 _EXTERNAL_REF = re.compile(
     r"\b((?:[A-Z][\w’'()]*\s+)+(?:Act|Ordinance|Enactment|Order|Regulations)\s+\d{4}(?:\s*\[(?:Act|Cap\.)\s*[\w.]+\])?)"
@@ -118,6 +127,23 @@ def _title_score(expected: str, candidate: str) -> float:
     if not a or not b:
         return 0.0
     return 2 * len(a & b) / (len(a) + len(b))
+
+
+def split_inline_title(lines: list[BodyLine], expected: str | None) -> tuple[str | None, list[BodyLine]]:
+    """Take a title printed on the number's line off the provision's text.
+
+    The EA regulations print "2. Interpretation." with the text below, and a
+    long title wraps ("... benefits" / "payment."). The title runs to the
+    first line ending in a full stop, at most three lines, and must match the
+    contents title; otherwise nothing is taken.
+    """
+    for k in range(min(3, len(lines))):
+        if lines[k].text.rstrip().endswith("."):
+            candidate = " ".join(" ".join(ln.text for ln in lines[: k + 1]).split())
+            if expected is None or _title_score(expected, candidate) >= 0.6:
+                return candidate.rstrip("."), lines[k + 1 :]
+            break
+    return None, lines
 
 
 def parse_placeholder(text: str) -> tuple[str, str | None] | None:
@@ -234,16 +260,16 @@ def split_definitions(lines: list[BodyLine]) -> tuple[str | None, list[tuple[str
     return scope, definitions
 
 
-def internal_references(text: str, known: set[str]) -> list[str]:
-    """Section references that resolve inside this document, as "s. 29(2)"."""
+def internal_references(text: str, known: set[str], label: str = "s.") -> list[str]:
+    """References that resolve inside this document, as "s. 29(2)" or "reg. 6"."""
     found: list[str] = []
-    for match in _INTERNAL_REF.finditer(text):
+    for match in _INTERNAL_REF[label].finditer(text):
         if _OTHER_STATUTE_AFTER.match(text[match.end():]):
             continue
         for ref in re.findall(r"\d+[A-Z]*(?:\(\d+[A-Z]?\))?", match.group(1)):
             section = re.match(r"\d+[A-Z]*", ref).group(0)
-            if section in known and f"s. {ref}" not in found:
-                found.append(f"s. {ref}")
+            if section in known and f"{label} {ref}" not in found:
+                found.append(f"{label} {ref}")
     return found
 
 
@@ -252,7 +278,9 @@ def external_references(text: str, own: str) -> list[str]:
     found: list[str] = []
     for match in _EXTERNAL_REF.finditer(" ".join(text.split())):
         name = re.sub(r"^(?:the|The|of|under|in)\s+", "", match.group(1)).strip()
-        if own.lower() in name.lower() or name in found:
+        # Either way round: a parenthesised title ("Employment (Limitation of
+        # Overtime Work) Regulations 1980") is read only from its tail.
+        if own.lower() in name.lower() or name.lower() in own.lower() or name in found:
             continue
         found.append(name)
     return found
@@ -478,10 +506,11 @@ class _Builder:
         annotations: list[str] = (),
     ) -> None:
         doc = self.doc
+        label = doc.get("provision_label", "s.")
         content = join_lines([ln.text for ln in lines])
         sub_id = subsection.strip("()") if subsection else None
-        chunk_id = f"{doc['chunk_prefix']}_s{entry.section}" + (f"_{sub_id}" if sub_id else "")
-        citation = f"{doc['short_name']}, s. {entry.section}{subsection or ''}"
+        chunk_id = f"{doc['chunk_prefix']}_{_ID_MARKER[label]}{entry.section}" + (f"_{sub_id}" if sub_id else "")
+        citation = f"{doc['short_name']}, {label} {entry.section}{subsection or ''}"
         if term:
             chunk_id += f"_def_{_slug(term)}"
             citation += f", definition of “{term}”"
@@ -509,7 +538,7 @@ class _Builder:
                 "content": content,
                 "status": status,
                 "deleted_by": deleted_by,
-                "cross_references_internal": internal_references(raw, self.known),
+                "cross_references_internal": internal_references(raw, self.known, label),
                 "cross_references_external": external_references(raw, doc["short_name"]),
                 "in_force_notes": self._notes_for(lines),
                 "amendment_annotations": list(annotations),
@@ -574,6 +603,10 @@ def _emit_section(builder: _Builder, loc: _Located, lines: list[BodyLine]) -> No
     first = BodyLine(lines[0].page_index, lines[0].printed_page, _strip_number(lines[0].text, entry.section, is_range))
     lines = [first] + lines[1:] if first.text.strip() else lines[1:]
     lines, annotations = lift_annotations(lines)
+    if builder.doc.get("inline_titles"):
+        title, lines = split_inline_title(lines, entry.title)
+        if title:
+            loc.body_title, loc.title_matched = title, True
 
     placeholder = parse_placeholder(" ".join(ln.text for ln in lines)) if lines else None
     if placeholder or not lines:
@@ -609,7 +642,7 @@ def _emit_section(builder: _Builder, loc: _Located, lines: list[BodyLine]) -> No
 
 def parse_document(doc: dict, raw_dir: str | Path) -> tuple[list[dict], dict]:
     """Parse one registry document's sections into chunks plus a coverage report."""
-    pages = extract_pages(Path(raw_dir) / doc["file"])
+    pages = extract_document(doc, raw_dir)
     chunks, report, _ = parse_body(doc, pages, inventory_for_document(doc, raw_dir))
     return chunks, report
 
@@ -619,10 +652,18 @@ def parse_body(
 ) -> tuple[list[dict], dict, list[BodyLine]]:
     """Parse the sections; also return the lines after them (the schedules)."""
     expected = [e for e in inventory if e.kind == "section"]
-    lines = body_lines(pages, doc["toc_pages"][1] + 1)
+    first_page = doc["body_start_page"] if "body_start_page" in doc else doc["toc_pages"][1] + 1
+    lines = body_lines(pages, first_page)
 
     located, missing = locate_sections(lines, expected)
-    _find_headers(lines, located)
+    if doc.get("inline_titles"):
+        # The title is on the number's line (split_inline_title), so nothing
+        # above the number belongs to the next provision. Searching there
+        # would take the last line of the one above as a title.
+        for loc in located:
+            loc.header_start = loc.start
+    else:
+        _find_headers(lines, located)
     end = _end_of_sections(lines, located[-1].start) if located else len(lines)
 
     builder = _Builder(doc, pages, {e.section for e in expected})

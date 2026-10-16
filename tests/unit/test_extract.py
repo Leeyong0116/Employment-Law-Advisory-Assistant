@@ -200,6 +200,45 @@ class TestSplitFootnotes:
         assert body == lines
         assert notes == []
 
+    def test_a_gazette_history_note_without_a_rule_is_lifted_out(self):
+        # Overtime Regulations 1980 (JTKSM) p.1: no rule, the note follows reg. 2.
+        lines = [
+            "total of one hundred and four hours in any one month.",
+            "*Revised and published as PU (A) 339/1983 and amended by PU (A) 433/1991.",
+        ]
+        body, notes = extract.split_footnotes(lines)
+        assert body == ["total of one hundred and four hours in any one month."]
+        assert notes == ["*Revised and published as PU (A) 339/1983 and amended by PU (A) 433/1991."]
+
+    def test_a_gazette_history_note_keeps_its_continuation_lines(self):
+        # Termination Regulations 1980 (JTKSM) p.2: an underscore rule, then a
+        # note that wraps, then a "Note:" line belonging to it.
+        lines = [
+            "“relevant date” means —",
+            "_" * 75,
+            "*Originally published as PU (A) 278/80 [wef 1.10.1980] and amended by PU (A) 174/83 [wef 13.5.1983]. Revised and",
+            "published as PU (A) 338/83 [wef 15.9.1983] and amended by PU(A) 455/99 [wef 29.10.1999], 520/99 [wef 31.12.1999].",
+            "Note: Made under section 60J of The Employment Act 1955.",
+        ]
+        body, notes = extract.split_footnotes(lines)
+        assert body == ["“relevant date” means —", "_" * 75]  # the rule is dropped by body_lines
+        assert len(notes) == 1
+        assert notes[0].startswith("*Originally published")
+        assert notes[0].endswith("Made under section 60J of The Employment Act 1955.")
+
+
+class TestPdfPageNumbers:
+    def test_pages_without_printed_numbers_take_the_pdf_page_number(self):
+        # Neither regulation prints page numbers; the PDF page is what a
+        # reader opens, so it is used, 1-based, and only when declared.
+        pages = [extract.Page(0, None, "a"), extract.Page(1, None, "b")]
+        assert [p.printed_page for p in extract.number_by_pdf_page(pages)] == [1, 2]
+
+    def test_a_printed_number_is_never_overwritten(self):
+        pages = [extract.Page(4, 3, "a")]
+        with pytest.raises(ValueError):
+            extract.number_by_pdf_page(pages)
+
 
 class TestRejoinLetterSpaced:
     def test_word_boundaries_come_from_gaps_not_spaces(self):
