@@ -30,7 +30,8 @@ The system answers English questions about Malaysian employment law. Every answe
 Rules:
 - Sarawak principal text and Act A1754 are indexed as **separate documents**, linked in metadata, so an amended provision is retrieved with its amendment. Do NOT build a merged consolidated text. Example: Sarawak s.84 says 60 days maternity leave, but A1754 changed it to 98.
 - Every chunk stores its consolidation date and source page/URL.
-- Out of scope for the corpus: Minimum Wages Order, EPF Act, SOCSO Act, Minimum Retirement Age Act, Workmen's Compensation Act, Children and Young Persons Act, case law (Industrial Court awards).
+- Out of scope for the corpus: Minimum Wages Order, EPF Act, SOCSO Act, Minimum Retirement Age Act, Workmen's Compensation Act, Children and Young Persons Act, higher-court judgments (High Court, Court of Appeal, Federal Court), Labour Court decisions.
+- **Changed (agreed with Dr Azam, recorded 2026-10-16):** Industrial Court awards are now IN scope, about 20 to 40 awards chosen by topic (dismissal, constructive dismissal, wages, termination benefits, misconduct / domestic inquiry), across regions. Design pending (brainstorm, then spec in `docs/superpowers/specs/`). Rules agreed so far: gold-set questions still come from the Q&A sources, never written from an award (no leakage); a gold item may expect an award paragraph as its citation; this makes gold set v2, with v1 kept as the statute-only baseline and thresholds recalibrated on v2.
 ## Architecture (deterministic Advanced RAG)
  
 Offline indexing:
@@ -130,7 +131,7 @@ No accounts, no personal data, no server-side conversation storage. DB holds onl
 
 ## Scope discipline
  
-Deferred to future work: Bahasa Malaysia, case law, extra statutes, agentic/graph retrieval, production deployment. Anything new in CP2 needs supervisor agreement. Do not add features quietly.
+Deferred to future work: Bahasa Malaysia, case law beyond Industrial Court awards, extra statutes, agentic/graph retrieval, production deployment. Anything new in CP2 needs supervisor agreement. Do not add features quietly.
  
 ## Current status (update as work progresses)
  
