@@ -12,7 +12,6 @@ gets the same prompt (CLAUDE.md: deterministic Advanced RAG).
 from __future__ import annotations
 
 import os
-import re
 from pathlib import Path
 
 import yaml
@@ -22,7 +21,7 @@ from src.generation.citations import resolve
 from src.generation.llm import GeneratorError, build_chat_model, invoke_with_retry
 from src.generation.prompt import INSUFFICIENT, PROMPT, PROMPT_VERSION, build_prompt
 from src.generation.schema import Abstention, AnswerChecks, GeneratedAnswer, GeneratorInfo
-from src.retrieval.schema import RetrievalResult
+from src.retrieval.schema import RetrievalResult, RetrievedChunk
 
 
 def abstention_message(reason: str, statutes_held: list[str]) -> str:
@@ -30,6 +29,13 @@ def abstention_message(reason: str, statutes_held: list[str]) -> str:
                + "".join(f"{statute}\n" for statute in statutes_held)
                + "For help with your situation, contact the Department of Labour (JTKSM, JTK Sabah or JTK Sarawak).")
     return ("GetRight answers questions in English only. " + message) if reason == "language" else message
+
+
+def _non_current(cited_blocks: list[RetrievedChunk], cited: set[str]) -> list[str]:
+    """Cited chunks that are not current law, in citation order (an evaluation count, not a block)."""
+    return [b.chunk_id for b in cited_blocks
+            if b.status in ("deleted", "omitted", "not_yet_in_force")
+            or (b.status == "superseded" and not cited & set(b.amended_by))]
 
 
 class Answerer:
@@ -67,7 +73,8 @@ class Answerer:
         context_ids = [block.chunk_id for block in prompt.blocks]
         truncated = reply.finish_reason == "length"
 
-        if re.sub(r"[\s.]+$", "", reply.text) == INSUFFICIENT:
+        # Rule 1 asks for the sentinel alone; the model sometimes explains first. Anywhere in the reply counts.
+        if INSUFFICIENT in reply.text:
             return GeneratedAnswer(**base, status="insufficient_context", answer=None, citations=[], abstention=None,
                                    notes=prompt.notes, external_dependencies=[], checks=AnswerChecks(truncated=truncated),
                                    generator=generator, context_chunk_ids=context_ids)
@@ -78,7 +85,8 @@ class Answerer:
         dependencies = sorted({ref for block in cited_blocks for ref in block.cross_references_external})
         caveats = list(dict.fromkeys(self.caveats[b.statute] for b in cited_blocks if b.statute in self.caveats))
         checks = AnswerChecks(invalid_markers=resolved.invalid_markers, uncited_sentences=resolved.uncited_sentences,
-                              provision_mentions=resolved.provision_mentions, truncated=truncated)
+                              provision_mentions=resolved.provision_mentions, truncated=truncated,
+                              non_current_citations=_non_current(cited_blocks, cited))
         return GeneratedAnswer(**base, status="answered", answer=resolved.answer, citations=resolved.citations,
                                abstention=None, notes=prompt.notes + caveats, external_dependencies=dependencies,
                                checks=checks, generator=generator, context_chunk_ids=context_ids)

@@ -89,6 +89,20 @@ def test_5xx_then_success():
     assert len(rec.requests) == 2
 
 
+def test_html_5xx_from_proxy_is_retried_not_session_expired():
+    page = httpx.Response(503, text="<html><body>Service Unavailable</body></html>", headers={"content-type": "text/html"})
+    rec, sleeps = Recorder(page), []
+    with pytest.raises(GeneratorError) as raised:
+        _invoke(rec, sleeps)
+    assert not isinstance(raised.value, SessionExpired)
+    assert len(rec.requests) == 4 and sleeps == [2, 4, 8]
+
+
+def test_html_502_then_success():
+    page = httpx.Response(502, text="<html>Bad Gateway</html>", headers={"content-type": "text/html"})
+    assert _invoke(Recorder(page, httpx.Response(200, json=_completion()))).text == "Eight days [1]."
+
+
 def test_client_error_not_retried():
     rec = Recorder(httpx.Response(400, json={"error": {"message": "prompt too long"}}))
     with pytest.raises(GeneratorError):

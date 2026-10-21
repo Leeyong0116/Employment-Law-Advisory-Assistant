@@ -59,6 +59,9 @@ class AnswerChecks(BaseModel):
     invalid_markers: list[int] = []      # markers with no matching context block, removed from the text
     uncited_sentences: int = 0           # sentences of 6+ words with no marker
     provision_mentions: list[str] = []   # Acts or sections named in the prose (the prompt forbids it)
+    # Cited chunks that are not current law: deleted, omitted or not yet in force,
+    # or superseded and cited without the amending chunk.
+    non_current_citations: list[str] = []
     truncated: bool = False              # the model stopped at max_tokens
 
 

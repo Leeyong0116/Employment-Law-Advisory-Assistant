@@ -3,6 +3,7 @@ from langchain_core.language_models import GenericFakeChatModel
 from langchain_core.messages import AIMessage
 
 from src.generation.answer import Answerer, abstention_message
+from src.generation.prompt import PROMPT_VERSION
 from src.retrieval.schema import RetrievalResult, RetrievedChunk
 
 EA, SWK = "Peninsular Malaysia and Labuan", "Sarawak"
@@ -80,7 +81,7 @@ def test_answered_fields():
     assert answer.context_chunk_ids == ["EA1955_s60E_1", "EA1955_s60E_2"]
     assert answer.index_version == "459843bf28ba"
     assert (answer.generator.model, answer.generator.prompt_version, answer.generator.prompt_tokens) == (
-        "Qwen/Qwen3-14B-AWQ", "m4-v1", 900)
+        "Qwen/Qwen3-14B-AWQ", PROMPT_VERSION, 900)
 
 
 def test_insufficient_context_status():
@@ -91,6 +92,36 @@ def test_insufficient_context_status():
 
 def test_insufficient_context_with_trailing_full_stop():
     assert Answerer(_fake("INSUFFICIENT_CONTEXT."), CONFIG).answer(_result([_chunk("X_1")])).status == "insufficient_context"
+
+
+def test_sentinel_after_explanation_is_insufficient_context():
+    reply = "The sources do not say how much rent may be charged. INSUFFICIENT_CONTEXT"
+    answer = Answerer(_fake(reply), CONFIG).answer(_result([_chunk("X_1")]))
+    assert answer.status == "insufficient_context"
+    assert answer.answer is None and answer.citations == []
+
+
+def test_sentinel_before_explanation_is_insufficient_context():
+    reply = "INSUFFICIENT_CONTEXT\n\nThe sources only cover annual leave [1]."
+    assert Answerer(_fake(reply), CONFIG).answer(_result([_chunk("X_1")])).status == "insufficient_context"
+
+
+def test_non_current_citations_flagged():
+    chunks = [_chunk("A1754_s52_122J", "Sarawak", "Labour Ordinance of Sarawak (Amendment) Act 2025", status="not_yet_in_force"),
+              _chunk("SWK76_s75A_4", "Sarawak", "Labour Ordinance (Sarawak)", status="deleted"),
+              _chunk("SWK76_s8_1", "Sarawak", "Labour Ordinance (Sarawak)")]
+    answer = Answerer(_fake("Rent rules exist [1]. Minimum rates applied [2]. Contracts must be written [3]."),
+                      CONFIG).answer(_result(chunks, region="sarawak"))
+    assert answer.checks.non_current_citations == ["A1754_s52_122J", "SWK76_s75A_4"]
+
+
+def test_superseded_cited_without_its_amendment_is_non_current():
+    chunks = [_chunk("SWK76_s84_1", "Sarawak", "Labour Ordinance (Sarawak)", status="superseded", amended_by=["A1754_s24"]),
+              _chunk("A1754_s24", "Sarawak", "Labour Ordinance of Sarawak (Amendment) Act 2025")]
+    alone = Answerer(_fake("Maternity leave is sixty days [1]."), CONFIG).answer(_result(chunks, region="sarawak"))
+    paired = Answerer(_fake("Maternity leave is ninety-eight days [1][2]."), CONFIG).answer(_result(chunks, region="sarawak"))
+    assert alone.checks.non_current_citations == ["SWK76_s84_1"]
+    assert paired.checks.non_current_citations == []
 
 
 def test_external_dependencies_from_cited_chunks_only():

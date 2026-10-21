@@ -35,7 +35,7 @@ def _render(prompt):
 
 
 def test_prompt_version_and_sentinel():
-    assert PROMPT_VERSION == "m4-v1"
+    assert PROMPT_VERSION == "m4-v2"
     assert INSUFFICIENT == "INSUFFICIENT_CONTEXT"
 
 
@@ -111,6 +111,12 @@ def test_rules_forbid_advice_and_section_names():
     assert "Do not name Acts, Ordinances or section numbers yourself." in system
     assert "Do not tell the user what they should do, and do not give legal advice." in system
     assert "reply exactly INSUFFICIENT_CONTEXT" in system
+
+
+def test_rules_say_non_current_sources_are_not_current_law():
+    system, _ = _render(build_prompt(_result([_chunk("X_1")]), NOTES))
+    assert ("A source marked DELETED, OMITTED or NOT YET IN FORCE is not current law. "
+            "Do not state it as the current rule; if you mention it, say that it is deleted or not yet in force.") in system
 
 
 def test_braces_in_content_do_not_break_the_template():

@@ -18,7 +18,7 @@ from pydantic import BaseModel
 
 from src.retrieval.schema import RetrievalResult, RetrievedChunk
 
-PROMPT_VERSION = "m4-v1"
+PROMPT_VERSION = "m4-v2"  # v2: rule 5, non-current sources (review of 2026-10-21)
 INSUFFICIENT = "INSUFFICIENT_CONTEXT"
 
 REGION_NAMES = {"peninsular": "Peninsular Malaysia or Labuan", "sabah": "Sabah", "sarawak": "Sarawak"}
@@ -32,8 +32,9 @@ Rules:
 2. After each sentence that states the law, add the marker of the source(s) it comes from, like [1] or [2][3].
 3. Refer to sources only by their marker. Do not name Acts, Ordinances or section numbers yourself.
 4. Where a source is marked SUPERSEDED, state the amended rule from the amending source, not the old wording.
-5. Explain in plain language what the law says. Do not tell the user what they should do, and do not give legal advice.
-6. If the sources come from more than one territory, say which rule applies in which territory."""
+5. A source marked DELETED, OMITTED or NOT YET IN FORCE is not current law. Do not state it as the current rule; if you mention it, say that it is deleted or not yet in force.
+6. Explain in plain language what the law says. Do not tell the user what they should do, and do not give legal advice.
+7. If the sources come from more than one territory, say which rule applies in which territory."""
 
 USER_TEMPLATE = """User's region: {region}
 

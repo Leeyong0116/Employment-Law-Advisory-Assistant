@@ -57,9 +57,11 @@ def _value(settings: dict, env: Mapping[str, str], key: str) -> str | None:
 
 
 def _check_login(response: httpx.Response) -> None:
-    """httpx response hook: the OOD login page, as a redirect or as an HTML page, means the session expired."""
-    if response.status_code in REDIRECTS or response.status_code == 401 \
-            or "text/html" in response.headers.get("content-type", ""):
+    """httpx response hook: the OOD login page, as a redirect, a 401 or an HTML page with a success
+    status, means the session expired. An HTML 5xx is the proxy's error page (the vLLM job is down or
+    restarting): it goes on to the SDK as a 5xx and is retried."""
+    html = "text/html" in response.headers.get("content-type", "")
+    if response.status_code in REDIRECTS or response.status_code == 401 or (html and response.status_code < 400):
         raise SessionExpired(EXPIRED_MESSAGE)
 
 
