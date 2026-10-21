@@ -22,10 +22,13 @@ class RecordingFake(GenericFakeChatModel):
 # The author's prompt alone made Qwen3 answer in Malay for 82 of 97 questions ("Malaysian" read as
 # Bahasa Malaysia), against the agreed design (translate to English). One sentence is added.
 ENGLISH_LINE = "\nWrite the rewritten question in English."
+# With the English line, 21 of 97 rewrites named an Act the user never stated (one invented,
+# "Minimum Wages Act 1961"). The author agreed to forbid that (2026-10-21).
+ACT_LINE = "\nDo NOT name an Act or section that the user did not state."
 
 
-def test_rules_are_the_authors_prompt_plus_english():
-    assert REWRITE_RULES == AUTHOR_PROMPT + ENGLISH_LINE
+def test_rules_are_the_authors_prompt_plus_english_and_act_lines():
+    assert REWRITE_RULES == AUTHOR_PROMPT + ENGLISH_LINE + ACT_LINE
 
 
 def test_clean_strips_label_quotes_and_extra_lines():
@@ -58,7 +61,7 @@ def test_rewrite_query_uses_the_question():
     model.seen = []
     assert rewrite_query(REWRITE_PROMPT | model, "boss never pay me") == "When must an employer pay wages?"
     system, human = model.seen[0]
-    assert system.content == AUTHOR_PROMPT + ENGLISH_LINE and human.content == "boss never pay me"
+    assert system.content == AUTHOR_PROMPT + ENGLISH_LINE + ACT_LINE and human.content == "boss never pay me"
 
 
 def test_malay_variants_from_csv(tmp_path):

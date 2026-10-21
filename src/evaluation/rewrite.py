@@ -5,7 +5,8 @@ retrieval and the reranker gate see a fair question ("boss havent send me
 any payment" -> "employer", "wages"). The rewrite is used for retrieval
 only; answers are generated for the user's original question.
 
-The prompt is the author's, verbatim, plus one line asking for English (see REWRITE_RULES). A rewrite that adds numbers the user
+The prompt is the author's, verbatim, plus a line asking for English and a line forbidding Act
+names the user did not state (see REWRITE_RULES). A rewrite that adds numbers the user
 did not state breaks that prompt; added_numbers() flags it for the hand
 check rather than trusting it.
 """
@@ -26,7 +27,10 @@ REWRITE_RULES = ("Rewrite the user's question into formal Malaysian employment-l
                  "conclusions that the user did not state. Output one sentence only."
                  # Added 2026-10-21: the author's prompt alone gave Malay rewrites for 82 of 97
                  # questions ("Malaysian" read as Bahasa Malaysia); the agreed design is English.
-                 "\nWrite the rewritten question in English.")
+                 "\nWrite the rewritten question in English."
+                 # Added 2026-10-21 (author agreed): with the English line, 21 of 97 rewrites named
+                 # an Act the user never stated, one of them invented ("Minimum Wages Act 1961").
+                 "\nDo NOT name an Act or section that the user did not state.")
 
 REWRITE_PROMPT = ChatPromptTemplate.from_messages([("system", REWRITE_RULES), ("human", "{question}")])
 
