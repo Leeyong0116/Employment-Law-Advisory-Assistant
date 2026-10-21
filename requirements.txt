@@ -37,10 +37,14 @@ pydantic==2.13.5        # typed retrieval result; reused by the FastAPI layer
 ragas==0.4.3            # RAGAS; ID-based context precision/recall need no judge LLM
 langchain-community==0.3.31  # ragas 0.4.3 imports a module removed in 0.4.x
 
-# --- Phase 3: generation (deferred) ----------------------------------------
-# Hosted API for generation (provider not yet chosen — see config.yaml).
-# The local 4-bit path from the CP1 proposal is not on the critical path, so
-# transformers / bitsandbytes / accelerate are intentionally absent.
+# --- Phase 3: generation, M4 (active) ---------------------------------------
+# LangChain as a fixed LCEL chain (prompt | chat model), no agents. These are
+# the versions ragas 0.4.3 already pulls into the ml image; pinned here
+# because src/generation imports them directly.
+langchain-core==1.6.9
+langchain-openai==1.1.9   # ChatOpenAI against vLLM's OpenAI-compatible server
+openai==1.109.1
+httpx==0.28.1             # cookie header and login-page hook for the OOD proxy
 
 # --- Phase 4: API (deferred) ------------------------------------------------
 # fastapi

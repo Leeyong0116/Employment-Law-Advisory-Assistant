@@ -324,9 +324,20 @@ retrieval:
   prefer_in_force_wording: true
 
 generation:
-  provider: null                  # hosted API; provider chosen at the generation milestone
-  model: null
-  api_key_env: null               # name of the .env var holding the key
+  # Any OpenAI-compatible server (src/generation/llm.py). Now: vLLM on the
+  # Sunway HPC behind the Open OnDemand proxy, authenticated by the browser
+  # session cookie. A hosted API: set api_key_env, set cookie_env to null.
+  base_url_env: GENERATOR_BASE_URL     # the URL ending in /v1
+  cookie_env: OOD_COOKIE_SECRET        # full Cookie header from the OOD session
+  api_key_env: null                    # Bearer key for a hosted API
+  model: Qwen/Qwen3-14B-AWQ            # as reported by /v1/models (2026-10-21, max_model_len 16384)
+  # Reproducible runs for the RAGAS comparisons (plan 2026-10-21, D4).
+  temperature: 0
+  seed: 0
+  max_tokens: 1024
+  enable_thinking: false               # Qwen3 chat template switch
+  timeout_seconds: 120
+  retries: 3                           # 5xx and connection errors only; an expired session is never retried
   # The abstention threshold moved to retrieval.abstention_threshold: it is
   # a reranker score, decided before generation runs.
 
