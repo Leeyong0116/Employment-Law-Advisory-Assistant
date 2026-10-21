@@ -1,6 +1,6 @@
 # Plan: M4 generation over RetrievalResult
 
-Status: draft 2026-10-21. D1 decided by the author (use LangChain, as in the CP1 proposal); D2 to D6 waiting for review.
+Status: implemented 2026-10-21 (devlog `docs/devlog/2026-10-21_m4-generation.md`). D1 decided by the author (use LangChain, as in the CP1 proposal); D2 to D6 approved as recommended ("can proceed"). Where implementation differed, the devlog and the ledger rulings say why.
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
