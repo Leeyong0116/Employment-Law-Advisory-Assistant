@@ -119,3 +119,8 @@ def kfold(rule: str, items: list[Scored], k: int = 5) -> dict:
 
     return {"out_of_scope_declined": declined(False), "in_scope_declined": declined(True),
             "fold_params": fold_params, "decisions": decisions}
+
+
+def fold_votes(rule: str, item: Scored, fold_params: list[dict]) -> list[tuple[bool, str]]:
+    """Each fold's decision for an item that belongs to no fold (an external item)."""
+    return [passes(rule, item, params) for params in fold_params]

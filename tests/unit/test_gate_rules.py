@@ -1,7 +1,7 @@
 """Tests for src/evaluation/gate_rules.py."""
 import pytest
 
-from src.evaluation.gate_rules import STOPPED, Scored, kfold, passes, select_oos_threshold, tune
+from src.evaluation.gate_rules import STOPPED, Scored, fold_votes, kfold, passes, select_oos_threshold, tune
 
 
 def item(id_, in_scope, orig, rew, fold_of=None):
@@ -107,3 +107,10 @@ def test_malay_variant_uses_parent_fold_and_is_excluded_from_rates():
     baseline_only = kfold("rewrite", _fold_set())
     assert result["in_scope_declined"] == baseline_only["in_scope_declined"]
     assert result["out_of_scope_declined"] == baseline_only["out_of_scope_declined"]
+
+
+def test_fold_votes_applies_each_fold_params_to_an_unfolded_item():
+    # External items take part in no fold; each fold's tuned parameters are applied to them.
+    params = [{"t": 0.5}, {"t": 0.2}, {"t": 0.9}]
+    votes = fold_votes("baseline", item("SWK-033", False, 0.3, 0.0), params)
+    assert votes == [(False, "orig"), (True, "orig"), (False, "orig")]

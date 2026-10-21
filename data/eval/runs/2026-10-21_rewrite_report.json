@@ -2710,5 +2710,471 @@
         }
       }
     }
+  },
+  "external": {
+    "JTKSM-49": {
+      "orig": 0.004117917643959035,
+      "rew": 0.01020905431880827,
+      "rules": {
+        "baseline": [
+          {
+            "passed": false,
+            "source": "orig"
+          },
+          {
+            "passed": false,
+            "source": "orig"
+          },
+          {
+            "passed": false,
+            "source": "orig"
+          },
+          {
+            "passed": false,
+            "source": "orig"
+          },
+          {
+            "passed": false,
+            "source": "orig"
+          }
+        ],
+        "rewrite": [
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": true,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": true,
+            "source": "rew"
+          }
+        ],
+        "max": [
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          }
+        ],
+        "or_strict": [
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          }
+        ],
+        "band": [
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          }
+        ]
+      }
+    },
+    "SBH-073": {
+      "orig": 0.0011786720362815634,
+      "rew": 0.0012160416047592268,
+      "rules": {
+        "baseline": [
+          {
+            "passed": false,
+            "source": "orig"
+          },
+          {
+            "passed": false,
+            "source": "orig"
+          },
+          {
+            "passed": false,
+            "source": "orig"
+          },
+          {
+            "passed": false,
+            "source": "orig"
+          },
+          {
+            "passed": false,
+            "source": "orig"
+          }
+        ],
+        "rewrite": [
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          }
+        ],
+        "max": [
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          }
+        ],
+        "or_strict": [
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          }
+        ],
+        "band": [
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          }
+        ]
+      }
+    },
+    "SWK-033": {
+      "orig": 0.09982066756762313,
+      "rew": 0.0483160702678493,
+      "rules": {
+        "baseline": [
+          {
+            "passed": true,
+            "source": "orig"
+          },
+          {
+            "passed": true,
+            "source": "orig"
+          },
+          {
+            "passed": true,
+            "source": "orig"
+          },
+          {
+            "passed": true,
+            "source": "orig"
+          },
+          {
+            "passed": true,
+            "source": "orig"
+          }
+        ],
+        "rewrite": [
+          {
+            "passed": true,
+            "source": "rew"
+          },
+          {
+            "passed": true,
+            "source": "rew"
+          },
+          {
+            "passed": true,
+            "source": "rew"
+          },
+          {
+            "passed": true,
+            "source": "rew"
+          },
+          {
+            "passed": true,
+            "source": "rew"
+          }
+        ],
+        "max": [
+          {
+            "passed": true,
+            "source": "orig"
+          },
+          {
+            "passed": true,
+            "source": "orig"
+          },
+          {
+            "passed": true,
+            "source": "orig"
+          },
+          {
+            "passed": true,
+            "source": "orig"
+          },
+          {
+            "passed": true,
+            "source": "orig"
+          }
+        ],
+        "or_strict": [
+          {
+            "passed": true,
+            "source": "orig"
+          },
+          {
+            "passed": true,
+            "source": "orig"
+          },
+          {
+            "passed": true,
+            "source": "orig"
+          },
+          {
+            "passed": true,
+            "source": "orig"
+          },
+          {
+            "passed": true,
+            "source": "orig"
+          }
+        ],
+        "band": [
+          {
+            "passed": true,
+            "source": "orig"
+          },
+          {
+            "passed": true,
+            "source": "orig"
+          },
+          {
+            "passed": true,
+            "source": "orig"
+          },
+          {
+            "passed": true,
+            "source": "orig"
+          },
+          {
+            "passed": true,
+            "source": "orig"
+          }
+        ]
+      }
+    },
+    "JTKSM-49-ms": {
+      "orig": -1.0,
+      "rew": 0.00459168367777983,
+      "rules": {
+        "baseline": [
+          {
+            "passed": false,
+            "source": "orig"
+          },
+          {
+            "passed": false,
+            "source": "orig"
+          },
+          {
+            "passed": false,
+            "source": "orig"
+          },
+          {
+            "passed": false,
+            "source": "orig"
+          },
+          {
+            "passed": false,
+            "source": "orig"
+          }
+        ],
+        "rewrite": [
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          }
+        ],
+        "max": [
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          }
+        ],
+        "or_strict": [
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          }
+        ],
+        "band": [
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          },
+          {
+            "passed": false,
+            "source": "rew"
+          }
+        ]
+      }
+    }
   }
 }

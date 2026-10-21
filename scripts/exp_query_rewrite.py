@@ -25,7 +25,7 @@ import yaml
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from src.evaluation.calibration import roc_auc  # noqa: E402
-from src.evaluation.gate_rules import MIN_OOS_DECLINED, RULES, STOPPED, Scored, kfold  # noqa: E402
+from src.evaluation.gate_rules import MIN_OOS_DECLINED, RULES, STOPPED, Scored, fold_votes, kfold  # noqa: E402
 from src.evaluation.retrieval_eval import hit_at_k, reciprocal_rank  # noqa: E402
 from src.evaluation.rewrite import REWRITE_PROMPT, added_numbers, malay_variants, rewrite_query  # noqa: E402
 from src.generation.llm import SessionExpired  # noqa: E402
@@ -168,6 +168,14 @@ def stage_report() -> None:
             "fold_params": result["fold_params"],
             "decisions": d,
         }
+    # External items (the answer depends on a statute not held) take part in no fold; each
+    # fold's tuned parameters are applied to them and every fold's decision is reported.
+    score = {(r["id"], r["variant"]): r["gate_score"] for r in records}
+    externals = [Scored(id=q["id"], in_scope=False, orig=score[(q["id"], "orig")], rew=score[(q["id"], "rew")],
+                        fold_of=q["parent"]) for q in questions() if gold[q["parent"]]["scope_class"] == "external"]
+    external = {e.id: {"orig": e.orig, "rew": e.rew, "rules": {
+        rule: [{"passed": p, "source": s} for p, s in fold_votes(rule, e, rules[rule]["fold_params"])] for rule in RULES}}
+        for e in externals}
     pairs = lambda f: [(f(i), i.in_scope) for i in gold_items]  # noqa: E731
     report = {
         "items": {"in_scope": sum(i.in_scope for i in gold_items), "out_of_scope": sum(not i.in_scope for i in gold_items),
@@ -182,6 +190,7 @@ def stage_report() -> None:
                                 if ACT_NAME.search(r["rewrite"]) and not ACT_NAME_ANY.search(r["question"])],
         },
         "rules": rules,
+        "external": external,
     }
     REPORT.write_text(json.dumps(report, indent=2, ensure_ascii=False, default=str), encoding="utf-8")
 
@@ -191,6 +200,9 @@ def stage_report() -> None:
     for rule, r in rules.items():
         print(f"{rule:10} {r['out_of_scope_declined']:>12.3f} {r['in_scope_declined']:>14.3f} "
               f"{r['informal_in_scope_declined']:>9.3f} {r['malay_in_scope_declined']:>6.3f}  {r['out_of_scope_passing']}")
+    for item_id, e in external.items():
+        votes = {rule: sum(v["passed"] for v in vs) for rule, vs in e["rules"].items()}
+        print(f"external {item_id:12} folds passing (of 5): {votes}")
     print(f"-> {REPORT}")
 
 
@@ -213,6 +225,10 @@ def stage_answers() -> None:
     for rule, r in report["rules"].items():
         for item_id, source in r["out_of_scope_passing"]:
             passing.setdefault((item_id, source), []).append(rule)
+    for item_id, e in report["external"].items():          # passes under a rule in at least one fold
+        for rule, votes in e["rules"].items():
+            for source in sorted({v["source"] for v in votes if v["passed"]}):
+                passing.setdefault((item_id, source), []).append(rule)
     answerer = Answerer.from_config()
     with OOS_ANSWERS.open("w", encoding="utf-8") as out:
         for (item_id, source), rules in sorted(passing.items()):

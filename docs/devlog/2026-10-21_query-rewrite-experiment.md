@@ -85,8 +85,27 @@ Files: `data/eval/runs/2026-10-21_rewrite_rewrites.jsonl`, `_records.jsonl`,
   2026-10-16). The difference is the selection rule: the author's
   out-of-scope constraint raises the threshold (fold 0: 0.080 instead of
   0.0325). All five rules here use the same rule, so they compare fairly.
-- **band** cannot help Malay questions: the original is stopped by the
-  language gate (score -1), so it is never inside the near-miss band.
+- **max, or_strict and band made the same decisions.** In every fold,
+  the tuned rewrite threshold of or_strict equalled its original threshold
+  (fold 0: 0.080, then 0.059, 0.059, 0.042, 0.042), max's threshold equalled
+  baseline's, and band took its widest edge (about 0.0001, the lowest
+  training score). So the three rules answer exactly the same questions,
+  hence the identical 13.0% and 40%. They differ only in **which chunks**
+  go to the generator:
+  - max takes them from the higher-scoring wording: 14 in-scope passes use
+    the rewrite's chunks, giving 42 / 54 with an expected chunk.
+  - or_strict and band take the original's chunks whenever the original
+    passes: only 2 passes use the rewrite, giving 45 / 54.
+
+  The "stricter threshold" in or_strict never binds. What caps it is the
+  plan's condition t_r >= t_o: the rewrite rule's own tuned threshold is
+  only 0.008 to 0.011. Letting t_r go lower was not part of the plan. The
+  reviewer checked it: 7.4% in-scope wrongly declined, but only 65%
+  out-of-scope declined, which breaks the constraint.
+- **band** as defined here cannot help Malay questions: the original is
+  stopped by the language gate (score -1), so it is never inside the
+  near-miss band. A live version would send language-stopped questions to
+  the rewrite.
 - **Still declined under rewrite:** JPPM-005 and RDT-008. Under baseline:
   JTKSM-07, JTKSM-26, JTKSM-34, JTKSM-45, RDT-007, RDT-008, RDT-010,
   SWK-145, SWK-152.
@@ -94,8 +113,12 @@ Files: `data/eval/runs/2026-10-21_rewrite_rewrites.jsonl`, `_records.jsonl`,
 ### Out-of-scope questions that pass
 
 Six pass under each rule (baseline, max, or_strict and band let the same
-six through, all on the original wording). Every passing pair was
-answered and read:
+six through, all on the original wording). The external items (the answer
+depends on a statute not held) were added after the review: they belong to
+no fold, so each fold's tuned parameters were applied to them. SWK-033
+passes under every rule in all 5 folds; JTKSM-49 passes under rewrite in 2
+of 5 folds; SBH-073 and the Malay JTKSM-49 never pass. Every passing pair
+was answered and read:
 
 | Item | Passes under | Answer | Reading |
 |---|---|---|---|
@@ -106,14 +129,20 @@ answered and read:
 | JPPM-012 | rewrite | INSUFFICIENT_CONTEXT | says not covered |
 | SWK-064 | rewrite | answered, cites A1754 s. 71(b) | **cites a wrong provision**: ties "filing fees" to the Minister's regulation-making power, then says the amount is not specified |
 | SWK-069 | baseline, max, or_strict, band | answered, cites IRA s. 8(1), s. 56(1), Sarawak s. 8F (+ A1754 s. 10) | **cites wrong provisions**: the question is how to lodge a complaint at the Labour Department; the answer gives trade-union and award complaint procedures |
-| SWK-092 | baseline, max, or_strict, band | answered, cites Sarawak s. 75A(4) (deleted) | **cites a wrong provision, but says so**: "No", from a deleted rule on children's minimum rates, and states that the source is deleted and not current law |
+| SWK-092 | all five | original: answered, cites Sarawak s. 75A(4) (deleted). Rewrite: INSUFFICIENT_CONTEXT | original: **a confident answer from a wrong, deleted provision**. It opens "No, employers cannot pay ... lower than the minimum wage", resting on a deleted rule about children's minimum rates; the caveat that the source is deleted comes only after the conclusion. Close to the worst failure in CLAUDE.md. Rewrite: says not covered |
+| SWK-033 (external) | all five | original: answered, cites Sarawak s. 105A(1) and A1754 s. 35, s. 3(a)(xi). Rewrite: answered, cites s. 105(7) | original: **wrong**: presents the 45-hour weekly average of normal hours as "the limit for overtime work" (the real limit is in subsidiary legislation not held). Rewrite: **right**: the limit is set by the Minister's rules and the number is not in the sources, which matches the reference answer |
+| JTKSM-49 (external) | rewrite (2 of 5 folds) | INSUFFICIENT_CONTEXT | says not covered |
 
-So out of the six that pass:
+So out of the six out-of-scope questions that pass:
 - **Baseline-family rules (baseline, max, or_strict, band):** 4 are
   declined by the model and 2 are answered from provisions that do not
-  cover the question.
+  cover the question (SWK-069, SWK-092).
 - **Rewrite:** 5 are declined by the model and 1 is answered from a
-  wrong provision.
+  wrong provision (SWK-064).
+
+For the external item SWK-033, the original wording gives a wrong answer
+under every rule except rewrite-only; the rewrite's retrieval gives the
+right "not in the sources" answer.
 
 The model's `INSUFFICIENT_CONTEXT` reply is doing real work behind the
 gate in both cases.
@@ -133,7 +162,7 @@ gate in both cases.
      `2026-10-21_rewrite_rewrites_prompt-v1.jsonl`.
    - **For the report:** the experiment measures the author's prompt plus
      this line.
-2. **The rewrite adds Act names.** 22 of 97 rewrites name an Act the user
+2. **The rewrite adds Act names.** 21 of 97 rewrites name an Act the user
    did not mention, against "do not add legal conclusions". Examples:
    - SWK-092, a Sarawak question, gets "Employment Act 1955", which does
      not apply in Sarawak.
@@ -160,14 +189,19 @@ gate in both cases.
 
   But it retrieves worse (hit@5 0.926 to 0.833), so more in-scope answers
   would rest on the wrong provisions (7 vs 2).
-- **or_strict** keeps the original retrieval whenever the original passes
-  and uses the rewrite only for the rest:
+- **"Original first, else rewrite"** (or_strict and band here, which
+  made the same decisions as max; Section 3). The gate passes if either
+  wording passes at the same threshold. The chunks come from the
+  original whenever the original passes, and from the rewrite only for
+  the rest:
   - It answers the same number of in-scope questions *with* an expected
     provision as rewrite-only (45), with only 2 passing without one.
   - It also helps Malay (21.1% declined instead of 100%) and informal
     questions (40% instead of 60%).
   - It is the cautious choice, and the one that best fits "a confident
     answer with wrong citations is the worst failure".
+  - But it keeps the original's wrong answers on SWK-033 and SWK-092,
+    which rewrite-only avoids.
 - **Either way**, adopting it changes the retrieval design and the
   language gate behaviour, so it needs Dr Azam's agreement (CLAUDE.md
   scope discipline). The threshold would need recalibrating under the
@@ -184,3 +218,8 @@ gate in both cases.
   would test this properly.
 - The out-of-scope answer reading is the author's judgement (by Claude,
   to be checked by the author), not a metric.
+- With 16 out-of-scope items in each training set, "at least 70%" means
+  12 of 16 (75%) in training; held-out folds range from 50% to 100% and
+  pool to 70%.
+- The rule was chosen by looking at these same 74 items. Cross-validation
+  protects the thresholds, not the choice between five rules.
