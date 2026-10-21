@@ -101,7 +101,7 @@ Additional locked decisions:
 | Vector store | PostgreSQL + pgvector |
 | Sparse | BM25 (bge-m3 learned sparse as alt config) |
 | Reranker | bge-reranker-large |
-| Generator | Qwen3-14B 4-bit (local RTX A4000 16GB); hosted API fallback |
+| Generator | Qwen3-14B AWQ 4-bit via vLLM on the Sunway HPC (Open OnDemand); hosted API fallback (config switch) |
 | Orchestration | LangChain LCEL chain for generation (prompt, ChatOpenAI), not agents; retrieval is plain Python (M3) |
 | Backend | FastAPI, typed Pydantic schemas, streaming |
 | Frontend | React + TypeScript (+ Tailwind, shadcn/ui) |
