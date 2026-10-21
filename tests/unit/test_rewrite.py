@@ -19,8 +19,13 @@ class RecordingFake(GenericFakeChatModel):
         return super()._generate(messages, *args, **kwargs)
 
 
-def test_rules_are_the_authors_prompt_verbatim():
-    assert REWRITE_RULES == AUTHOR_PROMPT
+# The author's prompt alone made Qwen3 answer in Malay for 82 of 97 questions ("Malaysian" read as
+# Bahasa Malaysia), against the agreed design (translate to English). One sentence is added.
+ENGLISH_LINE = "\nWrite the rewritten question in English."
+
+
+def test_rules_are_the_authors_prompt_plus_english():
+    assert REWRITE_RULES == AUTHOR_PROMPT + ENGLISH_LINE
 
 
 def test_clean_strips_label_quotes_and_extra_lines():
@@ -53,7 +58,7 @@ def test_rewrite_query_uses_the_question():
     model.seen = []
     assert rewrite_query(REWRITE_PROMPT | model, "boss never pay me") == "When must an employer pay wages?"
     system, human = model.seen[0]
-    assert system.content == AUTHOR_PROMPT and human.content == "boss never pay me"
+    assert system.content == AUTHOR_PROMPT + ENGLISH_LINE and human.content == "boss never pay me"
 
 
 def test_malay_variants_from_csv(tmp_path):
