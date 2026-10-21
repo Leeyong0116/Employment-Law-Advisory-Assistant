@@ -138,14 +138,15 @@ gate in both cases.
    - SWK-092, a Sarawak question, gets "Employment Act 1955", which does
      not apply in Sarawak.
    - SBH-019 gets "Employment Agencies Act 1985", which is not held.
+   - SWK-093 gets a "Minimum Wages Act 1961", which does not exist.
 
    Retrieval is still filtered by region, so EA chunks cannot reach a
    Sarawak answer, but the added words can tilt BM25 and the reranker.
    Not fixed: changing the author's prompt a second time was left to
    the author. Listed in the report (`rewrite_checks.added_act_names`).
 3. **Number check noise.** `added_numbers` flags 17 rewrites, mostly digits
-   written as words ("3" to "three") or the year of an added Act name. On
-   reading, no rewrite invents a new amount or period.
+   written as words ("3" to "three") or the year of an added Act name. All 17
+   were read: no rewrite invents a new amount or period.
 4. **Slow scoring.** The score stage took over 10 minutes while the dev
    console held the GPU at the same time.
 
