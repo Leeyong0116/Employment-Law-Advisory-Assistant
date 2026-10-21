@@ -13,14 +13,17 @@ by vLLM on the Sunway HPC, and comes back as a typed `GeneratedAnswer`:
 prose with numbered markers, and a separate list of citations copied from
 chunk metadata. When retrieval abstains, no model call is made.
 
-- 72 new tests, 406 in total, all passing.
+- 79 new tests, 413 in total, all passing.
 - Live smoke run: 7/7 checks (Section 6).
-- Gold set v1, all 77 items: 52 answered, 21 abstained at the gate,
-  4 answered `INSUFFICIENT_CONTEXT` by the model. 0 invalid markers,
-  0 citations outside the user's region, 0 truncated answers (Section 7).
-- Manual reading of 10 answered items: citations and pages match the
-  chunks in 10/10; the content is right in 7, wrong or partly wrong in 3
-  (Section 8).
+- Gold set v1, all 77 items, prompt `m4-v2`: 49 answered, 21 abstained at
+  the gate, 7 declined by the model (`INSUFFICIENT_CONTEXT`). 0 invalid
+  markers, 0 citations outside the user's region, 0 truncated answers
+  (Section 7).
+- Manual reading of 10 answered items (first run, `m4-v1`): citations and
+  pages match the chunks in 10/10; the content was right in 7, wrong or
+  partly wrong in 3. Under `m4-v2` two of the three are now right (Section 8).
+- A whole-branch code review found one critical and two important problems;
+  all three were fixed and the gold run repeated (Section 5).
 
 ## 2. Where the model runs
 
@@ -58,6 +61,12 @@ copies the citation fields from block n. A number with no block is removed
 and recorded (`invalid_markers`). This is traceability: it shows which
 provision a sentence points to, not that the provision legally supports it
 (core contribution 2).
+
+Prompt `m4-v2` (after the review, Section 5) adds rule 5: a source marked
+DELETED, OMITTED or NOT YET IN FORCE is not current law; do not state it as
+the current rule, and if mentioned, say so. Cited chunks that are not
+current law are counted in `non_current_citations` (deleted, omitted, not
+yet in force, or superseded and cited without the amending chunk).
 
 Other content of the prompt: the user's region; the Sarawak worker to
 employee note (A1754 s. 2) when a Sarawak chunk is present; status labels
@@ -103,7 +112,28 @@ docker compose run --rm ml python -m src.generation.run data/eval/runs/<date>_re
    1.109.1 and httpx 0.28.1; these are now pinned in `requirements.txt`
    (`pip check` clean, no image rebuild).
 
-## 6. Smoke run (live, 7/7)
+4. **Code review findings (independent reviewer on the whole branch).**
+   Verdict "ready with fixes". Fixed, each with a test that failed first:
+   - Critical: the model sometimes explained and then wrote
+     `INSUFFICIENT_CONTEXT`; only a bare sentinel was recognised, so 4 gold
+     items (SBH-043, RDT-009, SBH-033, SWK-093) were stored as answered,
+     three with no citation, and the user would have seen the raw token.
+     Now the sentinel anywhere in the reply means `insufficient_context`.
+   - Important: block headers labelled DELETED and NOT YET IN FORCE, but no
+     rule said what the labels mean; the model stated such provisions as
+     current law (SWK-184, SBH-027, SWK-092, SWK-023). Added rule 5 and the
+     `non_current_citations` check (prompt `m4-v2`).
+   - Important: an HTML 502/503 page from the OOD proxy (vLLM job down)
+     was reported as an expired session and not retried. Now only a
+     redirect, a 401 or an HTML page with a success status counts as the
+     login page.
+   Eight minor findings are deferred: resume after a half-written line,
+   an empty reply stops the batch, an unclosed `<think>`, regex edge cases
+   in the checks, the async client for M5, HTTP 429, the raw reply not
+   stored. The first run's answers are kept as
+   `2026-10-21_answers_m4-v1.jsonl`.
+
+## 6. Smoke run (live, 7/7 with both `m4-v1` and `m4-v2`)
 
 | Check | Result |
 |---|---|
@@ -119,38 +149,47 @@ Seen in the no-region answer: "98 days" is cited to both the superseded
 Cap. 76 s. 84(1) and A1754 s. 24, and EA s. 37(1) shows as "definition of
 children" (the known label issue for that subsection).
 
-## 7. Gold set v1 answer run (77 items, hybrid_rerank, gate on)
+## 7. Gold set v1 answer run (77 items, hybrid_rerank, gate on, prompt m4-v2)
 
-Files: `data/eval/runs/2026-10-21_retrieval.jsonl`, `data/eval/runs/2026-10-21_answers.jsonl`.
+Files: `data/eval/runs/2026-10-21_retrieval.jsonl`, `data/eval/runs/2026-10-21_answers.jsonl`
+(first run, before the review fixes: `2026-10-21_answers_m4-v1.jsonl`).
 
 | Scope | Answered | Gate abstained | Model: insufficient context |
 |---|---|---|---|
 | In scope (54) | 46 | 6 | 2 |
-| Out of scope (20) | 5 | 13 | 2 |
+| Out of scope (20) | 2 | 13 | 5 |
 | External (3) | 1 | 2 | 0 |
 
-- The model's own refusal adds to the gate. Out of scope not answered:
-  13/20 by the gate alone, 15/20 with the model's refusals. In scope not
+- The model's refusal adds to the gate. Out of scope not answered: 13/20
+  by the gate alone, 18/20 with the model's refusals. In scope not
   answered: 6/54 by the gate, 8/54 in total. These are in-sample counts at
-  the calibrated threshold; the figures to report remain the 5-fold rates
-  (devlog 2026-10-16), and this is one run, not a calibrated rule.
+  the calibrated threshold; the figures to report for the gate remain the
+  5-fold rates (devlog 2026-10-16), and this is one run, not a calibrated
+  rule. Refused by the model: JPPM-013, JTKSM-05, RDT-009, SBH-033,
+  SBH-043, SWK-086, SWK-093.
 - Answered in scope with expected chunks: 46; 41 cite at least one expected
   chunk.
-- Citations per answer: mean 2.1, median 1.5. Invalid markers: 0.
-  Citations outside the user's region: 0. Truncated: 0.
-- Prompt size: median 1,159 tokens, largest 3,597 (limit 16,384).
-- **Rule 3 is broken in 12 of 52 answers**: the model names a section or an
+- Citations per answer: mean 2.35, median 2. Invalid markers: 0.
+  Citations outside the user's region: 0. Truncated: 0. Answered with no
+  citation: 0.
+- Prompt size: median 1,205 tokens, largest 3,643 (limit 16,384).
+- **Rule 3 is broken in 9 of 49 answers**: the model names a section or an
   Act in its prose, often by echoing the question ("Section 20 of the IRA
   1967"). These names are not citations and are not shown as sources, but
   they are model-written legal references. Counted in `provision_mentions`.
-- **Uncited sentences**: 41 in 25 answers. The count overstates the
+- **Non-current law cited in 4 answers.** SBH-027 and SWK-092 now say the
+  provision is not yet in force or deleted (rule 5 followed). SWK-184 says
+  so too, but wrongly applies "not yet in force" to the whole of Act A1754
+  (only its s. 52, Part IVa, is). SWK-152 describes "the new entitlement
+  from 1 May 2025" while citing only the superseded Cap. 76 s. 105E(1).
+- **Uncited sentences**: 48 in 22 answers. The count overstates the
   problem: the model often puts one marker at the end of a paragraph
   (SWK-040: three sentences counted, all from the one cited subsection).
-  It also catches real cases (JTKSM-11, below).
+  It also catches real cases (JTKSM-11 in the first run, below).
 
-## 8. Manual inspection (10 answered items, seed 42)
+## 8. Manual inspection (10 answered items, seed 42, first run `m4-v1`)
 
-Each displayed citation, its page and its chunk agree in 10/10 (by
+Done on the first run, before the review fixes. Each displayed citation, its page and its chunk agree in 10/10 (by
 construction: the fields are copied). The content was read against the
 cited chunk text and the gold reference:
 
@@ -167,6 +206,14 @@ cited chunk text and the gold reference:
 | SWK-040 | right | |
 | SWK-134 | right | Cites A1754 s. 26 (new s. 92B). |
 
+Rechecked under `m4-v2`: JTKSM-11 now answers that the decision to return
+early is the employee's, with the employer's agreement (right); SBH-078 now
+gives only the fine (right, no misattributed sentence); JPPM-003 is still
+the same wrong "Yes". The prompt change moved these answers even at
+temperature 0, so the inspection of the `m4-v1` run does not carry over as
+a measurement of `m4-v2`; the next inspection should be on the run that is
+reported.
+
 Faithfulness (RAGAS) should catch JTKSM-11 and maybe JPPM-003 at the
 answer level, but not SBH-078: that statement is supported by the context
 as a whole, only cited to the wrong block. A per-citation check (does the
@@ -177,11 +224,13 @@ metric to discuss with Dr Azam.
 
 - One run, one generator, temperature 0. No repeat runs to measure
   variation yet.
-- Prompt rule 3 is followed in 77% of answers only; a stricter rule or a
+- Prompt rule 3 is followed in 82% of answers only (40/49); a stricter rule or a
   post-edit that strips section names is possible, but stripping would
   change the model's text, which faithfulness scoring then reads.
 - `uncited_sentences` is a heuristic (sentence of 6+ words, no marker).
 - No RAGAS answer metrics yet.
+- Possible advice wording seen in RDT-006 ("your employer should pay you"),
+  against rule 6; no automated advice check exists.
 
 ## 10. Next steps
 
