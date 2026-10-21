@@ -194,7 +194,40 @@ def stage_report() -> None:
     print(f"-> {REPORT}")
 
 
-STAGES = {"rewrite": stage_rewrite, "score": stage_score, "report": stage_report}
+OOS_ANSWERS = RUNS / "2026-10-21_rewrite_oos_answers.jsonl"
+
+
+def stage_answers() -> None:
+    """Answer every out-of-scope question that passes under some rule, from that rule's retrieval.
+
+    The RetrievalResult gets the user's original question back before answering:
+    the rewrite is used for retrieval only.
+    """
+    from src.generation.answer import Answerer
+    from src.retrieval.schema import RetrievalResult
+
+    gold = {g["id"]: g for g in _jsonl(GOLD)}
+    report = json.loads(REPORT.read_text(encoding="utf-8"))
+    results = {(r["id"], r["variant"]): r["result"] for r in _jsonl(RECORDS)}
+    passing: dict[tuple[str, str], list[str]] = {}
+    for rule, r in report["rules"].items():
+        for item_id, source in r["out_of_scope_passing"]:
+            passing.setdefault((item_id, source), []).append(rule)
+    answerer = Answerer.from_config()
+    with OOS_ANSWERS.open("w", encoding="utf-8") as out:
+        for (item_id, source), rules in sorted(passing.items()):
+            result = RetrievalResult.model_validate(results[(item_id, source)])
+            result = result.model_copy(update={"query": gold[item_id]["question"], "abstained": False,
+                                               "abstain_reason": None})
+            answer = answerer.answer(result)
+            out.write(json.dumps({"id": item_id, "source": source, "rules": rules,
+                                  "answer": answer.model_dump()}, ensure_ascii=False) + "\n")
+            out.flush()
+            print(f"{item_id:10} {source:4} {answer.status:22} {len(answer.citations)} citations  {rules}")
+    print(f"-> {OOS_ANSWERS}")
+
+
+STAGES = {"rewrite": stage_rewrite, "score": stage_score, "report": stage_report, "answers": stage_answers}
 
 
 def main() -> None:

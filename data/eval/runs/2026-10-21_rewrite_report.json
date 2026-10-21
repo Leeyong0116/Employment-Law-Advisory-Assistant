@@ -1,0 +1,2714 @@
+{
+  "items": {
+    "in_scope": 54,
+    "out_of_scope": 20,
+    "informal": 5,
+    "malay": 19
+  },
+  "min_out_of_scope_declined": 0.7,
+  "auc": {
+    "orig": 0.918,
+    "rew": 0.941,
+    "max": 0.935
+  },
+  "retrieval": {
+    "english_original": {
+      "n": 54,
+      "hit@5": 0.926,
+      "mrr": 0.793
+    },
+    "english_rewrite": {
+      "n": 54,
+      "hit@5": 0.833,
+      "mrr": 0.665
+    },
+    "malay_rewrite": {
+      "n": 19,
+      "hit@5": 0.842,
+      "mrr": 0.739
+    },
+    "malay_parents_english_original": {
+      "n": 19,
+      "hit@5": 0.895,
+      "mrr": 0.8
+    }
+  },
+  "rewrite_checks": {
+    "added_numbers": [
+      "JTKSM-13",
+      "JTKSM-15",
+      "JTKSM-16",
+      "JTKSM-35",
+      "RDT-008",
+      "RDT-010",
+      "SBH-046",
+      "SWK-155",
+      "RDT-009",
+      "SBH-010",
+      "SBH-019",
+      "SWK-089",
+      "SWK-092",
+      "SWK-093",
+      "JTKSM-15-ms",
+      "JTKSM-34-ms",
+      "JTKSM-35-ms"
+    ],
+    "added_act_names": [
+      "JPPM-002",
+      "JTKSM-10",
+      "JTKSM-13",
+      "JTKSM-16",
+      "JTKSM-19",
+      "JTKSM-26",
+      "JTKSM-44",
+      "JTKSM-45",
+      "RDT-010",
+      "SBH-046",
+      "SWK-152",
+      "SBH-010",
+      "SBH-014",
+      "SBH-019",
+      "SBH-020",
+      "SBH-103",
+      "SWK-089",
+      "SWK-092",
+      "SWK-093",
+      "JTKSM-10-ms",
+      "JTKSM-45-ms"
+    ]
+  },
+  "rules": {
+    "baseline": {
+      "out_of_scope_declined": 0.7,
+      "in_scope_declined": 0.167,
+      "informal_in_scope_declined": 0.6,
+      "malay_in_scope_declined": 1.0,
+      "out_of_scope_passing": [
+        [
+          "JPPM-013",
+          "orig"
+        ],
+        [
+          "RDT-009",
+          "orig"
+        ],
+        [
+          "SWK-069",
+          "orig"
+        ],
+        [
+          "SWK-086",
+          "orig"
+        ],
+        [
+          "SWK-092",
+          "orig"
+        ],
+        [
+          "SWK-093",
+          "orig"
+        ]
+      ],
+      "in_scope_declined_ids": [
+        "JTKSM-07",
+        "JTKSM-26",
+        "JTKSM-34",
+        "JTKSM-45",
+        "RDT-007",
+        "RDT-008",
+        "RDT-010",
+        "SWK-145",
+        "SWK-152"
+      ],
+      "fold_params": [
+        {
+          "t": 0.0803574688222071
+        },
+        {
+          "t": 0.058453241041096754
+        },
+        {
+          "t": 0.058453241041096754
+        },
+        {
+          "t": 0.04224549566368847
+        },
+        {
+          "t": 0.04224549566368847
+        }
+      ],
+      "decisions": {
+        "JPPM-002": {
+          "passed": true,
+          "source": "orig",
+          "fold": 0
+        },
+        "JPPM-011": {
+          "passed": true,
+          "source": "orig",
+          "fold": 0
+        },
+        "JTKSM-13": {
+          "passed": true,
+          "source": "orig",
+          "fold": 0
+        },
+        "JTKSM-34": {
+          "passed": false,
+          "source": "orig",
+          "fold": 0
+        },
+        "JTKSM-45": {
+          "passed": false,
+          "source": "orig",
+          "fold": 0
+        },
+        "RDT-005": {
+          "passed": true,
+          "source": "orig",
+          "fold": 0
+        },
+        "SBH-022": {
+          "passed": true,
+          "source": "orig",
+          "fold": 0
+        },
+        "SBH-041": {
+          "passed": true,
+          "source": "orig",
+          "fold": 0
+        },
+        "SBH-094": {
+          "passed": true,
+          "source": "orig",
+          "fold": 0
+        },
+        "SWK-044": {
+          "passed": true,
+          "source": "orig",
+          "fold": 0
+        },
+        "SWK-152": {
+          "passed": false,
+          "source": "orig",
+          "fold": 0
+        },
+        "JPPM-012": {
+          "passed": false,
+          "source": "orig",
+          "fold": 0
+        },
+        "SBH-010": {
+          "passed": false,
+          "source": "orig",
+          "fold": 0
+        },
+        "SBH-033": {
+          "passed": false,
+          "source": "orig",
+          "fold": 0
+        },
+        "SWK-088": {
+          "passed": false,
+          "source": "orig",
+          "fold": 0
+        },
+        "JTKSM-13-ms": {
+          "passed": false,
+          "source": "orig",
+          "fold": 0
+        },
+        "JTKSM-34-ms": {
+          "passed": false,
+          "source": "orig",
+          "fold": 0
+        },
+        "JTKSM-45-ms": {
+          "passed": false,
+          "source": "orig",
+          "fold": 0
+        },
+        "JPPM-003": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "JTKSM-05": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "JTKSM-15": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "JTKSM-35": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "JTKSM-64": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "RDT-006": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "SBH-026": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "SBH-043": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "SWK-008": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "SWK-106": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "SWK-155": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "JPPM-013": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "SBH-011": {
+          "passed": false,
+          "source": "orig",
+          "fold": 1
+        },
+        "SBH-103": {
+          "passed": false,
+          "source": "orig",
+          "fold": 1
+        },
+        "SWK-089": {
+          "passed": false,
+          "source": "orig",
+          "fold": 1
+        },
+        "JTKSM-05-ms": {
+          "passed": false,
+          "source": "orig",
+          "fold": 1
+        },
+        "JTKSM-15-ms": {
+          "passed": false,
+          "source": "orig",
+          "fold": 1
+        },
+        "JTKSM-35-ms": {
+          "passed": false,
+          "source": "orig",
+          "fold": 1
+        },
+        "JTKSM-64-ms": {
+          "passed": false,
+          "source": "orig",
+          "fold": 1
+        },
+        "JPPM-005": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "JTKSM-07": {
+          "passed": false,
+          "source": "orig",
+          "fold": 2
+        },
+        "JTKSM-16": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "JTKSM-37": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "JTKSM-68": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "RDT-007": {
+          "passed": false,
+          "source": "orig",
+          "fold": 2
+        },
+        "SBH-027": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "SBH-046": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "SWK-023": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "SWK-124": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "SWK-165": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "RDT-009": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "SBH-014": {
+          "passed": false,
+          "source": "orig",
+          "fold": 2
+        },
+        "SWK-064": {
+          "passed": false,
+          "source": "orig",
+          "fold": 2
+        },
+        "SWK-091": {
+          "passed": false,
+          "source": "orig",
+          "fold": 2
+        },
+        "JTKSM-07-ms": {
+          "passed": false,
+          "source": "orig",
+          "fold": 2
+        },
+        "JTKSM-16-ms": {
+          "passed": false,
+          "source": "orig",
+          "fold": 2
+        },
+        "JTKSM-37-ms": {
+          "passed": false,
+          "source": "orig",
+          "fold": 2
+        },
+        "JTKSM-68-ms": {
+          "passed": false,
+          "source": "orig",
+          "fold": 2
+        },
+        "JPPM-008": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "JTKSM-10": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "JTKSM-19": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "JTKSM-40": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "JTKSM-71": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "RDT-008": {
+          "passed": false,
+          "source": "orig",
+          "fold": 3
+        },
+        "SBH-038": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "SBH-051": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "SWK-028": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "SWK-134": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "SWK-184": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "SBH-007": {
+          "passed": false,
+          "source": "orig",
+          "fold": 3
+        },
+        "SBH-019": {
+          "passed": false,
+          "source": "orig",
+          "fold": 3
+        },
+        "SWK-069": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "SWK-092": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "JTKSM-10-ms": {
+          "passed": false,
+          "source": "orig",
+          "fold": 3
+        },
+        "JTKSM-19-ms": {
+          "passed": false,
+          "source": "orig",
+          "fold": 3
+        },
+        "JTKSM-40-ms": {
+          "passed": false,
+          "source": "orig",
+          "fold": 3
+        },
+        "JTKSM-71-ms": {
+          "passed": false,
+          "source": "orig",
+          "fold": 3
+        },
+        "JPPM-009": {
+          "passed": true,
+          "source": "orig",
+          "fold": 4
+        },
+        "JTKSM-11": {
+          "passed": true,
+          "source": "orig",
+          "fold": 4
+        },
+        "JTKSM-26": {
+          "passed": false,
+          "source": "orig",
+          "fold": 4
+        },
+        "JTKSM-44": {
+          "passed": true,
+          "source": "orig",
+          "fold": 4
+        },
+        "JTKSM-74": {
+          "passed": true,
+          "source": "orig",
+          "fold": 4
+        },
+        "RDT-010": {
+          "passed": false,
+          "source": "orig",
+          "fold": 4
+        },
+        "SBH-040": {
+          "passed": true,
+          "source": "orig",
+          "fold": 4
+        },
+        "SBH-078": {
+          "passed": true,
+          "source": "orig",
+          "fold": 4
+        },
+        "SWK-040": {
+          "passed": true,
+          "source": "orig",
+          "fold": 4
+        },
+        "SWK-145": {
+          "passed": false,
+          "source": "orig",
+          "fold": 4
+        },
+        "SBH-008": {
+          "passed": false,
+          "source": "orig",
+          "fold": 4
+        },
+        "SBH-020": {
+          "passed": false,
+          "source": "orig",
+          "fold": 4
+        },
+        "SWK-086": {
+          "passed": true,
+          "source": "orig",
+          "fold": 4
+        },
+        "SWK-093": {
+          "passed": true,
+          "source": "orig",
+          "fold": 4
+        },
+        "JTKSM-11-ms": {
+          "passed": false,
+          "source": "orig",
+          "fold": 4
+        },
+        "JTKSM-26-ms": {
+          "passed": false,
+          "source": "orig",
+          "fold": 4
+        },
+        "JTKSM-44-ms": {
+          "passed": false,
+          "source": "orig",
+          "fold": 4
+        },
+        "JTKSM-74-ms": {
+          "passed": false,
+          "source": "orig",
+          "fold": 4
+        }
+      }
+    },
+    "rewrite": {
+      "out_of_scope_declined": 0.7,
+      "in_scope_declined": 0.037,
+      "informal_in_scope_declined": 0.2,
+      "malay_in_scope_declined": 0.105,
+      "out_of_scope_passing": [
+        [
+          "JPPM-012",
+          "rew"
+        ],
+        [
+          "RDT-009",
+          "rew"
+        ],
+        [
+          "SWK-064",
+          "rew"
+        ],
+        [
+          "SWK-086",
+          "rew"
+        ],
+        [
+          "SWK-092",
+          "rew"
+        ],
+        [
+          "SWK-093",
+          "rew"
+        ]
+      ],
+      "in_scope_declined_ids": [
+        "JPPM-005",
+        "RDT-008"
+      ],
+      "fold_params": [
+        {
+          "t": 0.010693757736175495
+        },
+        {
+          "t": 0.011029470022501838
+        },
+        {
+          "t": 0.008030813216260067
+        },
+        {
+          "t": 0.010693757736175495
+        },
+        {
+          "t": 0.008030813216260067
+        }
+      ],
+      "decisions": {
+        "JPPM-002": {
+          "passed": true,
+          "source": "rew",
+          "fold": 0
+        },
+        "JPPM-011": {
+          "passed": true,
+          "source": "rew",
+          "fold": 0
+        },
+        "JTKSM-13": {
+          "passed": true,
+          "source": "rew",
+          "fold": 0
+        },
+        "JTKSM-34": {
+          "passed": true,
+          "source": "rew",
+          "fold": 0
+        },
+        "JTKSM-45": {
+          "passed": true,
+          "source": "rew",
+          "fold": 0
+        },
+        "RDT-005": {
+          "passed": true,
+          "source": "rew",
+          "fold": 0
+        },
+        "SBH-022": {
+          "passed": true,
+          "source": "rew",
+          "fold": 0
+        },
+        "SBH-041": {
+          "passed": true,
+          "source": "rew",
+          "fold": 0
+        },
+        "SBH-094": {
+          "passed": true,
+          "source": "rew",
+          "fold": 0
+        },
+        "SWK-044": {
+          "passed": true,
+          "source": "rew",
+          "fold": 0
+        },
+        "SWK-152": {
+          "passed": true,
+          "source": "rew",
+          "fold": 0
+        },
+        "JPPM-012": {
+          "passed": true,
+          "source": "rew",
+          "fold": 0
+        },
+        "SBH-010": {
+          "passed": false,
+          "source": "rew",
+          "fold": 0
+        },
+        "SBH-033": {
+          "passed": false,
+          "source": "rew",
+          "fold": 0
+        },
+        "SWK-088": {
+          "passed": false,
+          "source": "rew",
+          "fold": 0
+        },
+        "JTKSM-13-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 0
+        },
+        "JTKSM-34-ms": {
+          "passed": false,
+          "source": "rew",
+          "fold": 0
+        },
+        "JTKSM-45-ms": {
+          "passed": false,
+          "source": "rew",
+          "fold": 0
+        },
+        "JPPM-003": {
+          "passed": true,
+          "source": "rew",
+          "fold": 1
+        },
+        "JTKSM-05": {
+          "passed": true,
+          "source": "rew",
+          "fold": 1
+        },
+        "JTKSM-15": {
+          "passed": true,
+          "source": "rew",
+          "fold": 1
+        },
+        "JTKSM-35": {
+          "passed": true,
+          "source": "rew",
+          "fold": 1
+        },
+        "JTKSM-64": {
+          "passed": true,
+          "source": "rew",
+          "fold": 1
+        },
+        "RDT-006": {
+          "passed": true,
+          "source": "rew",
+          "fold": 1
+        },
+        "SBH-026": {
+          "passed": true,
+          "source": "rew",
+          "fold": 1
+        },
+        "SBH-043": {
+          "passed": true,
+          "source": "rew",
+          "fold": 1
+        },
+        "SWK-008": {
+          "passed": true,
+          "source": "rew",
+          "fold": 1
+        },
+        "SWK-106": {
+          "passed": true,
+          "source": "rew",
+          "fold": 1
+        },
+        "SWK-155": {
+          "passed": true,
+          "source": "rew",
+          "fold": 1
+        },
+        "JPPM-013": {
+          "passed": false,
+          "source": "rew",
+          "fold": 1
+        },
+        "SBH-011": {
+          "passed": false,
+          "source": "rew",
+          "fold": 1
+        },
+        "SBH-103": {
+          "passed": false,
+          "source": "rew",
+          "fold": 1
+        },
+        "SWK-089": {
+          "passed": false,
+          "source": "rew",
+          "fold": 1
+        },
+        "JTKSM-05-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 1
+        },
+        "JTKSM-15-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 1
+        },
+        "JTKSM-35-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 1
+        },
+        "JTKSM-64-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 1
+        },
+        "JPPM-005": {
+          "passed": false,
+          "source": "rew",
+          "fold": 2
+        },
+        "JTKSM-07": {
+          "passed": true,
+          "source": "rew",
+          "fold": 2
+        },
+        "JTKSM-16": {
+          "passed": true,
+          "source": "rew",
+          "fold": 2
+        },
+        "JTKSM-37": {
+          "passed": true,
+          "source": "rew",
+          "fold": 2
+        },
+        "JTKSM-68": {
+          "passed": true,
+          "source": "rew",
+          "fold": 2
+        },
+        "RDT-007": {
+          "passed": true,
+          "source": "rew",
+          "fold": 2
+        },
+        "SBH-027": {
+          "passed": true,
+          "source": "rew",
+          "fold": 2
+        },
+        "SBH-046": {
+          "passed": true,
+          "source": "rew",
+          "fold": 2
+        },
+        "SWK-023": {
+          "passed": true,
+          "source": "rew",
+          "fold": 2
+        },
+        "SWK-124": {
+          "passed": true,
+          "source": "rew",
+          "fold": 2
+        },
+        "SWK-165": {
+          "passed": true,
+          "source": "rew",
+          "fold": 2
+        },
+        "RDT-009": {
+          "passed": true,
+          "source": "rew",
+          "fold": 2
+        },
+        "SBH-014": {
+          "passed": false,
+          "source": "rew",
+          "fold": 2
+        },
+        "SWK-064": {
+          "passed": true,
+          "source": "rew",
+          "fold": 2
+        },
+        "SWK-091": {
+          "passed": false,
+          "source": "rew",
+          "fold": 2
+        },
+        "JTKSM-07-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 2
+        },
+        "JTKSM-16-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 2
+        },
+        "JTKSM-37-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 2
+        },
+        "JTKSM-68-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 2
+        },
+        "JPPM-008": {
+          "passed": true,
+          "source": "rew",
+          "fold": 3
+        },
+        "JTKSM-10": {
+          "passed": true,
+          "source": "rew",
+          "fold": 3
+        },
+        "JTKSM-19": {
+          "passed": true,
+          "source": "rew",
+          "fold": 3
+        },
+        "JTKSM-40": {
+          "passed": true,
+          "source": "rew",
+          "fold": 3
+        },
+        "JTKSM-71": {
+          "passed": true,
+          "source": "rew",
+          "fold": 3
+        },
+        "RDT-008": {
+          "passed": false,
+          "source": "rew",
+          "fold": 3
+        },
+        "SBH-038": {
+          "passed": true,
+          "source": "rew",
+          "fold": 3
+        },
+        "SBH-051": {
+          "passed": true,
+          "source": "rew",
+          "fold": 3
+        },
+        "SWK-028": {
+          "passed": true,
+          "source": "rew",
+          "fold": 3
+        },
+        "SWK-134": {
+          "passed": true,
+          "source": "rew",
+          "fold": 3
+        },
+        "SWK-184": {
+          "passed": true,
+          "source": "rew",
+          "fold": 3
+        },
+        "SBH-007": {
+          "passed": false,
+          "source": "rew",
+          "fold": 3
+        },
+        "SBH-019": {
+          "passed": false,
+          "source": "rew",
+          "fold": 3
+        },
+        "SWK-069": {
+          "passed": false,
+          "source": "rew",
+          "fold": 3
+        },
+        "SWK-092": {
+          "passed": true,
+          "source": "rew",
+          "fold": 3
+        },
+        "JTKSM-10-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 3
+        },
+        "JTKSM-19-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 3
+        },
+        "JTKSM-40-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 3
+        },
+        "JTKSM-71-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 3
+        },
+        "JPPM-009": {
+          "passed": true,
+          "source": "rew",
+          "fold": 4
+        },
+        "JTKSM-11": {
+          "passed": true,
+          "source": "rew",
+          "fold": 4
+        },
+        "JTKSM-26": {
+          "passed": true,
+          "source": "rew",
+          "fold": 4
+        },
+        "JTKSM-44": {
+          "passed": true,
+          "source": "rew",
+          "fold": 4
+        },
+        "JTKSM-74": {
+          "passed": true,
+          "source": "rew",
+          "fold": 4
+        },
+        "RDT-010": {
+          "passed": true,
+          "source": "rew",
+          "fold": 4
+        },
+        "SBH-040": {
+          "passed": true,
+          "source": "rew",
+          "fold": 4
+        },
+        "SBH-078": {
+          "passed": true,
+          "source": "rew",
+          "fold": 4
+        },
+        "SWK-040": {
+          "passed": true,
+          "source": "rew",
+          "fold": 4
+        },
+        "SWK-145": {
+          "passed": true,
+          "source": "rew",
+          "fold": 4
+        },
+        "SBH-008": {
+          "passed": false,
+          "source": "rew",
+          "fold": 4
+        },
+        "SBH-020": {
+          "passed": false,
+          "source": "rew",
+          "fold": 4
+        },
+        "SWK-086": {
+          "passed": true,
+          "source": "rew",
+          "fold": 4
+        },
+        "SWK-093": {
+          "passed": true,
+          "source": "rew",
+          "fold": 4
+        },
+        "JTKSM-11-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 4
+        },
+        "JTKSM-26-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 4
+        },
+        "JTKSM-44-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 4
+        },
+        "JTKSM-74-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 4
+        }
+      }
+    },
+    "max": {
+      "out_of_scope_declined": 0.7,
+      "in_scope_declined": 0.13,
+      "informal_in_scope_declined": 0.4,
+      "malay_in_scope_declined": 0.211,
+      "out_of_scope_passing": [
+        [
+          "JPPM-013",
+          "orig"
+        ],
+        [
+          "RDT-009",
+          "orig"
+        ],
+        [
+          "SWK-069",
+          "orig"
+        ],
+        [
+          "SWK-086",
+          "orig"
+        ],
+        [
+          "SWK-092",
+          "orig"
+        ],
+        [
+          "SWK-093",
+          "orig"
+        ]
+      ],
+      "in_scope_declined_ids": [
+        "JTKSM-07",
+        "JTKSM-34",
+        "JTKSM-45",
+        "RDT-007",
+        "RDT-008",
+        "SWK-145",
+        "SWK-152"
+      ],
+      "fold_params": [
+        {
+          "t": 0.0803574688222071
+        },
+        {
+          "t": 0.058453241041096754
+        },
+        {
+          "t": 0.058453241041096754
+        },
+        {
+          "t": 0.04224549566368847
+        },
+        {
+          "t": 0.04224549566368847
+        }
+      ],
+      "decisions": {
+        "JPPM-002": {
+          "passed": true,
+          "source": "orig",
+          "fold": 0
+        },
+        "JPPM-011": {
+          "passed": true,
+          "source": "orig",
+          "fold": 0
+        },
+        "JTKSM-13": {
+          "passed": true,
+          "source": "orig",
+          "fold": 0
+        },
+        "JTKSM-34": {
+          "passed": false,
+          "source": "rew",
+          "fold": 0
+        },
+        "JTKSM-45": {
+          "passed": false,
+          "source": "orig",
+          "fold": 0
+        },
+        "RDT-005": {
+          "passed": true,
+          "source": "rew",
+          "fold": 0
+        },
+        "SBH-022": {
+          "passed": true,
+          "source": "orig",
+          "fold": 0
+        },
+        "SBH-041": {
+          "passed": true,
+          "source": "orig",
+          "fold": 0
+        },
+        "SBH-094": {
+          "passed": true,
+          "source": "orig",
+          "fold": 0
+        },
+        "SWK-044": {
+          "passed": true,
+          "source": "orig",
+          "fold": 0
+        },
+        "SWK-152": {
+          "passed": false,
+          "source": "rew",
+          "fold": 0
+        },
+        "JPPM-012": {
+          "passed": false,
+          "source": "rew",
+          "fold": 0
+        },
+        "SBH-010": {
+          "passed": false,
+          "source": "rew",
+          "fold": 0
+        },
+        "SBH-033": {
+          "passed": false,
+          "source": "orig",
+          "fold": 0
+        },
+        "SWK-088": {
+          "passed": false,
+          "source": "rew",
+          "fold": 0
+        },
+        "JTKSM-13-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 0
+        },
+        "JTKSM-34-ms": {
+          "passed": false,
+          "source": "rew",
+          "fold": 0
+        },
+        "JTKSM-45-ms": {
+          "passed": false,
+          "source": "rew",
+          "fold": 0
+        },
+        "JPPM-003": {
+          "passed": true,
+          "source": "rew",
+          "fold": 1
+        },
+        "JTKSM-05": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "JTKSM-15": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "JTKSM-35": {
+          "passed": true,
+          "source": "rew",
+          "fold": 1
+        },
+        "JTKSM-64": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "RDT-006": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "SBH-026": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "SBH-043": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "SWK-008": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "SWK-106": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "SWK-155": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "JPPM-013": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "SBH-011": {
+          "passed": false,
+          "source": "rew",
+          "fold": 1
+        },
+        "SBH-103": {
+          "passed": false,
+          "source": "rew",
+          "fold": 1
+        },
+        "SWK-089": {
+          "passed": false,
+          "source": "orig",
+          "fold": 1
+        },
+        "JTKSM-05-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 1
+        },
+        "JTKSM-15-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 1
+        },
+        "JTKSM-35-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 1
+        },
+        "JTKSM-64-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 1
+        },
+        "JPPM-005": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "JTKSM-07": {
+          "passed": false,
+          "source": "orig",
+          "fold": 2
+        },
+        "JTKSM-16": {
+          "passed": true,
+          "source": "rew",
+          "fold": 2
+        },
+        "JTKSM-37": {
+          "passed": true,
+          "source": "rew",
+          "fold": 2
+        },
+        "JTKSM-68": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "RDT-007": {
+          "passed": false,
+          "source": "orig",
+          "fold": 2
+        },
+        "SBH-027": {
+          "passed": true,
+          "source": "rew",
+          "fold": 2
+        },
+        "SBH-046": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "SWK-023": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "SWK-124": {
+          "passed": true,
+          "source": "rew",
+          "fold": 2
+        },
+        "SWK-165": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "RDT-009": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "SBH-014": {
+          "passed": false,
+          "source": "rew",
+          "fold": 2
+        },
+        "SWK-064": {
+          "passed": false,
+          "source": "rew",
+          "fold": 2
+        },
+        "SWK-091": {
+          "passed": false,
+          "source": "orig",
+          "fold": 2
+        },
+        "JTKSM-07-ms": {
+          "passed": false,
+          "source": "rew",
+          "fold": 2
+        },
+        "JTKSM-16-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 2
+        },
+        "JTKSM-37-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 2
+        },
+        "JTKSM-68-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 2
+        },
+        "JPPM-008": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "JTKSM-10": {
+          "passed": true,
+          "source": "rew",
+          "fold": 3
+        },
+        "JTKSM-19": {
+          "passed": true,
+          "source": "rew",
+          "fold": 3
+        },
+        "JTKSM-40": {
+          "passed": true,
+          "source": "rew",
+          "fold": 3
+        },
+        "JTKSM-71": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "RDT-008": {
+          "passed": false,
+          "source": "orig",
+          "fold": 3
+        },
+        "SBH-038": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "SBH-051": {
+          "passed": true,
+          "source": "rew",
+          "fold": 3
+        },
+        "SWK-028": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "SWK-134": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "SWK-184": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "SBH-007": {
+          "passed": false,
+          "source": "rew",
+          "fold": 3
+        },
+        "SBH-019": {
+          "passed": false,
+          "source": "rew",
+          "fold": 3
+        },
+        "SWK-069": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "SWK-092": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "JTKSM-10-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 3
+        },
+        "JTKSM-19-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 3
+        },
+        "JTKSM-40-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 3
+        },
+        "JTKSM-71-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 3
+        },
+        "JPPM-009": {
+          "passed": true,
+          "source": "orig",
+          "fold": 4
+        },
+        "JTKSM-11": {
+          "passed": true,
+          "source": "orig",
+          "fold": 4
+        },
+        "JTKSM-26": {
+          "passed": true,
+          "source": "rew",
+          "fold": 4
+        },
+        "JTKSM-44": {
+          "passed": true,
+          "source": "orig",
+          "fold": 4
+        },
+        "JTKSM-74": {
+          "passed": true,
+          "source": "orig",
+          "fold": 4
+        },
+        "RDT-010": {
+          "passed": true,
+          "source": "rew",
+          "fold": 4
+        },
+        "SBH-040": {
+          "passed": true,
+          "source": "orig",
+          "fold": 4
+        },
+        "SBH-078": {
+          "passed": true,
+          "source": "rew",
+          "fold": 4
+        },
+        "SWK-040": {
+          "passed": true,
+          "source": "orig",
+          "fold": 4
+        },
+        "SWK-145": {
+          "passed": false,
+          "source": "orig",
+          "fold": 4
+        },
+        "SBH-008": {
+          "passed": false,
+          "source": "rew",
+          "fold": 4
+        },
+        "SBH-020": {
+          "passed": false,
+          "source": "orig",
+          "fold": 4
+        },
+        "SWK-086": {
+          "passed": true,
+          "source": "orig",
+          "fold": 4
+        },
+        "SWK-093": {
+          "passed": true,
+          "source": "orig",
+          "fold": 4
+        },
+        "JTKSM-11-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 4
+        },
+        "JTKSM-26-ms": {
+          "passed": false,
+          "source": "rew",
+          "fold": 4
+        },
+        "JTKSM-44-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 4
+        },
+        "JTKSM-74-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 4
+        }
+      }
+    },
+    "or_strict": {
+      "out_of_scope_declined": 0.7,
+      "in_scope_declined": 0.13,
+      "informal_in_scope_declined": 0.4,
+      "malay_in_scope_declined": 0.211,
+      "out_of_scope_passing": [
+        [
+          "JPPM-013",
+          "orig"
+        ],
+        [
+          "RDT-009",
+          "orig"
+        ],
+        [
+          "SWK-069",
+          "orig"
+        ],
+        [
+          "SWK-086",
+          "orig"
+        ],
+        [
+          "SWK-092",
+          "orig"
+        ],
+        [
+          "SWK-093",
+          "orig"
+        ]
+      ],
+      "in_scope_declined_ids": [
+        "JTKSM-07",
+        "JTKSM-34",
+        "JTKSM-45",
+        "RDT-007",
+        "RDT-008",
+        "SWK-145",
+        "SWK-152"
+      ],
+      "fold_params": [
+        {
+          "t_o": 0.0803574688222071,
+          "t_r": 0.0803574688222071
+        },
+        {
+          "t_o": 0.058453241041096754,
+          "t_r": 0.058453241041096754
+        },
+        {
+          "t_o": 0.058453241041096754,
+          "t_r": 0.058453241041096754
+        },
+        {
+          "t_o": 0.04224549566368847,
+          "t_r": 0.04224549566368847
+        },
+        {
+          "t_o": 0.04224549566368847,
+          "t_r": 0.04224549566368847
+        }
+      ],
+      "decisions": {
+        "JPPM-002": {
+          "passed": true,
+          "source": "orig",
+          "fold": 0
+        },
+        "JPPM-011": {
+          "passed": true,
+          "source": "orig",
+          "fold": 0
+        },
+        "JTKSM-13": {
+          "passed": true,
+          "source": "orig",
+          "fold": 0
+        },
+        "JTKSM-34": {
+          "passed": false,
+          "source": "rew",
+          "fold": 0
+        },
+        "JTKSM-45": {
+          "passed": false,
+          "source": "rew",
+          "fold": 0
+        },
+        "RDT-005": {
+          "passed": true,
+          "source": "orig",
+          "fold": 0
+        },
+        "SBH-022": {
+          "passed": true,
+          "source": "orig",
+          "fold": 0
+        },
+        "SBH-041": {
+          "passed": true,
+          "source": "orig",
+          "fold": 0
+        },
+        "SBH-094": {
+          "passed": true,
+          "source": "orig",
+          "fold": 0
+        },
+        "SWK-044": {
+          "passed": true,
+          "source": "orig",
+          "fold": 0
+        },
+        "SWK-152": {
+          "passed": false,
+          "source": "rew",
+          "fold": 0
+        },
+        "JPPM-012": {
+          "passed": false,
+          "source": "rew",
+          "fold": 0
+        },
+        "SBH-010": {
+          "passed": false,
+          "source": "rew",
+          "fold": 0
+        },
+        "SBH-033": {
+          "passed": false,
+          "source": "rew",
+          "fold": 0
+        },
+        "SWK-088": {
+          "passed": false,
+          "source": "rew",
+          "fold": 0
+        },
+        "JTKSM-13-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 0
+        },
+        "JTKSM-34-ms": {
+          "passed": false,
+          "source": "rew",
+          "fold": 0
+        },
+        "JTKSM-45-ms": {
+          "passed": false,
+          "source": "rew",
+          "fold": 0
+        },
+        "JPPM-003": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "JTKSM-05": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "JTKSM-15": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "JTKSM-35": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "JTKSM-64": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "RDT-006": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "SBH-026": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "SBH-043": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "SWK-008": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "SWK-106": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "SWK-155": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "JPPM-013": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "SBH-011": {
+          "passed": false,
+          "source": "rew",
+          "fold": 1
+        },
+        "SBH-103": {
+          "passed": false,
+          "source": "rew",
+          "fold": 1
+        },
+        "SWK-089": {
+          "passed": false,
+          "source": "rew",
+          "fold": 1
+        },
+        "JTKSM-05-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 1
+        },
+        "JTKSM-15-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 1
+        },
+        "JTKSM-35-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 1
+        },
+        "JTKSM-64-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 1
+        },
+        "JPPM-005": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "JTKSM-07": {
+          "passed": false,
+          "source": "rew",
+          "fold": 2
+        },
+        "JTKSM-16": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "JTKSM-37": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "JTKSM-68": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "RDT-007": {
+          "passed": false,
+          "source": "rew",
+          "fold": 2
+        },
+        "SBH-027": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "SBH-046": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "SWK-023": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "SWK-124": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "SWK-165": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "RDT-009": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "SBH-014": {
+          "passed": false,
+          "source": "rew",
+          "fold": 2
+        },
+        "SWK-064": {
+          "passed": false,
+          "source": "rew",
+          "fold": 2
+        },
+        "SWK-091": {
+          "passed": false,
+          "source": "rew",
+          "fold": 2
+        },
+        "JTKSM-07-ms": {
+          "passed": false,
+          "source": "rew",
+          "fold": 2
+        },
+        "JTKSM-16-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 2
+        },
+        "JTKSM-37-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 2
+        },
+        "JTKSM-68-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 2
+        },
+        "JPPM-008": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "JTKSM-10": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "JTKSM-19": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "JTKSM-40": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "JTKSM-71": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "RDT-008": {
+          "passed": false,
+          "source": "rew",
+          "fold": 3
+        },
+        "SBH-038": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "SBH-051": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "SWK-028": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "SWK-134": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "SWK-184": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "SBH-007": {
+          "passed": false,
+          "source": "rew",
+          "fold": 3
+        },
+        "SBH-019": {
+          "passed": false,
+          "source": "rew",
+          "fold": 3
+        },
+        "SWK-069": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "SWK-092": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "JTKSM-10-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 3
+        },
+        "JTKSM-19-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 3
+        },
+        "JTKSM-40-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 3
+        },
+        "JTKSM-71-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 3
+        },
+        "JPPM-009": {
+          "passed": true,
+          "source": "orig",
+          "fold": 4
+        },
+        "JTKSM-11": {
+          "passed": true,
+          "source": "orig",
+          "fold": 4
+        },
+        "JTKSM-26": {
+          "passed": true,
+          "source": "rew",
+          "fold": 4
+        },
+        "JTKSM-44": {
+          "passed": true,
+          "source": "orig",
+          "fold": 4
+        },
+        "JTKSM-74": {
+          "passed": true,
+          "source": "orig",
+          "fold": 4
+        },
+        "RDT-010": {
+          "passed": true,
+          "source": "rew",
+          "fold": 4
+        },
+        "SBH-040": {
+          "passed": true,
+          "source": "orig",
+          "fold": 4
+        },
+        "SBH-078": {
+          "passed": true,
+          "source": "orig",
+          "fold": 4
+        },
+        "SWK-040": {
+          "passed": true,
+          "source": "orig",
+          "fold": 4
+        },
+        "SWK-145": {
+          "passed": false,
+          "source": "rew",
+          "fold": 4
+        },
+        "SBH-008": {
+          "passed": false,
+          "source": "rew",
+          "fold": 4
+        },
+        "SBH-020": {
+          "passed": false,
+          "source": "rew",
+          "fold": 4
+        },
+        "SWK-086": {
+          "passed": true,
+          "source": "orig",
+          "fold": 4
+        },
+        "SWK-093": {
+          "passed": true,
+          "source": "orig",
+          "fold": 4
+        },
+        "JTKSM-11-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 4
+        },
+        "JTKSM-26-ms": {
+          "passed": false,
+          "source": "rew",
+          "fold": 4
+        },
+        "JTKSM-44-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 4
+        },
+        "JTKSM-74-ms": {
+          "passed": true,
+          "source": "rew",
+          "fold": 4
+        }
+      }
+    },
+    "band": {
+      "out_of_scope_declined": 0.7,
+      "in_scope_declined": 0.13,
+      "informal_in_scope_declined": 0.4,
+      "malay_in_scope_declined": 1.0,
+      "out_of_scope_passing": [
+        [
+          "JPPM-013",
+          "orig"
+        ],
+        [
+          "RDT-009",
+          "orig"
+        ],
+        [
+          "SWK-069",
+          "orig"
+        ],
+        [
+          "SWK-086",
+          "orig"
+        ],
+        [
+          "SWK-092",
+          "orig"
+        ],
+        [
+          "SWK-093",
+          "orig"
+        ]
+      ],
+      "in_scope_declined_ids": [
+        "JTKSM-07",
+        "JTKSM-34",
+        "JTKSM-45",
+        "RDT-007",
+        "RDT-008",
+        "SWK-145",
+        "SWK-152"
+      ],
+      "fold_params": [
+        {
+          "t": 0.0803574688222071,
+          "low": 0.00010472557180794287
+        },
+        {
+          "t": 0.058453241041096754,
+          "low": 9.461262661302226e-05
+        },
+        {
+          "t": 0.058453241041096754,
+          "low": 9.461262661302226e-05
+        },
+        {
+          "t": 0.04224549566368847,
+          "low": 9.461262661302226e-05
+        },
+        {
+          "t": 0.04224549566368847,
+          "low": 9.461262661302226e-05
+        }
+      ],
+      "decisions": {
+        "JPPM-002": {
+          "passed": true,
+          "source": "orig",
+          "fold": 0
+        },
+        "JPPM-011": {
+          "passed": true,
+          "source": "orig",
+          "fold": 0
+        },
+        "JTKSM-13": {
+          "passed": true,
+          "source": "orig",
+          "fold": 0
+        },
+        "JTKSM-34": {
+          "passed": false,
+          "source": "rew",
+          "fold": 0
+        },
+        "JTKSM-45": {
+          "passed": false,
+          "source": "rew",
+          "fold": 0
+        },
+        "RDT-005": {
+          "passed": true,
+          "source": "orig",
+          "fold": 0
+        },
+        "SBH-022": {
+          "passed": true,
+          "source": "orig",
+          "fold": 0
+        },
+        "SBH-041": {
+          "passed": true,
+          "source": "orig",
+          "fold": 0
+        },
+        "SBH-094": {
+          "passed": true,
+          "source": "orig",
+          "fold": 0
+        },
+        "SWK-044": {
+          "passed": true,
+          "source": "orig",
+          "fold": 0
+        },
+        "SWK-152": {
+          "passed": false,
+          "source": "rew",
+          "fold": 0
+        },
+        "JPPM-012": {
+          "passed": false,
+          "source": "rew",
+          "fold": 0
+        },
+        "SBH-010": {
+          "passed": false,
+          "source": "rew",
+          "fold": 0
+        },
+        "SBH-033": {
+          "passed": false,
+          "source": "rew",
+          "fold": 0
+        },
+        "SWK-088": {
+          "passed": false,
+          "source": "rew",
+          "fold": 0
+        },
+        "JTKSM-13-ms": {
+          "passed": false,
+          "source": "rew",
+          "fold": 0
+        },
+        "JTKSM-34-ms": {
+          "passed": false,
+          "source": "rew",
+          "fold": 0
+        },
+        "JTKSM-45-ms": {
+          "passed": false,
+          "source": "rew",
+          "fold": 0
+        },
+        "JPPM-003": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "JTKSM-05": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "JTKSM-15": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "JTKSM-35": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "JTKSM-64": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "RDT-006": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "SBH-026": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "SBH-043": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "SWK-008": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "SWK-106": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "SWK-155": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "JPPM-013": {
+          "passed": true,
+          "source": "orig",
+          "fold": 1
+        },
+        "SBH-011": {
+          "passed": false,
+          "source": "rew",
+          "fold": 1
+        },
+        "SBH-103": {
+          "passed": false,
+          "source": "rew",
+          "fold": 1
+        },
+        "SWK-089": {
+          "passed": false,
+          "source": "rew",
+          "fold": 1
+        },
+        "JTKSM-05-ms": {
+          "passed": false,
+          "source": "rew",
+          "fold": 1
+        },
+        "JTKSM-15-ms": {
+          "passed": false,
+          "source": "rew",
+          "fold": 1
+        },
+        "JTKSM-35-ms": {
+          "passed": false,
+          "source": "rew",
+          "fold": 1
+        },
+        "JTKSM-64-ms": {
+          "passed": false,
+          "source": "rew",
+          "fold": 1
+        },
+        "JPPM-005": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "JTKSM-07": {
+          "passed": false,
+          "source": "rew",
+          "fold": 2
+        },
+        "JTKSM-16": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "JTKSM-37": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "JTKSM-68": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "RDT-007": {
+          "passed": false,
+          "source": "rew",
+          "fold": 2
+        },
+        "SBH-027": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "SBH-046": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "SWK-023": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "SWK-124": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "SWK-165": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "RDT-009": {
+          "passed": true,
+          "source": "orig",
+          "fold": 2
+        },
+        "SBH-014": {
+          "passed": false,
+          "source": "rew",
+          "fold": 2
+        },
+        "SWK-064": {
+          "passed": false,
+          "source": "rew",
+          "fold": 2
+        },
+        "SWK-091": {
+          "passed": false,
+          "source": "rew",
+          "fold": 2
+        },
+        "JTKSM-07-ms": {
+          "passed": false,
+          "source": "rew",
+          "fold": 2
+        },
+        "JTKSM-16-ms": {
+          "passed": false,
+          "source": "rew",
+          "fold": 2
+        },
+        "JTKSM-37-ms": {
+          "passed": false,
+          "source": "rew",
+          "fold": 2
+        },
+        "JTKSM-68-ms": {
+          "passed": false,
+          "source": "rew",
+          "fold": 2
+        },
+        "JPPM-008": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "JTKSM-10": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "JTKSM-19": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "JTKSM-40": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "JTKSM-71": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "RDT-008": {
+          "passed": false,
+          "source": "rew",
+          "fold": 3
+        },
+        "SBH-038": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "SBH-051": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "SWK-028": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "SWK-134": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "SWK-184": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "SBH-007": {
+          "passed": false,
+          "source": "rew",
+          "fold": 3
+        },
+        "SBH-019": {
+          "passed": false,
+          "source": "rew",
+          "fold": 3
+        },
+        "SWK-069": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "SWK-092": {
+          "passed": true,
+          "source": "orig",
+          "fold": 3
+        },
+        "JTKSM-10-ms": {
+          "passed": false,
+          "source": "rew",
+          "fold": 3
+        },
+        "JTKSM-19-ms": {
+          "passed": false,
+          "source": "rew",
+          "fold": 3
+        },
+        "JTKSM-40-ms": {
+          "passed": false,
+          "source": "rew",
+          "fold": 3
+        },
+        "JTKSM-71-ms": {
+          "passed": false,
+          "source": "rew",
+          "fold": 3
+        },
+        "JPPM-009": {
+          "passed": true,
+          "source": "orig",
+          "fold": 4
+        },
+        "JTKSM-11": {
+          "passed": true,
+          "source": "orig",
+          "fold": 4
+        },
+        "JTKSM-26": {
+          "passed": true,
+          "source": "rew",
+          "fold": 4
+        },
+        "JTKSM-44": {
+          "passed": true,
+          "source": "orig",
+          "fold": 4
+        },
+        "JTKSM-74": {
+          "passed": true,
+          "source": "orig",
+          "fold": 4
+        },
+        "RDT-010": {
+          "passed": true,
+          "source": "rew",
+          "fold": 4
+        },
+        "SBH-040": {
+          "passed": true,
+          "source": "orig",
+          "fold": 4
+        },
+        "SBH-078": {
+          "passed": true,
+          "source": "orig",
+          "fold": 4
+        },
+        "SWK-040": {
+          "passed": true,
+          "source": "orig",
+          "fold": 4
+        },
+        "SWK-145": {
+          "passed": false,
+          "source": "rew",
+          "fold": 4
+        },
+        "SBH-008": {
+          "passed": false,
+          "source": "rew",
+          "fold": 4
+        },
+        "SBH-020": {
+          "passed": false,
+          "source": "rew",
+          "fold": 4
+        },
+        "SWK-086": {
+          "passed": true,
+          "source": "orig",
+          "fold": 4
+        },
+        "SWK-093": {
+          "passed": true,
+          "source": "orig",
+          "fold": 4
+        },
+        "JTKSM-11-ms": {
+          "passed": false,
+          "source": "rew",
+          "fold": 4
+        },
+        "JTKSM-26-ms": {
+          "passed": false,
+          "source": "rew",
+          "fold": 4
+        },
+        "JTKSM-44-ms": {
+          "passed": false,
+          "source": "rew",
+          "fold": 4
+        },
+        "JTKSM-74-ms": {
+          "passed": false,
+          "source": "rew",
+          "fold": 4
+        }
+      }
+    }
+  }
+}
