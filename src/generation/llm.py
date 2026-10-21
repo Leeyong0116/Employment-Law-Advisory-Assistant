@@ -21,6 +21,7 @@ from collections.abc import Callable, Mapping
 import httpx
 import openai
 from langchain_core.language_models import BaseChatModel
+from langchain_core.runnables import Runnable
 from langchain_openai import ChatOpenAI
 from pydantic import BaseModel
 
@@ -86,7 +87,7 @@ def build_chat_model(settings: dict, env: Mapping[str, str], transport: httpx.Ba
     )
 
 
-def invoke_with_retry(model: BaseChatModel, messages, retries: int, sleep: Callable[[float], None] = time.sleep) -> Reply:
+def invoke_with_retry(model: Runnable, messages, retries: int, sleep: Callable[[float], None] = time.sleep) -> Reply:
     """One chat completion. A login page raises SessionExpired at once; 5xx and connection
     errors are retried with 2, 4, 8 ... s backoff, then raise GeneratorError."""
     for attempt in range(retries + 1):
