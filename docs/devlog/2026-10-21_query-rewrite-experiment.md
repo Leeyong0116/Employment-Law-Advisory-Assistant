@@ -20,7 +20,7 @@ question before retrieval.
 
 ## 2. Design (agreed with the author before running)
 
-- **Rewrite prompt:** the author's, verbatim (Section 4 explains one added line):
+- **Rewrite prompt:** the author's, verbatim (Sections 4 and 7 explain two added lines):
   "Rewrite the user's question into formal Malaysian employment-law terms
   for searching statutes. Fix spelling. Translate Malay/Manglish words. Do
   NOT answer the question. Do NOT add facts, numbers, or legal conclusions
@@ -58,10 +58,12 @@ Code: `src/evaluation/gate_rules.py` (rules, tuning, folds; 13 tests),
 `src/evaluation/rewrite.py` (prompt, cleaning, Malay variants; 10 tests),
 `scripts/exp_query_rewrite.py` (stages rewrite, score, report, answers).
 
-## 3. Results
+## 3. Results (prompt v2: the author's prompt plus the English line)
 
-Files: `data/eval/runs/2026-10-21_rewrite_rewrites.jsonl`, `_records.jsonl`,
-`_report.json`, `_oos_answers.jsonl` (prefix `2026-10-21_rewrite`).
+Files: `data/eval/runs/2026-10-21_rewrite_rewrites_prompt-v2.jsonl`,
+`_records_prompt-v2.jsonl`, `_report_prompt-v2.json`,
+`_oos_answers_prompt-v2.jsonl` (prefix `2026-10-21_rewrite`). The files
+without a suffix now hold the prompt v3 re-run (Section 7).
 
 | Rule | Out of scope declined | In scope wrongly declined (54) | Informal (5) | Malay (19) | In scope passed with an expected chunk in the top 5 |
 |---|---|---|---|---|---|
@@ -171,8 +173,9 @@ gate in both cases.
 
    Retrieval is still filtered by region, so EA chunks cannot reach a
    Sarawak answer, but the added words can tilt BM25 and the reranker.
-   Not fixed: changing the author's prompt a second time was left to
-   the author. Listed in the report (`rewrite_checks.added_act_names`).
+   Listed in the report (`rewrite_checks.added_act_names`). At first not
+   fixed, because changing the author's prompt a second time was the
+   author's call. The author then agreed to a second line (Section 7).
 3. **Number check noise.** `added_numbers` flags 17 rewrites, mostly digits
    written as words ("3" to "three") or the year of an added Act name. All 17
    were read: no rewrite invents a new amount or period.
@@ -206,13 +209,15 @@ gate in both cases.
   language gate behaviour, so it needs Dr Azam's agreement (CLAUDE.md
   scope discipline). The threshold would need recalibrating under the
   chosen rule.
+- **The author's choice** is "original first, else rewrite". The
+  re-run with prompt v3 and its risks are in Section 7.
 
 ## 6. Limitations
 
 - Small samples: 5 informal and 19 Malay in-scope questions, 20
   out-of-scope (4 per fold), and no Malay out-of-scope questions.
 - One rewrite per question at temperature 0, from one model, with the
-  author's prompt plus one line. No repeat runs.
+  author's prompt plus one line (v2) or two lines (v3). No repeat runs.
 - The motivating question itself is not in the gold set. A gold v2 with
   more informal and Malay questions (from forums and the bilingual FAQs)
   would test this properly.
@@ -223,3 +228,108 @@ gate in both cases.
   pool to 70%.
 - The rule was chosen by looking at these same 74 items. Cross-validation
   protects the thresholds, not the choice between five rules.
+
+## 7. Follow-up: the Act-name line (prompt v3)
+
+**The author's decisions after reading Sections 3 to 5:**
+- The preferred rule is "original first, else rewrite" (or_strict here).
+  It goes to Dr Azam as a proposal and is not adopted.
+- Keep the English line.
+- Add a second line to the rewrite prompt: "Do NOT name an Act or
+  section that the user did not state." It was added test first.
+
+All four stages were re-run. The prompt v2 files are kept with the suffix
+`_prompt-v2`, and the files without a suffix are now prompt v3.
+
+**The rewrites follow the prompt better.**
+- **Act names the user did not state:** down from 21 to 0. The check still
+  lists 4 (JTKSM-10, JTKSM-45 and their Malay variants), but those
+  questions say "this act" in lower case, which the check's pattern
+  misses. They are not additions.
+- **Numbers flagged:** down from 17 to 8.
+- **Language:** no Malay output.
+- **How much changed:** 69 of 97 rewrites are worded differently.
+- **One mistranslation:** JTKSM-45-ms names the "Department of
+  Occupational Safety and Health" where the question means JTKSM.
+
+**Gate results** (5-fold, same selection rule as Section 3):
+
+| Rule | Out of scope declined | In scope wrongly declined (54) | Informal (5) | Malay (19) | In scope passed with an expected chunk in the top 5 |
+|---|---|---|---|---|---|
+| baseline | 70% | 16.7% (9) | 60% | 100% | 43 (2 pass without) |
+| rewrite | 75% | 7.4% (4) | 20% | 15.8% | 44 (6 pass without) |
+| or_strict (original first) | 70% | 11.1% (6) | 40% | 21.1% | 44 (4 pass without) |
+
+- **Compared with prompt v2:**
+  - rewrite: 3.7% (2), with 45 passing on an expected chunk and 7 without.
+  - or_strict: 13.0% (7), with 45 passing on an expected chunk and 2 without.
+- **max and band** again make the same decisions as or_strict. As in
+  Section 3, band never helps the Malay questions.
+- **Retrieval on the rewrite improves:**
+  - English hit@5 rises from 0.833 to 0.852, and MRR from 0.665 to 0.711.
+  - Malay hit@5 falls from 0.842 to 0.789.
+  - The original stays at 0.926 and 0.793.
+  - Rewrite AUC is 0.939.
+
+**What "original first" rescues.** The rewrite is used only when the
+original wording fails the gate. The in-scope questions it rescues were
+answered and read:
+
+- **JTKSM-26 (both prompts):** correct. It gives the sick leave table
+  from EA s. 60F(1).
+- **RDT-010 (both prompts):** partly right. It states the
+  one-and-a-half rate for overtime from the s. 60A(3) definition, which
+  reached the context by definition expansion and not in the top 5. The
+  rewrite ("Is the employer's adjustment of working hours and overtime
+  pay in accordance with ...") dropped the hours the user gave.
+- **JTKSM-07 (v3 only):** a **confident wrong answer**.
+  - The model said "Yes, high-salaried employees are also eligible for
+    overtime pay", citing the s. 60A(3) definition of overtime.
+  - The reference answer is the opposite. Employees earning more than
+    RM4,000 a month (except manual workers) are not entitled, under the
+    First Schedule.
+  - The rewrite's retrieval found the overtime rule but not the First
+    Schedule.
+  - Under prompt v2 this question was declined.
+  - The question depends on context ("Does this mean ..."), because it
+    comes from an FAQ series on the 2023 amendment.
+
+**Out-of-scope answers.**
+- **"Original first" passes the same six out-of-scope questions as
+  before**, all on the original wording. Its answers are therefore the
+  same under both prompts: SWK-069 and SWK-092 wrong, and the external
+  SWK-033 wrong.
+- **Rewrite-only** now also passes SWK-089 and the external SBH-073, and
+  its answers are worse than under v2:
+  - **SWK-089** ("Who is eligible to receive the minimum wage?"):
+    **answered wrongly** from A1754 s. 73 and the IRA First Schedule. It
+    presents the Ordinance's coverage rule as minimum-wage eligibility.
+  - **SWK-092:** now answered, where v2 gave INSUFFICIENT_CONTEXT. It
+    opens "No, employers cannot ..." from the deleted s. 75A(4), and
+    only then says the source is deleted.
+  - **SWK-093:** answered with a hedge. It says the penalty is not
+    directly specified, then cites the general wage-offence fines
+    (s. 130D, A1754 s. 60).
+  - **SWK-033 (external):** now partly wrong. It says the limit is set by
+    the Minister's rules, which is right, but then gives the 45-hour week
+    as if it were the overtime limit. Under v2 this answer was right.
+  - **SBH-073, JPPM-013 and RDT-009:** INSUFFICIENT_CONTEXT.
+
+**What this shows.**
+- **The line fixed what it targeted.** There are no invented Act names,
+  and retrieval on the rewrite is better.
+- **One prompt line changes outcomes.** One more prompt line moved the
+  gate results by one or two questions in each direction and visibly
+  changed the rewrite-only answers. The rewrite path is sensitive to
+  prompt wording. With these sample sizes, a better prompt cannot be
+  told apart from noise.
+- **"Original first" is less exposed.** Its out-of-scope behaviour does
+  not depend on the rewrite prompt at all, because those questions never
+  reach the rewrite.
+- **Its risk sits in the rescued questions.** Under v3, one of the three
+  rescued questions (JTKSM-07) became a confident wrong answer. If the
+  rule is adopted, the rescued questions should be reported separately
+  in the RAGAS and manual citation checks, and a gold v2 should hold more
+  of them.
+- **The author's preference stands:** "original first, else rewrite"
+  with prompt v3, pending Dr Azam.

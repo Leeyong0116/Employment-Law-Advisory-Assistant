@@ -8,8 +8,8 @@
   "min_out_of_scope_declined": 0.7,
   "auc": {
     "orig": 0.918,
-    "rew": 0.941,
-    "max": 0.935
+    "rew": 0.939,
+    "max": 0.939
   },
   "retrieval": {
     "english_original": {
@@ -19,13 +19,13 @@
     },
     "english_rewrite": {
       "n": 54,
-      "hit@5": 0.833,
-      "mrr": 0.665
+      "hit@5": 0.852,
+      "mrr": 0.711
     },
     "malay_rewrite": {
       "n": 19,
-      "hit@5": 0.842,
-      "mrr": 0.739
+      "hit@5": 0.789,
+      "mrr": 0.728
     },
     "malay_parents_english_original": {
       "n": 19,
@@ -35,44 +35,18 @@
   },
   "rewrite_checks": {
     "added_numbers": [
-      "JTKSM-13",
       "JTKSM-15",
-      "JTKSM-16",
       "JTKSM-35",
       "RDT-008",
-      "RDT-010",
-      "SBH-046",
       "SWK-155",
       "RDT-009",
-      "SBH-010",
-      "SBH-019",
-      "SWK-089",
-      "SWK-092",
-      "SWK-093",
       "JTKSM-15-ms",
       "JTKSM-34-ms",
       "JTKSM-35-ms"
     ],
     "added_act_names": [
-      "JPPM-002",
       "JTKSM-10",
-      "JTKSM-13",
-      "JTKSM-16",
-      "JTKSM-19",
-      "JTKSM-26",
-      "JTKSM-44",
       "JTKSM-45",
-      "RDT-010",
-      "SBH-046",
-      "SWK-152",
-      "SBH-010",
-      "SBH-014",
-      "SBH-019",
-      "SBH-020",
-      "SBH-103",
-      "SWK-089",
-      "SWK-092",
-      "SWK-093",
       "JTKSM-10-ms",
       "JTKSM-45-ms"
     ]
@@ -606,13 +580,13 @@
       }
     },
     "rewrite": {
-      "out_of_scope_declined": 0.7,
-      "in_scope_declined": 0.037,
+      "out_of_scope_declined": 0.75,
+      "in_scope_declined": 0.074,
       "informal_in_scope_declined": 0.2,
-      "malay_in_scope_declined": 0.105,
+      "malay_in_scope_declined": 0.158,
       "out_of_scope_passing": [
         [
-          "JPPM-012",
+          "JPPM-013",
           "rew"
         ],
         [
@@ -620,11 +594,7 @@
           "rew"
         ],
         [
-          "SWK-064",
-          "rew"
-        ],
-        [
-          "SWK-086",
+          "SWK-089",
           "rew"
         ],
         [
@@ -637,24 +607,26 @@
         ]
       ],
       "in_scope_declined_ids": [
-        "JPPM-005",
+        "JTKSM-34",
+        "JTKSM-45",
+        "JTKSM-68",
         "RDT-008"
       ],
       "fold_params": [
         {
-          "t": 0.010693757736175495
+          "t": 0.02052778824014397
         },
         {
-          "t": 0.011029470022501838
+          "t": 0.018833129890434695
         },
         {
-          "t": 0.008030813216260067
+          "t": 0.020332353342658756
         },
         {
-          "t": 0.010693757736175495
+          "t": 0.020332353342658756
         },
         {
-          "t": 0.008030813216260067
+          "t": 0.020332353342658756
         }
       ],
       "decisions": {
@@ -674,12 +646,12 @@
           "fold": 0
         },
         "JTKSM-34": {
-          "passed": true,
+          "passed": false,
           "source": "rew",
           "fold": 0
         },
         "JTKSM-45": {
-          "passed": true,
+          "passed": false,
           "source": "rew",
           "fold": 0
         },
@@ -714,7 +686,7 @@
           "fold": 0
         },
         "JPPM-012": {
-          "passed": true,
+          "passed": false,
           "source": "rew",
           "fold": 0
         },
@@ -804,7 +776,7 @@
           "fold": 1
         },
         "JPPM-013": {
-          "passed": false,
+          "passed": true,
           "source": "rew",
           "fold": 1
         },
@@ -819,7 +791,7 @@
           "fold": 1
         },
         "SWK-089": {
-          "passed": false,
+          "passed": true,
           "source": "rew",
           "fold": 1
         },
@@ -844,7 +816,7 @@
           "fold": 1
         },
         "JPPM-005": {
-          "passed": false,
+          "passed": true,
           "source": "rew",
           "fold": 2
         },
@@ -864,7 +836,7 @@
           "fold": 2
         },
         "JTKSM-68": {
-          "passed": true,
+          "passed": false,
           "source": "rew",
           "fold": 2
         },
@@ -909,7 +881,7 @@
           "fold": 2
         },
         "SWK-064": {
-          "passed": true,
+          "passed": false,
           "source": "rew",
           "fold": 2
         },
@@ -919,7 +891,7 @@
           "fold": 2
         },
         "JTKSM-07-ms": {
-          "passed": true,
+          "passed": false,
           "source": "rew",
           "fold": 2
         },
@@ -1094,7 +1066,7 @@
           "fold": 4
         },
         "SWK-086": {
-          "passed": true,
+          "passed": false,
           "source": "rew",
           "fold": 4
         },
@@ -1127,7 +1099,7 @@
     },
     "max": {
       "out_of_scope_declined": 0.7,
-      "in_scope_declined": 0.13,
+      "in_scope_declined": 0.111,
       "informal_in_scope_declined": 0.4,
       "malay_in_scope_declined": 0.211,
       "out_of_scope_passing": [
@@ -1157,7 +1129,6 @@
         ]
       ],
       "in_scope_declined_ids": [
-        "JTKSM-07",
         "JTKSM-34",
         "JTKSM-45",
         "RDT-007",
@@ -1200,7 +1171,7 @@
         },
         "JTKSM-34": {
           "passed": false,
-          "source": "rew",
+          "source": "orig",
           "fold": 0
         },
         "JTKSM-45": {
@@ -1210,7 +1181,7 @@
         },
         "RDT-005": {
           "passed": true,
-          "source": "rew",
+          "source": "orig",
           "fold": 0
         },
         "SBH-022": {
@@ -1230,7 +1201,7 @@
         },
         "SWK-044": {
           "passed": true,
-          "source": "orig",
+          "source": "rew",
           "fold": 0
         },
         "SWK-152": {
@@ -1370,12 +1341,12 @@
         },
         "JPPM-005": {
           "passed": true,
-          "source": "orig",
+          "source": "rew",
           "fold": 2
         },
         "JTKSM-07": {
-          "passed": false,
-          "source": "orig",
+          "passed": true,
+          "source": "rew",
           "fold": 2
         },
         "JTKSM-16": {
@@ -1405,7 +1376,7 @@
         },
         "SBH-046": {
           "passed": true,
-          "source": "orig",
+          "source": "rew",
           "fold": 2
         },
         "SWK-023": {
@@ -1495,7 +1466,7 @@
         },
         "SBH-038": {
           "passed": true,
-          "source": "orig",
+          "source": "rew",
           "fold": 3
         },
         "SBH-051": {
@@ -1510,7 +1481,7 @@
         },
         "SWK-134": {
           "passed": true,
-          "source": "orig",
+          "source": "rew",
           "fold": 3
         },
         "SWK-184": {
@@ -1595,7 +1566,7 @@
         },
         "SBH-078": {
           "passed": true,
-          "source": "rew",
+          "source": "orig",
           "fold": 4
         },
         "SWK-040": {
@@ -1652,7 +1623,7 @@
     },
     "or_strict": {
       "out_of_scope_declined": 0.7,
-      "in_scope_declined": 0.13,
+      "in_scope_declined": 0.111,
       "informal_in_scope_declined": 0.4,
       "malay_in_scope_declined": 0.211,
       "out_of_scope_passing": [
@@ -1682,7 +1653,6 @@
         ]
       ],
       "in_scope_declined_ids": [
-        "JTKSM-07",
         "JTKSM-34",
         "JTKSM-45",
         "RDT-007",
@@ -1904,7 +1874,7 @@
           "fold": 2
         },
         "JTKSM-07": {
-          "passed": false,
+          "passed": true,
           "source": "rew",
           "fold": 2
         },
@@ -2182,7 +2152,7 @@
     },
     "band": {
       "out_of_scope_declined": 0.7,
-      "in_scope_declined": 0.13,
+      "in_scope_declined": 0.111,
       "informal_in_scope_declined": 0.4,
       "malay_in_scope_declined": 1.0,
       "out_of_scope_passing": [
@@ -2212,7 +2182,6 @@
         ]
       ],
       "in_scope_declined_ids": [
-        "JTKSM-07",
         "JTKSM-34",
         "JTKSM-45",
         "RDT-007",
@@ -2434,7 +2403,7 @@
           "fold": 2
         },
         "JTKSM-07": {
-          "passed": false,
+          "passed": true,
           "source": "rew",
           "fold": 2
         },
@@ -2748,7 +2717,7 @@
             "source": "rew"
           },
           {
-            "passed": true,
+            "passed": false,
             "source": "rew"
           },
           {
@@ -2756,7 +2725,7 @@
             "source": "rew"
           },
           {
-            "passed": true,
+            "passed": false,
             "source": "rew"
           }
         ],
@@ -2830,7 +2799,7 @@
     },
     "SBH-073": {
       "orig": 0.0011786720362815634,
-      "rew": 0.0012160416047592268,
+      "rew": 0.02546808298636756,
       "rules": {
         "baseline": [
           {
@@ -2856,23 +2825,23 @@
         ],
         "rewrite": [
           {
-            "passed": false,
+            "passed": true,
             "source": "rew"
           },
           {
-            "passed": false,
+            "passed": true,
             "source": "rew"
           },
           {
-            "passed": false,
+            "passed": true,
             "source": "rew"
           },
           {
-            "passed": false,
+            "passed": true,
             "source": "rew"
           },
           {
-            "passed": false,
+            "passed": true,
             "source": "rew"
           }
         ],
@@ -2946,7 +2915,7 @@
     },
     "SWK-033": {
       "orig": 0.09982066756762313,
-      "rew": 0.0483160702678493,
+      "rew": 0.03032925698427897,
       "rules": {
         "baseline": [
           {
