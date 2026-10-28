@@ -341,6 +341,11 @@ generation:
   # The abstention threshold moved to retrieval.abstention_threshold: it is
   # a reranker score, decided before generation runs.
 
+api:
+  # M5 FastAPI layer. The mode is fixed here, not chosen by the client.
+  retrieval_mode: hybrid_rerank
+  cors_origins: ["http://localhost:5173"]   # the Vite dev server
+
 evaluation:
   gold_set_path: data/eval/gold_set.jsonl
   metrics: [faithfulness, answer_relevancy, context_precision, context_recall]

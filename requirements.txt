@@ -46,7 +46,7 @@ langchain-openai==1.1.9   # ChatOpenAI against vLLM's OpenAI-compatible server
 openai==1.109.1
 httpx==0.28.1             # cookie header and login-page hook for the OOD proxy
 
-# --- Phase 4: API (deferred) ------------------------------------------------
-# fastapi
-# uvicorn
-# (pydantic and ragas are active above; ragas pulls in datasets)
+# --- Phase 4: API, M5 (active) ----------------------------------------------
+# pydantic is pinned above and reused for the typed request and response.
+fastapi==0.143.0          # HTTP layer with typed Pydantic schemas
+uvicorn==0.54.0           # ASGI server for fastapi (plain, no [standard] extras)
