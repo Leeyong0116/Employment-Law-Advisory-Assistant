@@ -22,7 +22,7 @@ import logging
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, StreamingResponse
 
 from src.api.engine import Engine
 from src.api.schema import ApiError, AskRequest, Meta, Provision
@@ -76,6 +76,13 @@ def create_app(engine: Engine) -> FastAPI:
     @app.post("/api/ask", response_model=GeneratedAnswer)
     def ask(request: AskRequest) -> GeneratedAnswer:
         return engine.ask(request.query, request.region)
+
+    @app.post("/api/ask/stream")
+    def ask_stream(request: AskRequest) -> StreamingResponse:
+        from src.api.stream import ask_events  # stream imports this module
+
+        return StreamingResponse(ask_events(engine, request), media_type="text/event-stream",
+                                 headers={"Cache-Control": "no-cache"})
 
     @app.get("/api/provisions/{chunk_id}", response_model=Provision,
              responses={404: {"model": ApiError}})
