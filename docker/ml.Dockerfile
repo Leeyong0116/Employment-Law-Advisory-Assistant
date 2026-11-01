@@ -1,8 +1,8 @@
 # ML runtime for indexing (and later retrieval): Python 3.12 + CUDA PyTorch.
 #
-# Why a container: on the Windows dev machine, Smart App Control blocks some
-# native DLLs these packages ship (scipy). Linux in the container is not
-# subject to it. The same image can run on the Sunway HPC via Apptainer, so
+# Why a container: it began on a Windows machine where Smart App Control
+# blocked native DLLs (scipy). Development is now on Linux; the container is
+# kept because the same image can run on the Sunway HPC via Apptainer, so
 # local and HPC runs share one environment.
 #
 # The source tree is mounted at /app at run time (docker-compose.yml), so

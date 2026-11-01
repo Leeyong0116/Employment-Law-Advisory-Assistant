@@ -28,7 +28,7 @@ def connect(config: dict) -> psycopg.Connection:
     """Open a connection to the local index database (password from .env).
 
     DB_HOST / DB_PORT override the config, so the same code connects from
-    Windows (127.0.0.1) and from the ML container (the "db" service).
+    the host (127.0.0.1) and from the ML container (the "db" service).
     """
     load_dotenv()
     db = config["database"]

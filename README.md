@@ -71,16 +71,20 @@ the `corpus` tests run without extra setup.
 Python 3.12 specifically — 3.13/3.14 have no stable wheels yet for the
 indexing stack.
 
-```powershell
-py -3.12 -m venv .venv
-.venv\Scripts\python.exe -m pip install -r requirements.txt
-.venv\Scripts\python.exe -m pytest
+Development runs on Linux (WSL 2) with Docker and an NVIDIA GPU. All Python
+runs inside the `ml` container, so no local venv is needed:
+
+```bash
+cp .env.example .env                                        # then fill it in
+docker compose up -d                                        # PostgreSQL + pgvector
+docker compose --profile ml build ml                        # ML image, once
+docker compose run --rm ml python -m pytest
 ```
 
 ## Ingestion
 
-```powershell
-.venv\Scripts\python.exe -m src.ingestion.pipeline
+```bash
+docker compose run --rm ml python -m src.ingestion.pipeline
 ```
 
 Reads the five PDFs and writes to `data/processed/`:
@@ -95,20 +99,31 @@ text, missing citation fields or broken amendment links are found.
 
 ## Indexing
 
-Needs Docker Desktop (with the WSL 2 backend and an NVIDIA GPU). Copy
-`.env.example` to `.env` and set `POSTGRES_PASSWORD` to any random string.
+Set `POSTGRES_PASSWORD` in `.env` to any random string.
 
-```powershell
-docker compose up -d                                        # PostgreSQL + pgvector
-docker compose --profile ml build ml                        # ML image, once
+```bash
 docker compose run --rm ml python -m src.indexing.build     # embed + index
 docker compose run --rm ml python -m src.indexing.smoke     # sanity checks
 ```
 
-The ML code (bge-m3, BM25) runs in the `ml` container rather than the
-Windows venv: Windows Smart App Control blocks some native DLLs these
-packages ship. The same image can run on the HPC through Apptainer.
+The ML code (bge-m3, BM25) runs in the `ml` container. This started on
+Windows, where Smart App Control blocked native DLLs in a venv; on Linux the
+container is kept so local and HPC runs (Apptainer) share one environment.
 `build` skips work when `chunks.jsonl` has not changed; `--force` rebuilds.
+
+## Recovery
+
+Only the Docker volumes hold state: `<project>_getright-pgdata` (the index)
+and `<project>_getright-hf-cache` (model weights), where `<project>` is
+`COMPOSE_PROJECT_NAME` in `.env`. If the index is lost:
+
+1. `data/processed/chunks.jsonl` is tracked in git. Check it still hashes to
+   the index version you expect (`sha256`, first 12 hex digits).
+2. `docker compose run --rm ml python -m src.indexing.build --force`
+3. `docker compose run --rm ml python -m src.indexing.smoke`
+
+Re-running ingestion is only needed when the PDFs or the parser change; it
+produces a new index version, and gold chunk ids must then be rechecked.
 
 `requirements.txt` installs only the milestone in progress; the indexing,
 generation, and evaluation blocks are commented out and get pinned when that
