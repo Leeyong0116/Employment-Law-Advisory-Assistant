@@ -111,6 +111,24 @@ Windows, where Smart App Control blocked native DLLs in a venv; on Linux the
 container is kept so local and HPC runs (Apptainer) share one environment.
 `build` skips work when `chunks.jsonl` has not changed; `--force` rebuilds.
 
+## Frontend
+
+The web app lives in `frontend/` (Vite, React, TypeScript, Tailwind 4,
+shadcn/ui). It runs on the host with Node 24, not in the `ml` container. Plan:
+`docs/plans/2026-11-01-m6-frontend.md`.
+
+```bash
+# terminal 1: the API (GPU, see the M5 devlog for the generator cookie)
+docker compose run --rm -p 127.0.0.1:8000:8000 ml uvicorn src.api.app:build --factory --host 0.0.0.0 --port 8000 --workers 1
+
+# terminal 2: the app on http://localhost:5173 (Vite proxies /api to port 8000)
+cd frontend
+npm ci
+npm run dev
+```
+
+Checks: `npm test -- --run`, `npm run typecheck`, `npm run lint`, `npm run build`.
+
 ## Recovery
 
 Only the Docker volumes hold state: `<project>_getright-pgdata` (the index)
