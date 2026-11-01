@@ -4,6 +4,12 @@ __pycache__/
 .env
 data/processed/*
 !data/processed/.gitkeep
+# The ingestion output is tracked: chunks.jsonl is the corpus every chunk id,
+# gold citation and run file refers to, and its hash is the index version.
+# The index itself (data/processed/index/) is rebuilt from it.
+!data/processed/chunks.jsonl
+!data/processed/toc_inventory.jsonl
+!data/processed/ingestion_report.json
 *.index
 .DS_Store
 notebooks/.ipynb_checkpoints/

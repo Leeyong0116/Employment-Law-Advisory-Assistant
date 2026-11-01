@@ -1,0 +1,94 @@
+{
+  "documents": {
+    "employment_act_1955": {
+      "doc_id": "employment_act_1955",
+      "expected": 158,
+      "located": 158,
+      "missing": [],
+      "titles_unmatched": [],
+      "titles_inferred": {
+        "81G": "Application of this Part irrespective of wages of employee",
+        "93": "Under Part VIII"
+      },
+      "unassigned_notes": 0,
+      "chunks": 370,
+      "schedule_start_line": 2883
+    },
+    "industrial_relations_act_1967": {
+      "doc_id": "industrial_relations_act_1967",
+      "expected": 83,
+      "located": 83,
+      "missing": [],
+      "titles_unmatched": [],
+      "titles_inferred": {},
+      "unassigned_notes": 1,
+      "chunks": 273,
+      "schedule_start_line": 1836
+    },
+    "labour_ordinance_sabah": {
+      "doc_id": "labour_ordinance_sabah",
+      "expected": 275,
+      "located": 275,
+      "missing": [],
+      "titles_unmatched": [],
+      "titles_inferred": {
+        "4": "Powers of inspection and inquiry",
+        "102": "Limitation on advances to employees",
+        "107B": "Wages not due for absence from work through imprisonment or attendance in court",
+        "112": "Conditions restricting place at which, manner in which, and person with whom wages paid to be spent, illegal",
+        "113": "Lawful deductions"
+      },
+      "unassigned_notes": 0,
+      "chunks": 627,
+      "schedule_start_line": 3907
+    },
+    "labour_ordinance_sarawak": {
+      "doc_id": "labour_ordinance_sarawak",
+      "expected": 205,
+      "located": 205,
+      "missing": [],
+      "titles_unmatched": [],
+      "titles_inferred": {
+        "79": "Restriction on employment of females and young persons underground"
+      },
+      "unassigned_notes": 0,
+      "chunks": 435,
+      "schedule_start_line": 3723
+    },
+    "ea_overtime_regulations_1980": {
+      "doc_id": "ea_overtime_regulations_1980",
+      "expected": 2,
+      "located": 2,
+      "missing": [],
+      "titles_unmatched": [],
+      "titles_inferred": {},
+      "unassigned_notes": 0,
+      "chunks": 2,
+      "schedule_start_line": 6
+    },
+    "ea_termination_benefits_regulations_1980": {
+      "doc_id": "ea_termination_benefits_regulations_1980",
+      "expected": 15,
+      "located": 15,
+      "missing": [],
+      "titles_unmatched": [],
+      "titles_inferred": {},
+      "unassigned_notes": 0,
+      "chunks": 43,
+      "schedule_start_line": 231
+    },
+    "sarawak_amendment_act_2025": {
+      "doc_id": "sarawak_amendment_act_2025",
+      "sections": 75,
+      "missing": [],
+      "chunks": 147,
+      "links": {
+        "unresolved": [],
+        "superseded": 138,
+        "deleted_by_a1754": 29
+      }
+    }
+  },
+  "chunks": 1897,
+  "problems": []
+}
