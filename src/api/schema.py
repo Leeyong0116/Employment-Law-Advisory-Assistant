@@ -58,6 +58,8 @@ class Provision(BaseModel):
     act_number: str | None = None
     part: str | None = None
     part_title: str | None = None
+    chapter: str | None = None          # Sabah and Sarawak group sections in Chapters
+    chapter_title: str | None = None
     section: str | None = None
     section_title: str | None = None
     subsection: str | None = None
@@ -65,6 +67,8 @@ class Provision(BaseModel):
     jurisdiction: str
     status: str
     deleted_by: str | None = None
+    commencement: str | None = None     # A1754 chunks: when the provision starts (null: in force or unknown)
+    amendment_action: str | None = None  # A1754 chunks: what the amendment does
     content: str
     source_version: str | None = None
     source_page: int | None = None

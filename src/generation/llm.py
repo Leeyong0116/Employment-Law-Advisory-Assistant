@@ -38,6 +38,10 @@ class SessionExpired(GeneratorError):
     pass
 
 
+class GeneratorNotConfigured(GeneratorError):
+    """A generator setting is missing from .env: permanent until fixed, not a transient failure."""
+
+
 class Reply(BaseModel):
     text: str
     model: str
@@ -52,7 +56,7 @@ def _value(settings: dict, env: Mapping[str, str], key: str) -> str | None:
         return None
     value = (env.get(name) or "").strip().strip('"').strip("'")
     if not value:
-        raise GeneratorError(f"{name} is not set; add it to .env")
+        raise GeneratorNotConfigured(f"{name} is not set; add it to .env")
     return value
 
 

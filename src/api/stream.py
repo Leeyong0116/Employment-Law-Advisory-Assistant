@@ -48,9 +48,9 @@ def ask_events(engine: Engine, request: AskRequest) -> Iterator[str]:
     except Exception as exc:  # the stream has started: report in-band, never cut the connection
         mapped = error_for(exc)
         if mapped is None:
-            log.exception("stream failed")
+            log.error("stream failed type=%s", type(exc).__name__)  # no traceback: it can hold answer text
             error = ApiError(code="internal_error", message=PUBLIC_MESSAGES["internal_error"])
         else:
             error = mapped[1]
-            log.warning("generator failure code=%s detail=%s", error.code, exc)
+            log.warning("generator failure code=%s type=%s", error.code, type(exc).__name__)
         yield sse("error", error)

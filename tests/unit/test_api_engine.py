@@ -4,7 +4,7 @@ import threading
 
 import pytest
 
-from src.generation.llm import GeneratorError, SessionExpired
+from src.generation.llm import GeneratorError, GeneratorNotConfigured, SessionExpired
 from src.generation.prompt import PROMPT_VERSION
 from src.generation.schema import DISCLAIMER
 from tests.unit.api_fakes import CONFIG, STATUTES, FakeAnswerer, engine_with
@@ -37,7 +37,30 @@ def test_answerer_not_built_for_abstention():
     engine, _, built = engine_with()
     assert engine.ask("Berapa hari cuti?", None).status == "abstained"
     assert engine.ask("Berapa hari cuti?", None).abstention.reason == "language"
-    assert len(built) <= 1
+    assert built == []
+
+
+def test_abstention_needs_no_generator_settings():
+    engine, _, _ = engine_with(factory_error=GeneratorNotConfigured("OOD_COOKIE_SECRET is not set; add it to .env"))
+    answer = engine.ask("Berapa hari cuti?", None)
+    assert answer.status == "abstained" and answer.abstention.reason == "language"
+    assert answer.generator is None and answer.citations == []
+
+
+def test_late_session_expiry_keeps_a_newer_answerer():
+    """A stale answerer failing after another request rebuilt the answerer must not drop the new one."""
+    engine, _, _ = engine_with()
+    fresh = FakeAnswerer()
+
+    class Stale:
+        def answer(self, result):
+            engine._answerer = fresh  # another request rebuilt it from a refreshed .env meanwhile
+            raise SessionExpired("cookie expired")
+
+    engine._answerer = Stale()
+    with pytest.raises(SessionExpired):
+        engine.ask("q", None)
+    assert engine._answerer is fresh
 
 
 def test_session_expired_drops_answerer():

@@ -26,7 +26,7 @@ from fastapi.responses import JSONResponse, StreamingResponse
 
 from src.api.engine import Engine
 from src.api.schema import ApiError, AskRequest, Meta, Provision
-from src.generation.llm import GeneratorError, SessionExpired
+from src.generation.llm import GeneratorError, GeneratorNotConfigured, SessionExpired
 from src.generation.schema import GeneratedAnswer
 
 log = logging.getLogger("getright.api")
@@ -45,23 +45,57 @@ def _error(code: str) -> ApiError:
 
 def error_for(exc: Exception) -> tuple[int, ApiError] | None:
     """The HTTP status and public error for a generator failure; None for anything else."""
-    if isinstance(exc, SessionExpired):
+    if isinstance(exc, (SessionExpired, GeneratorNotConfigured)):
         return 503, _error("generator_unavailable")
     if isinstance(exc, GeneratorError):
         return 502, _error("generator_error")
     return None
 
 
+class CatchAll:
+    """Any unhandled error becomes a JSON internal_error 500.
+
+    Added before CORSMiddleware so it sits inside it: the 500 then carries CORS
+    headers and the browser can read it. Starlette's own 500 sits outside CORS,
+    so a React app would see only an opaque CORS failure. Logs the exception
+    type only, since the message or traceback can hold query or answer text.
+    """
+
+    def __init__(self, app):
+        self.app = app
+
+    async def __call__(self, scope, receive, send):
+        if scope["type"] != "http":
+            return await self.app(scope, receive, send)
+        started = False
+
+        async def send_tracked(message):
+            nonlocal started
+            if message["type"] == "http.response.start":
+                started = True
+            await send(message)
+
+        try:
+            await self.app(scope, receive, send_tracked)
+        except Exception as exc:
+            log.error("unhandled error type=%s path=%s", type(exc).__name__, scope.get("path"))
+            if started:  # headers already sent: nothing valid left to send
+                raise
+            response = JSONResponse(status_code=500, content=_error("internal_error").model_dump())
+            await response(scope, receive, send)
+
+
 def create_app(engine: Engine) -> FastAPI:
     app = FastAPI(title="GetRight API", version="m5")
     app.state.engine = engine
+    app.add_middleware(CatchAll)  # first added = innermost, so inside CORS
     app.add_middleware(CORSMiddleware, allow_origins=engine.config["api"]["cors_origins"],
                        allow_methods=["GET", "POST"], allow_headers=["Content-Type"])
 
     @app.exception_handler(GeneratorError)
     def _generator_failed(request: Request, exc: GeneratorError):
         status, error = error_for(exc)
-        log.warning("generator failure code=%s detail=%s", error.code, exc)
+        log.warning("generator failure code=%s type=%s", error.code, type(exc).__name__)  # message may hold text
         return JSONResponse(status_code=status, content=error.model_dump())
 
     @app.get("/api/health")

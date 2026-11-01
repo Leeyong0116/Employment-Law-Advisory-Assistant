@@ -76,3 +76,11 @@ def test_provision_from_chunk():
 def test_provision_list_fields_accept_none():
     p = Provision.from_chunk({**CHUNK, "amended_by": None, "in_force_notes": None}, [])
     assert p.amended_by == [] and p.in_force_notes == []
+
+
+def test_provision_keeps_chapter_and_amendment_fields():
+    chunk = {**CHUNK, "chapter": "Chapter VIII", "chapter_title": "Hours of Work", "commencement": None,
+             "amendment_action": "amend"}
+    p = Provision.from_chunk(chunk, [])
+    assert p.chapter == "Chapter VIII" and p.chapter_title == "Hours of Work"
+    assert p.commencement is None and p.amendment_action == "amend"

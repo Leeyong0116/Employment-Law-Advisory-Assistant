@@ -31,6 +31,15 @@ def abstention_message(reason: str, statutes_held: list[str]) -> str:
     return ("GetRight answers questions in English only. " + message) if reason == "language" else message
 
 
+def abstained_answer(result: RetrievalResult) -> GeneratedAnswer:
+    """The notice for a gate abstention. Needs no model, so it works with no generator configured."""
+    notice = Abstention(reason=result.abstain_reason, statutes_held=result.statutes_held,
+                        message=abstention_message(result.abstain_reason, result.statutes_held))
+    return GeneratedAnswer(query=result.query, region=result.region, index_version=result.index_version,
+                           status="abstained", answer=None, citations=[], abstention=notice, notes=[],
+                           external_dependencies=[], checks=AnswerChecks(), generator=None, context_chunk_ids=[])
+
+
 def _non_current(cited_blocks: list[RetrievedChunk], cited: set[str]) -> list[str]:
     """Cited chunks that are not current law, in citation order (an evaluation count, not a block)."""
     return [b.chunk_id for b in cited_blocks
@@ -57,15 +66,12 @@ class Answerer:
     def answer(self, result: RetrievalResult) -> GeneratedAnswer:
         base = dict(query=result.query, region=result.region, index_version=result.index_version)
         if result.abstained:
-            notice = Abstention(reason=result.abstain_reason, statutes_held=result.statutes_held,
-                                message=abstention_message(result.abstain_reason, result.statutes_held))
-            return GeneratedAnswer(**base, status="abstained", answer=None, citations=[], abstention=notice, notes=[],
-                                   external_dependencies=[], checks=AnswerChecks(), generator=None, context_chunk_ids=[])
+            return abstained_answer(result)
 
         prompt = build_prompt(result, self.jurisdiction_notes)
         reply = invoke_with_retry(self.chain, prompt.variables, retries=self.settings["retries"])
         if not reply.text:
-            raise GeneratorError(f"empty reply for {result.query!r}")
+            raise GeneratorError("the generator returned an empty reply")  # never the query: errors reach logs
         generator = GeneratorInfo(model=reply.model or self.settings["model"], temperature=self.settings["temperature"],
                                   seed=self.settings["seed"], prompt_version=PROMPT_VERSION,
                                   finish_reason=reply.finish_reason, prompt_tokens=reply.prompt_tokens,

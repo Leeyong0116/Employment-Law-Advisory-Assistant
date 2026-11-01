@@ -28,6 +28,7 @@ from typing import Callable
 import yaml
 
 from src.api.schema import Meta, Provision
+from src.generation.answer import abstained_answer
 from src.generation.llm import SessionExpired
 from src.generation.prompt import PROMPT_VERSION
 from src.generation.schema import DISCLAIMER, GeneratedAnswer
@@ -89,12 +90,17 @@ class Engine:
             return self._answerer
 
     def answer(self, result: RetrievalResult) -> GeneratedAnswer:
+        if result.abstained:  # no model call, so no answerer: works with no generator in .env
+            log.info("answer region=%s status=abstained ms=0", result.region)
+            return abstained_answer(result)
         start = time.perf_counter()
+        answerer = self._get_answerer()
         try:
-            answer = self._get_answerer().answer(result)
+            answer = answerer.answer(result)
         except SessionExpired:
             with self._answerer_lock:
-                self._answerer = None
+                if self._answerer is answerer:  # a late failure must not drop one rebuilt meanwhile
+                    self._answerer = None
             raise
         log.info("answer region=%s status=%s ms=%d", result.region, answer.status, _ms(start))
         return answer

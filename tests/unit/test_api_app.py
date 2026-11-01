@@ -1,9 +1,11 @@
 """Tests for src/api/app.py through FastAPI's TestClient, on fakes."""
+import logging
+
 import pytest
 from fastapi.testclient import TestClient
 
 from src.api.app import PUBLIC_MESSAGES, create_app
-from src.generation.llm import EXPIRED_MESSAGE, GeneratorError, SessionExpired
+from src.generation.llm import EXPIRED_MESSAGE, GeneratorError, GeneratorNotConfigured, SessionExpired
 from tests.unit.api_fakes import FakeAnswerer, engine_with
 
 
@@ -60,6 +62,33 @@ def test_generator_error_502():
     assert r.status_code == 502
     assert r.json() == {"code": "generator_error", "message": PUBLIC_MESSAGES["generator_error"]}
     assert "internal" not in r.text
+
+
+def test_generator_not_configured_503():
+    error = GeneratorNotConfigured("OOD_COOKIE_SECRET is not set; add it to .env")
+    r = _client([FakeAnswerer(error=error)]).post("/api/ask", json={"query": "q"})
+    assert r.status_code == 503
+    assert r.json() == {"code": "generator_unavailable", "message": PUBLIC_MESSAGES["generator_unavailable"]}
+    assert ".env" not in r.text
+
+
+def test_generator_error_log_has_no_query_text(caplog):
+    caplog.set_level(logging.DEBUG, logger="getright.api")
+    error = GeneratorError("empty reply for 'my employer withheld my overtime pay'")
+    _client([FakeAnswerer(error=error)]).post("/api/ask", json={"query": "my employer withheld my overtime pay"})
+    assert "overtime" not in caplog.text
+    assert "generator_error" in caplog.text
+
+
+def test_unexpected_error_is_json_500_with_cors(caplog):
+    caplog.set_level(logging.DEBUG)
+    engine = engine_with(retriever_error=RuntimeError("db down while reading 'my overtime pay'"))[0]
+    r = TestClient(create_app(engine)).post("/api/ask", json={"query": "my overtime pay"},
+                                             headers={"Origin": "http://localhost:5173"})
+    assert r.status_code == 500
+    assert r.json() == {"code": "internal_error", "message": PUBLIC_MESSAGES["internal_error"]}
+    assert r.headers["access-control-allow-origin"] == "http://localhost:5173"
+    assert "overtime" not in caplog.text and "RuntimeError" in caplog.text
 
 
 def test_provision_found(client):

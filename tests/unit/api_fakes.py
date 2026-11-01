@@ -68,8 +68,8 @@ def generated(result: RetrievalResult) -> GeneratedAnswer:
 class FakeRetriever:
     """Answers abstained (reason "language") when the query starts with "Berapa", else answered."""
 
-    def __init__(self, chunks: dict = CHUNKS, delay: float = 0):
-        self.chunks, self.delay = chunks, delay
+    def __init__(self, chunks: dict = CHUNKS, delay: float = 0, error: Exception | None = None):
+        self.chunks, self.delay, self.error = chunks, delay, error
         self.statutes_held, self.index_version = STATUTES, INDEX
         self.calls, self.seen, self.active, self.max_active = 0, [], 0, 0
         self._count = threading.Lock()
@@ -83,6 +83,8 @@ class FakeRetriever:
         time.sleep(self.delay)
         with self._count:
             self.active -= 1
+        if self.error is not None:
+            raise self.error
         if query.startswith("Berapa"):
             return retrieval_result(query, region, abstained=True, reason="language")
         return retrieval_result(query, region)
@@ -98,15 +100,19 @@ class FakeAnswerer:
         return generated(result)
 
 
-def engine_with(answerers: list | None = None, delay: float = 0) -> tuple[Engine, FakeRetriever, list]:
-    """An engine on fakes. `answerers` are handed out by the factory in order; the list of built ones is returned."""
+def engine_with(answerers: list | None = None, delay: float = 0, factory_error: Exception | None = None,
+                retriever_error: Exception | None = None) -> tuple[Engine, FakeRetriever, list]:
+    """An engine on fakes. `answerers` are handed out by the factory in order; the list of built ones is returned.
+    `factory_error` makes building an answerer fail, as a missing generator setting in .env does."""
     queue = list(answerers or [FakeAnswerer()])
     built = []
 
     def factory():
+        if factory_error is not None:
+            raise factory_error
         answerer = queue.pop(0) if len(queue) > 1 else queue[0]
         built.append(answerer)
         return answerer
 
-    retriever = FakeRetriever(delay=delay)
+    retriever = FakeRetriever(delay=delay, error=retriever_error)
     return Engine(retriever, factory, CONFIG), retriever, built

@@ -144,3 +144,14 @@ def test_checks_filled():
     assert answer.checks.truncated is True
     assert answer.checks.provision_mentions == ["section 60E"]
     assert answer.checks.uncited_sentences == 1
+
+
+def test_empty_reply_error_has_no_query_text():
+    import pytest
+
+    from src.generation.llm import GeneratorError
+
+    answerer = Answerer(_fake(""), CONFIG)
+    with pytest.raises(GeneratorError) as raised:
+        answerer.answer(_result([_chunk("EA1955_s59_1")], region="peninsular"))
+    assert "annual leave" not in str(raised.value)

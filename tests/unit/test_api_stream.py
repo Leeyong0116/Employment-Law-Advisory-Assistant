@@ -1,5 +1,6 @@
 """Tests for the stage stream (src/api/stream.py and POST /api/ask/stream), on fakes."""
 import json
+import logging
 
 from fastapi.testclient import TestClient
 
@@ -69,3 +70,10 @@ def test_stream_validation_422():
 def test_stream_content_type():
     r = _client().post("/api/ask/stream", json={"query": "q"})
     assert "text/event-stream" in r.headers["content-type"] and r.headers["cache-control"] == "no-cache"
+
+
+def test_unexpected_error_log_has_no_answer_text(caplog):
+    caplog.set_level(logging.DEBUG)
+    error = ValueError("1 validation error, input_value='my employer withheld my overtime pay'")
+    _stream(_client([FakeAnswerer(error=error)]), {"query": "my employer withheld my overtime pay"})
+    assert "overtime" not in caplog.text and "ValueError" in caplog.text
