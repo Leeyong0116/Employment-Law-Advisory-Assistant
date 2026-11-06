@@ -14,6 +14,9 @@ SETTINGS = {
     "timeout_seconds": 120, "retries": 3,
 }
 MESSAGES = [("system", "rules"), ("human", "question")]
+# A hosted API (e.g. DeepSeek): Bearer key, no OOD cookie.
+API_ENV = {"GENERATOR_BASE_URL": "https://api.example.com/v1", "HOSTED_API_KEY": "sk-test-456"}
+API_SETTINGS = {**SETTINGS, "cookie_env": None, "api_key_env": "HOSTED_API_KEY"}
 
 
 def _completion(text="Eight days [1].", finish_reason="stop"):
@@ -140,3 +143,25 @@ def test_list_models_redirect_raises_session_expired():
 def test_missing_base_url_is_a_clear_error():
     with pytest.raises(GeneratorError, match="GENERATOR_BASE_URL"):
         build_chat_model(SETTINGS, {}, transport=httpx.MockTransport(Recorder(httpx.Response(200))))
+
+
+def test_list_models_hosted_api_sends_key_not_cookie():
+    rec = Recorder(httpx.Response(200, json={"object": "list", "data": [{"id": "deepseek-chat"}]}))
+    assert list_models(API_SETTINGS, API_ENV, transport=httpx.MockTransport(rec)) == ["deepseek-chat"]
+    assert rec.requests[0].headers["authorization"] == "Bearer sk-test-456"
+    assert "cookie" not in rec.requests[0].headers
+
+
+def test_list_models_hosted_api_401_is_not_session_expired():
+    rec = Recorder(httpx.Response(401))
+    with pytest.raises(httpx.HTTPStatusError):
+        list_models(API_SETTINGS, API_ENV, transport=httpx.MockTransport(rec))
+
+
+def test_chat_hosted_api_401_is_generator_error_not_session_expired():
+    rec = Recorder(httpx.Response(401, json={"error": {"message": "Authentication Fails"}}))
+    model = build_chat_model(API_SETTINGS, API_ENV, transport=httpx.MockTransport(rec))
+    with pytest.raises(GeneratorError, match="401") as caught:
+        invoke_with_retry(model, MESSAGES, retries=3, sleep=lambda s: None)
+    assert not isinstance(caught.value, SessionExpired)
+    assert len(rec.requests) == 1  # a 4xx is never retried

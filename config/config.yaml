@@ -324,13 +324,15 @@ retrieval:
   prefer_in_force_wording: true
 
 generation:
-  # Any OpenAI-compatible server (src/generation/llm.py). Now: vLLM on the
-  # Sunway HPC behind the Open OnDemand proxy, authenticated by the browser
-  # session cookie. A hosted API: set api_key_env, set cookie_env to null.
-  base_url_env: GENERATOR_BASE_URL     # the URL ending in /v1
-  cookie_env: OOD_COOKIE_SECRET        # full Cookie header from the OOD session
-  api_key_env: null                    # Bearer key for a hosted API
-  model: Qwen/Qwen3-14B-AWQ            # as reported by /v1/models (2026-10-21, max_model_len 16384)
+  # Any OpenAI-compatible server (src/generation/llm.py). Now (2026-11-06,
+  # frontend development): DeepSeek hosted API, Bearer key, no cookie.
+  # The M4 results were produced on the HPC; to switch back:
+  #   base_url_env: GENERATOR_BASE_URL, cookie_env: OOD_COOKIE_SECRET,
+  #   api_key_env: null, model: Qwen/Qwen3-14B-AWQ
+  base_url_env: DEEPSEEK_BASE_URL      # the URL ending in /v1
+  cookie_env: null                     # OOD session cookie; null for a hosted API
+  api_key_env: DEEPSEEK_API_KEY        # Bearer key for a hosted API
+  model: deepseek-flash                # as reported by /v1/models (2026-11-06)
   # Reproducible runs for the RAGAS comparisons (plan 2026-10-21, D4).
   temperature: 0
   seed: 0

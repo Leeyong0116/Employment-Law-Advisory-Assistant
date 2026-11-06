@@ -70,9 +70,12 @@ def _check_login(response: httpx.Response) -> None:
 
 
 def _client(settings: dict, env: Mapping[str, str], transport: httpx.BaseTransport | None) -> httpx.Client:
+    """The login-page check applies only behind the OOD proxy (a cookie is set). A hosted API has
+    no session: its 401 means a rejected key and must not be reported as an expired session."""
     cookie = _value(settings, env, "cookie_env")
     return httpx.Client(headers={"Cookie": cookie} if cookie else {}, follow_redirects=False, transport=transport,
-                        timeout=settings["timeout_seconds"], event_hooks={"response": [_check_login]})
+                        timeout=settings["timeout_seconds"],
+                        event_hooks={"response": [_check_login] if cookie else []})
 
 
 def build_chat_model(settings: dict, env: Mapping[str, str], transport: httpx.BaseTransport | None = None) -> BaseChatModel:
@@ -124,7 +127,9 @@ def invoke_with_retry(model: Runnable, messages, retries: int, sleep: Callable[[
 def list_models(settings: dict, env: Mapping[str, str], transport: httpx.BaseTransport | None = None) -> list[str]:
     """Model ids the server reports at /models."""
     base_url = _value(settings, env, "base_url_env").rstrip("/")
+    api_key = _value(settings, env, "api_key_env")
+    headers = {"Authorization": f"Bearer {api_key}"} if api_key else {}
     with _client(settings, env, transport) as client:
-        response = client.get(f"{base_url}/models")
+        response = client.get(f"{base_url}/models", headers=headers)
     response.raise_for_status()
     return [model["id"] for model in response.json()["data"]]
