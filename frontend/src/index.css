@@ -3,7 +3,7 @@
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
 
-@custom-variant dark (@media (prefers-color-scheme: dark));
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
     --font-heading: var(--font-sans);
@@ -49,6 +49,7 @@
 }
 
 :root {
+    color-scheme: light;
     --background: oklch(1 0 0);
     --foreground: oklch(0.145 0 0);
     --card: oklch(1 0 0);
@@ -83,9 +84,10 @@
     --sidebar-ring: oklch(0.708 0 0);
 }
 
-/* Dark mode follows the system setting; no switch (plan: interface only). */
-@media (prefers-color-scheme: dark) {
-:root {
+/* Dark mode: the .dark class on <html>, set by the theme button or, with no stored
+   choice, by the system setting (src/lib/theme.ts, index.html). */
+.dark {
+    color-scheme: dark;
     --background: oklch(0.145 0 0);
     --foreground: oklch(0.985 0 0);
     --card: oklch(0.205 0 0);
@@ -117,7 +119,6 @@
     --sidebar-accent-foreground: oklch(0.985 0 0);
     --sidebar-border: oklch(1 0 0 / 10%);
     --sidebar-ring: oklch(0.556 0 0);
-}
 }
 
 @layer base {

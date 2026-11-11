@@ -1,0 +1,111 @@
+{
+    "query": "How many days of annual leave do I get?",
+    "region": "peninsular",
+    "status": "answered",
+    "answer": "**How many days you get**\n\nUnder the sources, the number of paid annual leave days depends on how long you have worked continuously for the same employer:\n\n- **8 days** for every 12 months of continuous service if you have been employed for **less than two years** [1].\n- **12 days** for every 12 months of continuous service if you have been employed for **two years or more but less than five years** [1].\n- **16 days** for every 12 months of continuous service if you have been employed for **five years or more** [1].\n\n**If you leave before completing a full year**\n\nIf your contract ends before you have completed 12 months of continuous service in that year, your leave entitlement is proportional to the number of completed months you served [1]. Any fraction of a day worked out this way that is less than half a day is ignored, and a fraction of half a day or more counts as one full day [1].\n\n**When leave can be lost**\n\nIf you are absent from work without your employer's permission and without reasonable excuse for more than 10% of the working days in the 12-month period in which the leave accrues, you are not entitled to that leave [1]. Also, your employer must grant, and you must take, the leave no later than 12 months after the end of each 12-month period of continuous service; if you do not take it by then, the entitlement ends, unless your employer requests and you agree in writing not to take some or all of it, in which case you are paid in lieu [2].\n\n**Related points**\n\nThe annual leave is in addition to rest days and paid holidays [3]. Your employer must pay your ordinary rate of pay for each day of paid annual leave, and if you are paid monthly, receiving your full monthly wages for the month in which you take the leave counts as having received the leave pay [4]. Where your employer grants you unpaid leave and the total exceeds 30 days in a 12-month period, that period of unpaid absence is disregarded when working out your length of service [5].\n\nAll of these rules apply in Peninsular Malaysia and Labuan [1][5][4][3][2].",
+    "citations": [
+        {
+            "number": 1,
+            "chunk_id": "EA1955_s60E_1",
+            "citation": "Employment Act 1955, s. 60E(1)",
+            "statute": "Employment Act 1955",
+            "act_number": "Act 265",
+            "section": "60E",
+            "subsection": "(1)",
+            "section_title": "Annual leave",
+            "jurisdiction": "Peninsular Malaysia and Labuan",
+            "status": "in_force",
+            "source_page": 63,
+            "source_url": "https://lom.agc.gov.my/",
+            "source_version": "as at 1 January 2023"
+        },
+        {
+            "number": 2,
+            "chunk_id": "EA1955_s60E_2",
+            "citation": "Employment Act 1955, s. 60E(2)",
+            "statute": "Employment Act 1955",
+            "act_number": "Act 265",
+            "section": "60E",
+            "subsection": "(2)",
+            "section_title": "Annual leave",
+            "jurisdiction": "Peninsular Malaysia and Labuan",
+            "status": "in_force",
+            "source_page": 64,
+            "source_url": "https://lom.agc.gov.my/",
+            "source_version": "as at 1 January 2023"
+        },
+        {
+            "number": 3,
+            "chunk_id": "EA1955_s60E_1A",
+            "citation": "Employment Act 1955, s. 60E(1A)",
+            "statute": "Employment Act 1955",
+            "act_number": "Act 265",
+            "section": "60E",
+            "subsection": "(1A)",
+            "section_title": "Annual leave",
+            "jurisdiction": "Peninsular Malaysia and Labuan",
+            "status": "in_force",
+            "source_page": 64,
+            "source_url": "https://lom.agc.gov.my/",
+            "source_version": "as at 1 January 2023"
+        },
+        {
+            "number": 4,
+            "chunk_id": "EA1955_s60E_3",
+            "citation": "Employment Act 1955, s. 60E(3)",
+            "statute": "Employment Act 1955",
+            "act_number": "Act 265",
+            "section": "60E",
+            "subsection": "(3)",
+            "section_title": "Annual leave",
+            "jurisdiction": "Peninsular Malaysia and Labuan",
+            "status": "in_force",
+            "source_page": 64,
+            "source_url": "https://lom.agc.gov.my/",
+            "source_version": "as at 1 January 2023"
+        },
+        {
+            "number": 5,
+            "chunk_id": "EA1955_s60E_3B",
+            "citation": "Employment Act 1955, s. 60E(3B)",
+            "statute": "Employment Act 1955",
+            "act_number": "Act 265",
+            "section": "60E",
+            "subsection": "(3B)",
+            "section_title": "Annual leave",
+            "jurisdiction": "Peninsular Malaysia and Labuan",
+            "status": "in_force",
+            "source_page": 65,
+            "source_url": "https://lom.agc.gov.my/",
+            "source_version": "as at 1 January 2023"
+        }
+    ],
+    "abstention": null,
+    "notes": [],
+    "external_dependencies": [],
+    "checks": {
+        "invalid_markers": [],
+        "uncited_sentences": 1,
+        "provision_mentions": [],
+        "non_current_citations": [],
+        "truncated": false
+    },
+    "generator": {
+        "model": "deepseek-flash",
+        "temperature": 0.0,
+        "seed": 0,
+        "prompt_version": "m4-v2",
+        "finish_reason": "stop",
+        "prompt_tokens": 947,
+        "completion_tokens": 642
+    },
+    "context_chunk_ids": [
+        "EA1955_s60E_1",
+        "EA1955_s60E_3B",
+        "EA1955_s60E_3",
+        "EA1955_s60E_1A",
+        "EA1955_s60E_2"
+    ],
+    "index_version": "459843bf28ba",
+    "disclaimer": "GetRight gives legal information, not legal advice. Check the cited provisions, and contact the Department of Labour or a lawyer about your own situation."
+}

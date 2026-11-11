@@ -1,0 +1,33 @@
+{
+    "query": "How do I withdraw my EPF savings?",
+    "region": "peninsular",
+    "status": "abstained",
+    "answer": null,
+    "citations": [],
+    "abstention": {
+        "reason": "low_score",
+        "statutes_held": [
+            "Employment Act 1955 (Act 265), Peninsular Malaysia and Labuan",
+            "Industrial Relations Act 1967 (Act 177), Malaysia",
+            "Labour Ordinance (Sabah) (Sabah Cap. 67), Sabah",
+            "Labour Ordinance (Sarawak) (Sarawak Cap. 76), Sarawak",
+            "Labour Ordinance of Sarawak (Amendment) Act 2025 (Act A1754), Sarawak",
+            "Employment (Limitation of Overtime Work) Regulations 1980 (P.U. (A) 339/1983), Peninsular Malaysia and Labuan",
+            "Employment (Termination and Lay-Off Benefits) Regulations 1980 (P.U. (A) 338/1983), Peninsular Malaysia and Labuan"
+        ],
+        "message": "This question is outside what GetRight can answer from the statutes it holds. GetRight covers:\nEmployment Act 1955 (Act 265), Peninsular Malaysia and Labuan\nIndustrial Relations Act 1967 (Act 177), Malaysia\nLabour Ordinance (Sabah) (Sabah Cap. 67), Sabah\nLabour Ordinance (Sarawak) (Sarawak Cap. 76), Sarawak\nLabour Ordinance of Sarawak (Amendment) Act 2025 (Act A1754), Sarawak\nEmployment (Limitation of Overtime Work) Regulations 1980 (P.U. (A) 339/1983), Peninsular Malaysia and Labuan\nEmployment (Termination and Lay-Off Benefits) Regulations 1980 (P.U. (A) 338/1983), Peninsular Malaysia and Labuan\nFor help with your situation, contact the Department of Labour (JTKSM, JTK Sabah or JTK Sarawak)."
+    },
+    "notes": [],
+    "external_dependencies": [],
+    "checks": {
+        "invalid_markers": [],
+        "uncited_sentences": 0,
+        "provision_mentions": [],
+        "non_current_citations": [],
+        "truncated": false
+    },
+    "generator": null,
+    "context_chunk_ids": [],
+    "index_version": "459843bf28ba",
+    "disclaimer": "GetRight gives legal information, not legal advice. Check the cited provisions, and contact the Department of Labour or a lawyer about your own situation."
+}

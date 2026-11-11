@@ -1,0 +1,67 @@
+{
+  "query": "my boss fired me without any notice period",
+  "region": "peninsular",
+  "status": "answered",
+  "answer": "An employer may dismiss without notice for misconduct after a due inquiry [1], and source [2] sets payment rules for some no-notice terminations by an employer. The sources do not say whether your own dismissal was lawful.\n\n## Dismissal without notice for misconduct\n- An employer may dismiss an employee without notice on grounds of misconduct inconsistent with the express or implied conditions of service, but this is after a due inquiry [1].\n- Instead of dismissal, the employer may downgrade the employee or impose another lesser punishment it considers just and fit [1].\n- If the punishment is suspension without wages, it cannot be longer than two weeks [1].\n\n## Pay after a no-notice termination by the employer\n- Where an employer terminates the contract without notice under the provisions covered by source [2], wages earned up to and including the day before termination takes effect, less deductions the employer may make, must be paid no later than the day the contract is terminated [2].\n- In the case covered by that source where an indemnity is payable, it must also be paid by the day the contract is terminated [2].",
+  "citations": [
+    {
+      "number": 1,
+      "chunk_id": "EA1955_s14_1",
+      "citation": "Employment Act 1955, s. 14(1)",
+      "statute": "Employment Act 1955",
+      "act_number": "Act 265",
+      "section": "14",
+      "subsection": "(1)",
+      "section_title": "Termination of contract for special reasons",
+      "jurisdiction": "Peninsular Malaysia and Labuan",
+      "status": "in_force",
+      "source_page": 27,
+      "source_url": "https://lom.agc.gov.my/",
+      "source_version": "as at 1 January 2023"
+    },
+    {
+      "number": 2,
+      "chunk_id": "EA1955_s21_1",
+      "citation": "Employment Act 1955, s. 21(1)",
+      "statute": "Employment Act 1955",
+      "act_number": "Act 265",
+      "section": "21",
+      "subsection": "(1)",
+      "section_title": "Payment on termination of contract in special circumstances and on breach of contract",
+      "jurisdiction": "Peninsular Malaysia and Labuan",
+      "status": "in_force",
+      "source_page": 31,
+      "source_url": "https://lom.agc.gov.my/",
+      "source_version": "as at 1 January 2023"
+    }
+  ],
+  "abstention": null,
+  "notes": [],
+  "external_dependencies": [],
+  "checks": {
+    "invalid_markers": [],
+    "uncited_sentences": 2,
+    "provision_mentions": [],
+    "non_current_citations": [],
+    "truncated": false
+  },
+  "generator": {
+    "model": "deepseek-flash",
+    "temperature": 0.0,
+    "seed": 0,
+    "prompt_version": "m4-v3",
+    "finish_reason": "stop",
+    "prompt_tokens": 1175,
+    "completion_tokens": 2177
+  },
+  "context_chunk_ids": [
+    "EA1955_s14_1",
+    "EA1955_s81C",
+    "EA1955_s81E_1",
+    "EA1955_s21_2",
+    "EA1955_s21_1"
+  ],
+  "index_version": "459843bf28ba",
+  "limits": "The sources cannot tell you whether your employer had a valid reason, whether a due inquiry was held, or what amount you are owed in your own case.",
+  "disclaimer": "GetRight gives legal information, not legal advice. Check the cited provisions, and contact the Department of Labour or a lawyer about your own situation."
+}

@@ -1,0 +1,35 @@
+{
+    "query": "What is the minimum wage in Malaysia?",
+    "region": "peninsular",
+    "status": "insufficient_context",
+    "answer": null,
+    "citations": [],
+    "abstention": null,
+    "notes": [],
+    "external_dependencies": [],
+    "checks": {
+        "invalid_markers": [],
+        "uncited_sentences": 0,
+        "provision_mentions": [],
+        "non_current_citations": [],
+        "truncated": false
+    },
+    "generator": {
+        "model": "deepseek-flash",
+        "temperature": 0.0,
+        "seed": 0,
+        "prompt_version": "m4-v2",
+        "finish_reason": "stop",
+        "prompt_tokens": 770,
+        "completion_tokens": 28
+    },
+    "context_chunk_ids": [
+        "EA1955_sch1_1A",
+        "EA1955_s57A_2",
+        "EA1955_s90B",
+        "IRA1967_s46_1",
+        "IRA1967_s46_2"
+    ],
+    "index_version": "459843bf28ba",
+    "disclaimer": "GetRight gives legal information, not legal advice. Check the cited provisions, and contact the Department of Labour or a lawyer about your own situation."
+}

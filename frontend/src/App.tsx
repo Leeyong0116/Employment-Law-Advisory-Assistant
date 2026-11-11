@@ -1,77 +1,214 @@
-import { useState} from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { Scale } from 'lucide-react'
 import { askQuestion } from '@/api/client'
-import type { GeneratedAnswer, Region } from '@/api/types'
-import { Button } from '@/components/ui/button'
+import type { Region } from '@/api/types'
 import { AnswerView } from '@/components/AnswerView'
-import { Textarea } from '@/components/ui/textarea'
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from '@/components/ui/select'
+import { AppSidebar } from '@/components/AppSidebar'
+import { Composer } from '@/components/Composer'
+import { SourcePanel } from '@/components/SourcePanel'
+import { Button } from '@/components/ui/button'
+import { ThemeToggle } from '@/components/ThemeToggle'
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import { useMediaQuery } from '@/hooks/use-media-query'
+import { regionLabel } from '@/lib/regions'
+import { MAX_ENTRIES, loadHistory, loadRegion, saveHistory, saveRegion, type HistoryEntry } from '@/state/history'
 
-
-
-
+// Layout like a chat app: history on the left, the question and answer in the middle,
+// the question box pinned at the bottom. Each question is its own entry (plan D2):
+// sending always starts a new entry, so two questions never look like one conversation.
 export default function App() {
-  const[question, setQuestion] = useState('')
-  const[region, setRegion] = useState<Region | null>(null)
-  const[result, setResult] = useState<GeneratedAnswer | null>(null)
-  const[loading, setLoading] = useState(false)
-  const[error, setError] = useState<string | null>(null)
-  const canSend = question.trim().length > 0 && !loading && region !== null
+  const [entries, setEntries] = useState<HistoryEntry[]>(loadHistory)
+  const [activeId, setActiveId] = useState<string | null>(null)
+  const [question, setQuestion] = useState('')
+  const [region, setRegion] = useState<Region | null>(loadRegion) // remembered, never defaulted (plan D3)
+  const [pendingId, setPendingId] = useState<string | null>(null)
+  const [selected, setSelected] = useState<number | null>(null) // citation open in the source panel
+  const wide = useMediaQuery('(min-width: 1024px)') // room for the source panel beside the answer
+  const inFlight = useRef(false) // blocks a second request before React re-renders the disabled button
+  const scrollRef = useRef<HTMLDivElement>(null)
 
+  const active = entries.find((e) => e.id === activeId) ?? null
+  const canSend = question.trim().length > 0 && region !== null && pendingId === null
 
+  // Keep localStorage in step with the entries (an effect: it syncs with something outside React).
+  // Effects use { } bodies: an effect may return only a cleanup function. In recent
+  // Chrome and Edge, scrollTo returns a Promise, so `() => el.scrollTo(...)` crashed the page.
+  useEffect(() => {
+    saveHistory(entries)
+  }, [entries])
 
-  async function handleSend(){
-      if (!region) return
-      setLoading(true)
-      setError(null)
-      setResult(null)
-      try{
-      const answer = await askQuestion(question, region)
-      setResult(answer)
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Something went wrong.')
-      } finally {
-        setLoading(false)
-      }
+  // A newly opened entry starts at the top.
+  useEffect(() => {
+    scrollRef.current?.scrollTo?.({ top: 0 })
+  }, [activeId])
+
+  function openEntry(id: string | null) {
+    setActiveId(id)
+    setSelected(null)
   }
 
-  return(
-    <main className="mx-auto max-w-3xl space-y-4 p-4">
-      <h1 className="text-2xl font-semibold">GetRight</h1>
+  const closeSource = useCallback(() => setSelected(null), [])
+  const sourceOpen = selected !== null && Boolean(active?.answer?.citations.length)
 
-      <Textarea
-      value={question}
-      onChange={(event) => setQuestion(event.target.value)}
-      placeholder="Ask about your employment rights"
-      />
-      <Select value={region ?? ''} onValueChange={(value) => setRegion(value as Region)}>
-        <SelectTrigger>
-          <SelectValue placeholder="Where do you work?" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="peninsular">Peninsular Malaysia and Labuan</SelectItem>
-          <SelectItem value="sabah">Sabah</SelectItem>
-          <SelectItem value="sarawak">Sarawak</SelectItem>
-        </SelectContent>
-      </Select>
-      <Button onClick={handleSend} disabled={!canSend}>
-        {loading ? 'Sending...' : 'Send'}
-      </Button>
-      {/* copy of DISCLAIMER from src/generation/schema.py  */}
-      <p className="text-sm text-muted-foreground">
-        GetRight gives legal information, not legal advice. Check the cited provisions, and contact the Department of Labour or a lawyer about your own situation.
-      </p>
+  function updateEntry(id: string, change: Partial<HistoryEntry>) {
+    setEntries((prev) => prev.map((e) => (e.id === id ? { ...e, ...change } : e)))
+  }
 
-      {error && (
-        <div className="space-y-2">
-          <p role="alert" className="text-red-500">{error}</p>
-          <Button onClick={handleSend} disabled={!canSend}>
-            Retry
-          </Button>
+  async function run(entry: HistoryEntry) {
+    if (inFlight.current) return
+    inFlight.current = true
+    setPendingId(entry.id)
+    updateEntry(entry.id, { answer: undefined, error: undefined })
+    try {
+      updateEntry(entry.id, { answer: await askQuestion(entry.query, entry.region) })
+    } catch (err) {
+      updateEntry(entry.id, { error: err instanceof Error ? err.message : 'Something went wrong.' })
+    } finally {
+      inFlight.current = false
+      setPendingId(null)
+    }
+  }
+
+  function handleSend() {
+    if (inFlight.current || !canSend || !region) return
+    const entry: HistoryEntry = {
+      id: crypto.randomUUID(),
+      query: question.trim(),
+      region,
+      createdAt: new Date().toISOString(),
+    }
+    setEntries((prev) => [entry, ...prev].slice(0, MAX_ENTRIES))
+    openEntry(entry.id)
+    setQuestion('')
+    run(entry)
+  }
+
+  function handleRegionChange(value: Region) {
+    setRegion(value)
+    saveRegion(value)
+  }
+
+  return (
+    <SidebarProvider>
+      <AppSidebar entries={entries} activeId={activeId} onSelect={openEntry} onNew={() => openEntry(null)} />
+
+      <SidebarInset className="h-svh overflow-hidden">
+        <header className="flex h-12 shrink-0 items-center gap-2 px-3">
+          <SidebarTrigger />
+          <h1 className="text-base font-semibold tracking-tight">GetRight</h1>
+          <div className="ml-auto">
+            <ThemeToggle />
+          </div>
+        </header>
+
+        <div className="flex min-h-0 flex-1">
+          <div className="flex min-w-0 flex-1 flex-col">
+            {/* min-h-0 lets this column scroll inside the page instead of growing under the question box */}
+            <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto">
+              <div className="mx-auto w-full max-w-3xl px-4 pb-16 pt-4">
+                {active ? (
+                  <Turn
+                    entry={active}
+                    pending={pendingId === active.id}
+                    onRetry={() => run(active)}
+                    selected={selected}
+                    onSelect={setSelected}
+                  />
+                ) : (
+                  <EmptyState />
+                )}
+              </div>
+            </div>
+
+            <div className="shrink-0 bg-background px-4 pb-3 pt-1">
+              <div className="mx-auto w-full max-w-3xl">
+                <Composer
+                  question={question}
+                  onQuestionChange={setQuestion}
+                  region={region}
+                  onRegionChange={handleRegionChange}
+                  canSend={canSend}
+                  onSend={handleSend}
+                />
+              </div>
+            </div>
+          </div>
+
+          {sourceOpen && active?.answer && (
+            <SourcePanel
+              citations={active.answer.citations}
+              selected={selected!}
+              onSelect={setSelected}
+              onClose={closeSource}
+              layout={wide ? 'side' : 'sheet'}
+            />
+          )}
         </div>
-      )}
+      </SidebarInset>
+    </SidebarProvider>
+  )
+}
 
+function EmptyState() {
+  return (
+    <div className="flex min-h-[50svh] flex-col items-center justify-center gap-3 text-center">
+      <Scale className="size-8 text-muted-foreground" aria-hidden />
+      <h2 className="text-2xl font-semibold tracking-tight">What would you like to know about your employment rights?</h2>
+      <p className="max-w-md text-sm leading-6 text-muted-foreground">
+        Choose where you work, so GetRight answers from the law that applies there. Every answer shows the
+        provisions it was taken from.
+      </p>
+    </div>
+  )
+}
 
-      {result && <AnswerView answer={result} />}
-      </main>   
+type TurnProps = {
+  entry: HistoryEntry
+  pending: boolean
+  onRetry: () => void
+  selected: number | null
+  onSelect: (number: number) => void
+}
+
+// One question and its answer: the question on the right, the answer below it.
+function Turn({ entry, pending, onRetry, selected, onSelect }: TurnProps) {
+  const interrupted = !pending && !entry.answer && !entry.error // the page closed before the answer came
+
+  return (
+    <div className="space-y-8">
+      <div className="ml-auto w-fit max-w-[85%] space-y-1 rounded-3xl bg-muted px-5 py-3">
+        <p className="whitespace-pre-wrap text-[15px] leading-7">{entry.query}</p>
+        <p className="text-xs text-muted-foreground">{regionLabel(entry.region)}</p>
+      </div>
+
+      <div className="flex gap-4">
+        <div className="flex size-8 shrink-0 items-center justify-center rounded-full border" aria-hidden>
+          <Scale className="size-4" />
+        </div>
+        <div className="min-w-0 flex-1 pt-1">
+          <div aria-live="polite">
+            {pending && (
+              <p className="animate-pulse text-sm text-muted-foreground">Searching the statutes and writing the answer...</p>
+            )}
+          </div>
+
+          {entry.error && (
+            <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-destructive/30 bg-destructive/10 p-4">
+              <p role="alert" className="text-sm text-destructive">{entry.error}</p>
+              <Button variant="outline" size="sm" onClick={onRetry}>Retry</Button>
+            </div>
+          )}
+
+          {interrupted && (
+            <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border bg-muted/40 p-4 text-sm">
+              <p>This question did not get an answer: the page was closed or reloaded before it finished.</p>
+              <Button variant="outline" size="sm" onClick={onRetry}>Ask again</Button>
+            </div>
+          )}
+
+          {entry.answer && <AnswerView answer={entry.answer} selected={selected} onSelect={onSelect} />}
+        </div>
+      </div>
+    </div>
   )
 }

@@ -1,4 +1,4 @@
-import type{ GeneratedAnswer, Meta, Region} from './types'
+import type{ GeneratedAnswer, Meta, Region, Provision} from './types'
 
 const FALLBACK_MESSAGE = 'GetRight could not reach the server. Please try again.'
 
@@ -45,6 +45,21 @@ export async function getMeta():Promise<Meta>{
         }
     
     if (!response.ok) {
+        throw new Error(await errorMessage(response))
+    }
+    return await response.json()
+}
+
+
+export async function getProvision(chunkId: string):Promise<Provision>{
+    let response: Response
+    try{
+        response = await fetch(`/api/provisions/${encodeURIComponent(chunkId)}`)
+    } catch {
+        throw new Error(FALLBACK_MESSAGE)
+    }
+
+    if(!response.ok){
         throw new Error(await errorMessage(response))
     }
     return await response.json()
