@@ -497,6 +497,17 @@
             "type": "string",
             "title": "Index Version"
           },
+          "limits": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Limits"
+          },
           "disclaimer": {
             "type": "string",
             "title": "Disclaimer",

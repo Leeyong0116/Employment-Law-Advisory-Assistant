@@ -1,0 +1,100 @@
+{
+  "content only (current)": {
+    "hit@5": 0.926,
+    "mrr": 0.793,
+    "recall_top5": 0.808,
+    "gate_auc": 0.918,
+    "oos_declined_5fold": 0.6,
+    "in_scope_declined_5fold": 0.111,
+    "misses": [
+      "JTKSM-07",
+      "JTKSM-45",
+      "RDT-006",
+      "SBH-043"
+    ],
+    "dismissal_question": [
+      "Employment Act 1955, s. 14(1)",
+      "Employment Act 1955, s. 81C",
+      "Employment Act 1955, s. 81E(1)",
+      "Employment Act 1955, s. 21(2)",
+      "Employment Act 1955, s. 21(1)"
+    ],
+    "RDT-005": [
+      "TLB1980_r4_4",
+      "EA1955_s14_1",
+      "EA1955_s21_1",
+      "SBH67_s108B_2",
+      "EA1955_s21_2"
+    ],
+    "RDT-006": [
+      "EA1955_s21_2",
+      "SBH67_s108B_2",
+      "EA1955_s21_1",
+      "SWK76_s109_5",
+      "SBH67_s108B_1"
+    ],
+    "RDT-007": [
+      "EA1955_s10_1",
+      "EA1955_s14_1",
+      "SBH67_s13_1",
+      "EA1955_s14_3",
+      "EA1955_s57"
+    ],
+    "RDT-008": [
+      "SBH67_s11_2",
+      "SBH67_s12_1",
+      "EA1955_s12_2",
+      "TLB1980_r12_4",
+      "SWK76_s109_5"
+    ]
+  },
+  "contextual (citation + title + content)": {
+    "hit@5": 0.926,
+    "mrr": 0.78,
+    "recall_top5": 0.808,
+    "gate_auc": 0.922,
+    "oos_declined_5fold": 0.65,
+    "in_scope_declined_5fold": 0.111,
+    "misses": [
+      "JTKSM-07",
+      "JTKSM-45",
+      "RDT-006",
+      "SBH-043"
+    ],
+    "dismissal_question": [
+      "Employment Act 1955, s. 14(1)",
+      "Employment Act 1955, s. 81C",
+      "Employment Act 1955, s. 81E(1)",
+      "Employment Act 1955, s. 21(2)",
+      "Employment Act 1955, s. 21(1)"
+    ],
+    "RDT-005": [
+      "TLB1980_r4_4",
+      "TLB1980_r12_3",
+      "EA1955_s13_1",
+      "TLB1980_r4_3",
+      "EA1955_s21_1"
+    ],
+    "RDT-006": [
+      "EA1955_s21_2",
+      "SBH67_s108B_2",
+      "EA1955_s21_1",
+      "EA1955_s13_1",
+      "SWK76_s109_5"
+    ],
+    "RDT-007": [
+      "SBH67_s18_1",
+      "EA1955_s10_1",
+      "EA1955_s14_1",
+      "SBH67_s13_1",
+      "SWK76_s19_1"
+    ],
+    "RDT-008": [
+      "SBH67_s11_2",
+      "SBH67_s12_1",
+      "EA1955_s12_2",
+      "TLB1980_r12_4",
+      "SWK76_s109_5"
+    ]
+  }
+}

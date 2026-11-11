@@ -205,6 +205,8 @@ export interface components {
             context_chunk_ids: string[];
             /** Index Version */
             index_version: string;
+            /** Limits */
+            limits?: string | null;
             /**
              * Disclaimer
              * @default GetRight gives legal information, not legal advice. Check the cited provisions, and contact the Department of Labour or a lawyer about your own situation.

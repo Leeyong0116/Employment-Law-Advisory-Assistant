@@ -88,6 +88,9 @@ class GeneratedAnswer(BaseModel):
     generator: GeneratorInfo | None      # null when no call was made
     context_chunk_ids: list[str]
     index_version: str
+    # What the sources cannot tell the user about their own case, written by the model on its
+    # LIMITS line (prompt m4-v3), returned apart from the answer text; null when not given.
+    limits: str | None = None
     disclaimer: str = DISCLAIMER
 
     @model_validator(mode="after")

@@ -202,3 +202,23 @@ class TestExpansionAndJurisdictions:
         result = _retriever(config=config).retrieve("maternity", "sarawak")
         assert len(result.chunks) <= 2
         assert result.expansions_dropped == 1
+
+
+class TestContextCutoff:
+    """retrieval.context_min_ratio (2026-11-12): drop reranked chunks scoring below ratio x top score.
+    Off by default: on gold set v1 it lowered hit@5 from 0.926 to 0.852 (plan 2026-11-12, Section 3)."""
+
+    def _config(self, ratio):
+        return {**CONFIG, "retrieval": {**CONFIG["retrieval"], "context_min_ratio": ratio}}
+
+    def test_off_by_default_keeps_the_top_k(self):
+        assert _ids(_retriever().retrieve("q", "peninsular")) == ["EA_s60E_1", "IRA_s5_1"]
+
+    def test_drops_weak_chunks_but_not_the_gate_score(self):
+        result = _retriever(config=self._config(0.6)).retrieve("q", "peninsular")
+        assert _ids(result) == ["EA_s60E_1"]  # IRA 0.5 < 0.6 x 0.95
+        assert result.gate_score == pytest.approx(0.95)
+
+    def test_only_reranker_scores_are_cut(self):
+        result = _retriever(config=self._config(0.99)).retrieve("q", "peninsular", mode="dense")
+        assert _ids(result) == ["EA_s60E_1", "IRA_s5_1"]

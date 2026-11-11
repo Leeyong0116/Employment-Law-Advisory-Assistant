@@ -318,6 +318,10 @@ retrieval:
   # load-bearing for Sarawak: A1754 has been in force since 2025-05-01, so for
   # amended sections the A1754 wording is operative and the Cap. 76 wording is
   # superseded. Without the link the system answers from repealed text.
+  # Relevance cut-off after reranking (2026-11-12): keep chunks scoring at least this share of
+  # the top reranker score. null = off. Tested on gold set v1: every ratio from 0.1 to 0.5 drops
+  # correct chunks (hit@5 0.926 -> 0.852 at 0.1). Turn on only with Dr Azam's agreement.
+  context_min_ratio: null
   follow_amendment_links: true
   # Answers must lead with the in-force wording and cite the principal
   # section it amends, never present superseded wording as current.

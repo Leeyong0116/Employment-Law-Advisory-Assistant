@@ -35,7 +35,7 @@ def _render(prompt):
 
 
 def test_prompt_version_and_sentinel():
-    assert PROMPT_VERSION == "m4-v2"
+    assert PROMPT_VERSION == "m4-v3"
     assert INSUFFICIENT == "INSUFFICIENT_CONTEXT"
 
 
@@ -127,3 +127,17 @@ def test_braces_in_content_do_not_break_the_template():
 def test_abstained_result_raises():
     with pytest.raises(ValueError):
         build_prompt(_result([], abstained=True), NOTES)
+
+
+def test_rules_ask_for_direct_answer_sections_and_limits_line():
+    system, _ = _render(build_prompt(_result([_chunk("X_1")]), NOTES))
+    assert "Start with a direct answer to the question in one or two sentences" in system
+    assert 'start the line with "## "' in system
+    assert 'one line that starts "LIMITS: "' in system
+    assert "Say this only on that line, not in the answer above it." in system
+
+
+def test_rules_use_only_sources_that_bear_on_the_question():
+    system, _ = _render(build_prompt(_result([_chunk("X_1")]), NOTES))
+    assert "Use only the sources that bear on the question asked" in system
+    assert "Answer only from the numbered sources." in system

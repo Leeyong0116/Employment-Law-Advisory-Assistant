@@ -1,0 +1,207 @@
+{
+  "baseline": {
+    "n": 54,
+    "recall": 0.808,
+    "precision": 0.233,
+    "mean_size": 5,
+    "hit": 0.926,
+    "gate_auc": 0.918,
+    "oos_declined": 0.6,
+    "in_scope_declined": 0.111,
+    "dismissal_question": [
+      "Employment Act 1955, s. 14(1)",
+      "Employment Act 1955, s. 81C",
+      "Employment Act 1955, s. 81E(1)",
+      "Employment Act 1955, s. 21(2)",
+      "Employment Act 1955, s. 21(1)"
+    ],
+    "RDT-005": "1/5 expected",
+    "RDT-006": "0/5 expected",
+    "RDT-007": "1/5 expected",
+    "RDT-008": "2/5 expected"
+  },
+  "baseline cutoff 0.1": {
+    "n": 54,
+    "recall": 0.719,
+    "precision": 0.382,
+    "mean_size": 3.54,
+    "hit": 0.852,
+    "gate_auc": 0.918,
+    "oos_declined": 0.6,
+    "in_scope_declined": 0.111,
+    "dismissal_question": [
+      "Employment Act 1955, s. 14(1)",
+      "Employment Act 1955, s. 81C",
+      "Employment Act 1955, s. 81E(1)",
+      "Employment Act 1955, s. 21(2)",
+      "Employment Act 1955, s. 21(1)"
+    ],
+    "RDT-005": "1/5 expected",
+    "RDT-006": "0/5 expected",
+    "RDT-007": "1/5 expected",
+    "RDT-008": "2/5 expected"
+  },
+  "baseline cutoff 0.2": {
+    "n": 54,
+    "recall": 0.719,
+    "precision": 0.463,
+    "mean_size": 3.06,
+    "hit": 0.852,
+    "gate_auc": 0.918,
+    "oos_declined": 0.6,
+    "in_scope_declined": 0.111,
+    "dismissal_question": [
+      "Employment Act 1955, s. 14(1)",
+      "Employment Act 1955, s. 81C",
+      "Employment Act 1955, s. 81E(1)",
+      "Employment Act 1955, s. 21(2)",
+      "Employment Act 1955, s. 21(1)"
+    ],
+    "RDT-005": "1/5 expected",
+    "RDT-006": "0/5 expected",
+    "RDT-007": "1/3 expected",
+    "RDT-008": "2/5 expected"
+  },
+  "baseline cutoff 0.3": {
+    "n": 54,
+    "recall": 0.719,
+    "precision": 0.502,
+    "mean_size": 2.72,
+    "hit": 0.852,
+    "gate_auc": 0.918,
+    "oos_declined": 0.6,
+    "in_scope_declined": 0.111,
+    "dismissal_question": [
+      "Employment Act 1955, s. 14(1)",
+      "Employment Act 1955, s. 81C",
+      "Employment Act 1955, s. 81E(1)"
+    ],
+    "RDT-005": "1/3 expected",
+    "RDT-006": "0/5 expected",
+    "RDT-007": "1/3 expected",
+    "RDT-008": "2/5 expected"
+  },
+  "baseline cutoff 0.5": {
+    "n": 54,
+    "recall": 0.708,
+    "precision": 0.562,
+    "mean_size": 2.24,
+    "hit": 0.833,
+    "gate_auc": 0.918,
+    "oos_declined": 0.6,
+    "in_scope_declined": 0.111,
+    "dismissal_question": [
+      "Employment Act 1955, s. 14(1)",
+      "Employment Act 1955, s. 81C"
+    ],
+    "RDT-005": "0/1 expected",
+    "RDT-006": "0/2 expected",
+    "RDT-007": "1/2 expected",
+    "RDT-008": "2/5 expected"
+  },
+  "section": {
+    "n": 54,
+    "recall": 0.748,
+    "precision": 0.207,
+    "mean_size": 5,
+    "hit": 0.852,
+    "gate_auc": 0.918,
+    "oos_declined": 0.6,
+    "in_scope_declined": 0.111,
+    "dismissal_question": [
+      "Employment Act 1955, s. 14(1)",
+      "Employment Act 1955, s. 14(2)",
+      "Employment Act 1955, s. 14(3)",
+      "Employment Act 1955, s. 81C",
+      "Employment (Termination and Lay-Off Benefits) Regulations 1980, reg. 4(1)"
+    ],
+    "RDT-005": "0/5 expected",
+    "RDT-006": "0/5 expected",
+    "RDT-007": "1/5 expected",
+    "RDT-008": "1/5 expected"
+  },
+  "section cutoff 0.1": {
+    "n": 54,
+    "recall": 0.72,
+    "precision": 0.273,
+    "mean_size": 4.33,
+    "hit": 0.815,
+    "gate_auc": 0.918,
+    "oos_declined": 0.6,
+    "in_scope_declined": 0.111,
+    "dismissal_question": [
+      "Employment Act 1955, s. 14(1)",
+      "Employment Act 1955, s. 14(2)",
+      "Employment Act 1955, s. 14(3)",
+      "Employment Act 1955, s. 81C",
+      "Employment (Termination and Lay-Off Benefits) Regulations 1980, reg. 4(1)"
+    ],
+    "RDT-005": "0/5 expected",
+    "RDT-006": "0/5 expected",
+    "RDT-007": "1/5 expected",
+    "RDT-008": "1/5 expected"
+  },
+  "section cutoff 0.2": {
+    "n": 54,
+    "recall": 0.72,
+    "precision": 0.288,
+    "mean_size": 4.2,
+    "hit": 0.815,
+    "gate_auc": 0.918,
+    "oos_declined": 0.6,
+    "in_scope_declined": 0.111,
+    "dismissal_question": [
+      "Employment Act 1955, s. 14(1)",
+      "Employment Act 1955, s. 14(2)",
+      "Employment Act 1955, s. 14(3)",
+      "Employment Act 1955, s. 81C",
+      "Employment (Termination and Lay-Off Benefits) Regulations 1980, reg. 4(1)"
+    ],
+    "RDT-005": "0/5 expected",
+    "RDT-006": "0/5 expected",
+    "RDT-007": "1/5 expected",
+    "RDT-008": "1/5 expected"
+  },
+  "section cutoff 0.3": {
+    "n": 54,
+    "recall": 0.711,
+    "precision": 0.318,
+    "mean_size": 3.94,
+    "hit": 0.815,
+    "gate_auc": 0.918,
+    "oos_declined": 0.6,
+    "in_scope_declined": 0.111,
+    "dismissal_question": [
+      "Employment Act 1955, s. 14(1)",
+      "Employment Act 1955, s. 14(2)",
+      "Employment Act 1955, s. 14(3)",
+      "Employment Act 1955, s. 81C",
+      "Employment (Termination and Lay-Off Benefits) Regulations 1980, reg. 4(1)"
+    ],
+    "RDT-005": "0/5 expected",
+    "RDT-006": "0/5 expected",
+    "RDT-007": "1/5 expected",
+    "RDT-008": "1/5 expected"
+  },
+  "section cutoff 0.5": {
+    "n": 54,
+    "recall": 0.711,
+    "precision": 0.378,
+    "mean_size": 3.48,
+    "hit": 0.815,
+    "gate_auc": 0.918,
+    "oos_declined": 0.6,
+    "in_scope_declined": 0.111,
+    "dismissal_question": [
+      "Employment Act 1955, s. 14(1)",
+      "Employment Act 1955, s. 14(2)",
+      "Employment Act 1955, s. 14(3)",
+      "Employment Act 1955, s. 81C",
+      "Employment (Termination and Lay-Off Benefits) Regulations 1980, reg. 4(1)"
+    ],
+    "RDT-005": "0/4 expected",
+    "RDT-006": "0/3 expected",
+    "RDT-007": "1/5 expected",
+    "RDT-008": "1/5 expected"
+  }
+}

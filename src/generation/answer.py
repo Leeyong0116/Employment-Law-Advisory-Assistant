@@ -17,9 +17,11 @@ from pathlib import Path
 import yaml
 from langchain_core.language_models import BaseChatModel
 
-from src.generation.citations import resolve
+import re
+
+from src.generation.citations import MARKER, resolve
 from src.generation.llm import GeneratorError, build_chat_model, invoke_with_retry
-from src.generation.prompt import INSUFFICIENT, PROMPT, PROMPT_VERSION, build_prompt
+from src.generation.prompt import INSUFFICIENT, LIMITS, PROMPT, PROMPT_VERSION, build_prompt
 from src.generation.schema import Abstention, AnswerChecks, GeneratedAnswer, GeneratorInfo
 from src.retrieval.schema import RetrievalResult, RetrievedChunk
 
@@ -38,6 +40,22 @@ def abstained_answer(result: RetrievalResult) -> GeneratedAnswer:
     return GeneratedAnswer(query=result.query, region=result.region, index_version=result.index_version,
                            status="abstained", answer=None, citations=[], abstention=notice, notes=[],
                            external_dependencies=[], checks=AnswerChecks(), generator=None, context_chunk_ids=[])
+
+
+LIMITS_LINE = re.compile(rf"^[ \t*_-]*{LIMITS}[ \t]*(.*)$", re.IGNORECASE | re.MULTILINE)
+
+
+def split_limits(text: str) -> tuple[str, str | None]:
+    """Take the LIMITS line out of the reply: (answer text, limits sentence or None).
+
+    Markers on the line are removed, not resolved: the limits sentence says what the
+    sources do not show, so it is not a statement of law and gets no citation."""
+    match = LIMITS_LINE.search(text)
+    if not match:
+        return text, None
+    limits = re.sub(r"\s+([.,;:])", r"\1", MARKER.sub("", match.group(1))).strip(" *_")
+    body = (text[:match.start()] + text[match.end():]).strip()
+    return body, (" ".join(limits.split()) or None)
 
 
 def _non_current(cited_blocks: list[RetrievedChunk], cited: set[str]) -> list[str]:
@@ -85,7 +103,8 @@ class Answerer:
                                    notes=prompt.notes, external_dependencies=[], checks=AnswerChecks(truncated=truncated),
                                    generator=generator, context_chunk_ids=context_ids)
 
-        resolved = resolve(reply.text, prompt.blocks)
+        text, limits = split_limits(reply.text)
+        resolved = resolve(text, prompt.blocks)
         cited = {c.chunk_id for c in resolved.citations}
         cited_blocks = [block for block in prompt.blocks if block.chunk_id in cited]
         dependencies = sorted({ref for block in cited_blocks for ref in block.cross_references_external})
@@ -95,4 +114,4 @@ class Answerer:
                               non_current_citations=_non_current(cited_blocks, cited))
         return GeneratedAnswer(**base, status="answered", answer=resolved.answer, citations=resolved.citations,
                                abstention=None, notes=prompt.notes + caveats, external_dependencies=dependencies,
-                               checks=checks, generator=generator, context_chunk_ids=context_ids)
+                               checks=checks, generator=generator, context_chunk_ids=context_ids, limits=limits)

@@ -86,6 +86,17 @@ class Retriever:
         thresholds = self.settings.get("abstention_threshold") or {}
         return thresholds.get(mode)
 
+    def _cut(self, top: list[tuple[str, float]], mode: str) -> list[tuple[str, float]]:
+        """Optional relevance cut-off after reranking: keep chunks scoring at least
+        `context_min_ratio` x the top score. Off (null) by default: on gold set v1 any ratio
+        dropped correct chunks (hit@5 0.926 -> 0.852 at 0.1), because a relevant provision can
+        score far below the top one (plan 2026-11-12, Section 3). Applies after the gate, so
+        it never changes whether the question is answered. Reranker scores only."""
+        ratio = self.settings.get("context_min_ratio")
+        if not ratio or mode != "hybrid_rerank" or not top:
+            return top
+        return [(chunk_id, score) for chunk_id, score in top if score >= ratio * top[0][1]]
+
     def _rank(self, query: str, mode: str, allowed: list[str] | None) -> tuple[list[tuple[str, float]], float | None]:
         """The mode's top k (chunk_id, score) and its gate score."""
         s = self.settings
@@ -131,6 +142,7 @@ class Retriever:
         if gate and threshold is not None and gate_score < threshold:
             return abstain("low_score", language.language, gate_score)
 
+        top = self._cut(top, mode)
         retrieved = [chunk_id for chunk_id, _ in top]
         expansion = self.expander.expand(retrieved, set(allowed) if allowed else None)
         items = [RetrievedChunk.from_chunk(self.chunks[c], score=score, rank=rank, added_because="retrieved")

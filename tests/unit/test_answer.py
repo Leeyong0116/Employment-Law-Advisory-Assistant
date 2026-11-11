@@ -155,3 +155,33 @@ def test_empty_reply_error_has_no_query_text():
     with pytest.raises(GeneratorError) as raised:
         answerer.answer(_result([_chunk("EA1955_s59_1")], region="peninsular"))
     assert "annual leave" not in str(raised.value)
+
+
+STRUCTURED = ("Your employer may dismiss you without notice only in some cases [1].\n\n"
+              "## When it is allowed\n- After due inquiry, for misconduct [1].\n\n"
+              "LIMITS: The sources do not show whether your own dismissal was lawful.")
+
+
+def test_limits_line_becomes_its_own_field():
+    answer = Answerer(_fake(STRUCTURED), CONFIG).answer(_result([_chunk("EA1955_s14_1")]))
+    assert answer.limits == "The sources do not show whether your own dismissal was lawful."
+    assert "LIMITS" not in answer.answer
+    assert answer.answer.endswith("- After due inquiry, for misconduct [1].")
+    assert "## When it is allowed" in answer.answer
+
+
+def test_markers_on_the_limits_line_are_dropped_not_cited():
+    reply = "Eight days [1].\nLIMITS: Whether [2] covers you depends on your contract [2]."
+    answer = Answerer(_fake(reply), CONFIG).answer(_result([_chunk("EA1955_s60E_1"), _chunk("EA1955_s60E_2")]))
+    assert answer.limits == "Whether covers you depends on your contract."
+    assert [c.chunk_id for c in answer.citations] == ["EA1955_s60E_1"]
+
+
+def test_no_limits_line_gives_none():
+    answer = Answerer(_fake("Eight days [1]."), CONFIG).answer(_result([_chunk("EA1955_s60E_1")]))
+    assert answer.limits is None
+
+
+def test_insufficient_context_has_no_limits():
+    answer = Answerer(_fake("INSUFFICIENT_CONTEXT\nLIMITS: none"), CONFIG).answer(_result([_chunk("X_1")]))
+    assert answer.status == "insufficient_context" and answer.limits is None
