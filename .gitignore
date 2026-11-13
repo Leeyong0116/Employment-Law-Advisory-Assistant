@@ -10,6 +10,8 @@ data/processed/*
 !data/processed/chunks.jsonl
 !data/processed/toc_inventory.jsonl
 !data/processed/ingestion_report.json
+!data/processed/award_chunks.jsonl
+!data/processed/award_report.json
 *.index
 .DS_Store
 notebooks/.ipynb_checkpoints/

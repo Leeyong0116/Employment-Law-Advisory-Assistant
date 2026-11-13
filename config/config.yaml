@@ -355,3 +355,80 @@ api:
 evaluation:
   gold_set_path: data/eval/gold_set.jsonl
   metrics: [faithfulness, answer_relevancy, context_precision, context_recall]
+
+awards:
+  # Industrial Court awards (milestone A1, 2026-11-13). Design:
+  # docs/superpowers/specs/2026-11-13-industrial-court-awards-design.md; plan:
+  # docs/plans/2026-11-13-a1-award-ingestion.md. Parsed by `python -m src.ingestion.awards` into
+  # data/processed/award_chunks.jsonl (not chunks.jsonl: the statute index stays statute-only
+  # until the separate award lane exists, milestone A3).
+  #
+  # 19 of the 35 PDFs. Out: 9 in Bahasa Malaysia (1822, 1824, 1825, 1845, 1862, 1869, 1876, 1897,
+  # 1919; corpus is English only) and 7 English awards without paragraph numbers (1815, 1823,
+  # 1826, 1828, 1829, 1877, 1909; "para N" cannot be cited).
+  #
+  # Every field below was read from the award's header and signature block and checked by hand.
+  # `reasoning`: inclusive paragraph ranges of the court's own statement of the law, findings and
+  # decision (design A-D1); facts, evidence summaries and the parties' cases are left out.
+  # `skips`: paragraph numbers the published award leaves out (checked against the PDF).
+  raw_dir: "data/raw/court case"
+  min_reasoning: 5
+  documents:
+    - {file: "Award_1806-2025_Siti Azmah Binti Mat Taib.pdf", award_number: "1806 of 2025", case_number: "10/4-1123/24",
+       case_name: "Siti Azmah binti Mat Taib v Trapia Malaysia Sdn. Bhd.", award_date: "2025-11-25",
+       chairman: "Zulhelmy bin Hasan", venue: "Ipoh, Perak", numbering: bracket, reasoning: [[17, 41]]}
+    - {file: "Award_1807-2025_Samugam al Krishnan.pdf", award_number: "1807 of 2025", case_number: "7/4-554/23",
+       case_name: "Samugam a/l Krishnan v Knights Bridge Avenue Sdn. Bhd.", award_date: "2025-11-25",
+       chairman: "Vanithamany Sivalingam", venue: "Kuala Lumpur", numbering: bracket, reasoning: [[13, 35]]}
+    - {file: "Award_1809-2025_Muhammad Rifai Bin Sulaiman.pdf", award_number: "1809 of 2025", case_number: "22/4-1406/24",
+       case_name: "Muhammad Rifa'i bin Sulaiman v Pusat Perniagaan Matahari Sdn. Bhd.", award_date: "2025-11-26",
+       chairman: "Paramalingam a/l J. Doraisamy", venue: "Kuala Lumpur", numbering: bracket, reasoning: [[16, 35]]}
+    - {file: "Award_1812-2025_Sulaiman bin Ghazali.pdf", award_number: "1812 of 2025", case_number: "16/4-2227/19",
+       case_name: "Sulaiman bin Ghazali v Ranhill SAJ Sdn. Bhd.", award_date: "2025-11-26",
+       chairman: "Tengku Amir Zaki bin Tengku Abdul Rahman", venue: "Johor", numbering: dot, skips: [14], reasoning: [[30, 48]]}
+    - {file: "Award_1817-2025_Anis Nadhirah Binti Muhd Nazak  Mohd Nas.pdf", award_number: "1817 of 2025", case_number: "5/4-1045/19",
+       case_name: "Anis Nadhirah binti Muhd Nazak @ Mohd Nasir v Malaysia Airlines Berhad", award_date: "2025-11-26",
+       chairman: "Noramilia binti Mohd Saad", venue: "Kuala Lumpur", numbering: bracket, skips: [35, 43], reasoning: [[50, 86]]}
+    - {file: "Award_1821-2025_Mohamad Hizam Bin Suwardi  Surip.pdf", award_number: "1821 of 2025", case_number: "14/4-1378/22",
+       case_name: "Mohamad Hizam bin Suwardi @ Surip v Chemi-Con (Malaysia) Sdn. Bhd.", award_date: "2025-11-27",
+       chairman: "Eswary Maree", venue: "Kuala Lumpur", numbering: bracket, reasoning: [[4, 66]]}
+    - {file: "Award_1864-2025_Nor Fardzliah Binti Jaafar.pdf", award_number: "1864 of 2025", case_number: "6(20)/4-979/23",
+       case_name: "Nor Fardzliah binti Jaafar v Perbadanan Nasional Berhad", award_date: "2025-12-08",
+       chairman: "Amrik Singh", venue: "Kuala Lumpur", numbering: bracket, reasoning: [[22, 27], [36, 56]]}
+    - {file: "Award_1874-2025_Rizal Bin Abdul Kadir.pdf", award_number: "1874 of 2025", case_number: "19/4-491/22",
+       case_name: "Rizal bin Abdul Kadir v Maritime Institute of Malaysia", award_date: "2025-12-08",
+       chairman: "Hajah Zalina binti Haji Awang @ Mamat", venue: "Kuala Lumpur", numbering: bracket, reasoning: [[38, 169]]}
+    - {file: "Award_1878-2025_Khoo Li Li.pdf", award_number: "1878 of 2025", case_number: "10/4-656/25",
+       case_name: "Khoo Li Li v Alpha Ascent Development Sdn. Bhd.", award_date: "2025-12-09",
+       chairman: "Zulhelmy bin Hasan", venue: "Ipoh, Perak", numbering: bracket, reasoning: [[12, 22], [34, 54]]}
+    - {file: "Award_1880-2025_Salina Binti Kamarudin.pdf", award_number: "1880 of 2025", case_number: "22/4-1193/23",
+       case_name: "Salina binti Kamarudin v UMPSA Holdings Sdn. Bhd.", award_date: "2025-12-09",
+       chairman: "Paramalingam a/l J. Doraisamy", venue: "Kuala Lumpur", numbering: bracket, reasoning: [[15, 75]]}
+    - {file: "Award_1889-2025_Mohd Fitri Bin Ibrahim.pdf", award_number: "1889 of 2025", case_number: "18/4-978/24",
+       case_name: "Mohd Fitri bin Ibrahim v Yayasan Islam Pulau Pinang", award_date: "2025-12-11",
+       chairman: "Jeyaseelen a/l T. Anthony", venue: "Penang", numbering: bracket, reasoning: [[20, 31], [38, 99]]}
+    - {file: "Award_1891-2025_Johnny Lau Kah Beng.pdf", award_number: "1891 of 2025", case_number: "8/4-436/22",
+       case_name: "Johnny Lau Kah Beng v Petroliam Nasional Berhad (PETRONAS)", award_date: "2025-12-15",
+       chairman: "Mohd Taufik bin Mohd @ Mohd Yusoff", venue: "Sarawak", numbering: bracket, reasoning: [[15, 129]]}
+    - {file: "Award_1900-2025_Wong Chiew Lee.pdf", award_number: "1900 of 2025", case_number: "17/4-1088/22",
+       case_name: "Wong Chiew Lee v Waikiki Management Corporation", award_date: "2025-12-16",
+       chairman: "Datuk Indra bin Haji Ayub", venue: "Sabah", numbering: bracket, reasoning: [[11, 22], [32, 88]]}
+    - {file: "Award_1910-2025_Nik Afiq Farhan Bin Nik Mohd Hilmi.pdf", award_number: "1910 of 2025", case_number: "19/4-1780/21",
+       case_name: "Nik Afiq Farhan bin Nik Hilmi v Malindo Airways Sdn. Bhd.", award_date: "2025-12-17",
+       chairman: "Hajah Zalina binti Haji Awang @ Mamat", venue: "Kuala Lumpur", numbering: bracket, skips: [90, 91], reasoning: [[47, 159]]}
+    - {file: "Award_1911-2025_Muralitharan al Maniam.pdf", award_number: "1911 of 2025", case_number: "19/4-1779/21",
+       case_name: "Muralitharan a/l Maniam v Malindo Airways Sdn. Bhd.", award_date: "2025-12-17",
+       chairman: "Hajah Zalina binti Haji Awang @ Mamat", venue: "Kuala Lumpur", numbering: bracket, reasoning: [[16, 91]]}
+    # The file named 1912 holds Award No. 1895 of 2025 (filename wrong at source).
+    - {file: "Award_1912-2025_Foong Wai Ming.pdf", award_number: "1895 of 2025", case_number: "21/4-878/23",
+       case_name: "Mageswaran a/l S Jayaraman v Possehl Electronics (Malaysia) Sdn. Bhd.", award_date: "2025-12-16",
+       chairman: "Syed Noh bin Said Nazir @ Syed Nadzir", venue: "Kuala Lumpur", numbering: bracket, reasoning: [[33, 98]]}
+    - {file: "Award_1923-2025_Fatin Adilah Binti Norhadzlan.pdf", award_number: "1923 of 2025", case_number: "21/4-478/25",
+       case_name: "Fatin Adilah binti Norhadzlan v Greentech Axis Berhad", award_date: "2025-12-18",
+       chairman: "Syed Noh bin Said Nazir @ Syed Nadzir", venue: "Kuala Lumpur", numbering: bracket, reasoning: [[16, 45]]}
+    - {file: "Award_1931-2025_Tamil Selvam al Subramaniam.pdf", award_number: "1931 of 2025", case_number: "9/4-1036/23",
+       case_name: "Tamil Selvam a/l Subramaniam v DHL Express (Malaysia) Sdn. Bhd.", award_date: "2025-12-22",
+       chairman: "Rusita binti Md Lazim", venue: "Alor Setar, Kedah", numbering: bracket, skips: [50], reasoning: [[8, 54]]}
+    - {file: "Award_1942-2025_Anusiah ap Ramasindarum.pdf", award_number: "1942 of 2025", case_number: "19/4-602/24",
+       case_name: "Anusiah a/p Ramasindarum v RLA Polymers (M) Sdn. Bhd.", award_date: "2025-12-23",
+       chairman: "Hajah Zalina binti Haji Awang @ Mamat", venue: "Kuala Lumpur", numbering: bracket, reasoning: [[31, 147]]}
