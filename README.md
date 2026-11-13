@@ -113,12 +113,13 @@ container is kept so local and HPC runs (Apptainer) share one environment.
 
 ## Frontend
 
-The web app lives in `frontend/` (Vite, React, TypeScript, Tailwind 4,
-shadcn/ui). It runs on the host with Node 24, not in the `ml` container. Plan:
-`docs/plans/2026-11-01-m6-frontend.md`.
+The web app lives in `frontend/` (Vite, React 19, TypeScript, Tailwind 4,
+shadcn/ui). It runs on the host with Node 24, not in the `ml` container. Plans:
+`docs/plans/2026-11-01-m6-frontend.md` (with the 2026-11-04 and 2026-11-11
+amendments) and `docs/plans/2026-11-12-answer-structure-and-source-panel.md`.
 
 ```bash
-# terminal 1: the API (GPU, see the M5 devlog for the generator cookie)
+# terminal 1: the API (GPU; the generator is set in config.yaml `generation`)
 docker compose run --rm -p 127.0.0.1:8000:8000 ml uvicorn src.api.app:build --factory --host 0.0.0.0 --port 8000 --workers 1
 
 # terminal 2: the app on http://localhost:5173 (Vite proxies /api to port 8000)
@@ -127,7 +128,30 @@ npm ci
 npm run dev
 ```
 
+Wait for `Uvicorn running` (about 25 s, the models load at start) before asking.
+After a backend change, stop the API with Ctrl+C, wait for the prompt, then start it again.
+
+What the app does:
+
+- History sidebar (this browser only, at most 50 questions), question box at the bottom,
+  required "Where do you work?" region, light / dark button, disclaimer under the box.
+- One question per history entry: the API answers each question on its own.
+- Answer: direct answer, sections and bullets (prompt `m4-v3`), numbered chips after
+  each statement, a "What the sources cannot tell you" callout, notes, and Sources.
+  Abstention and "no answer from the statutes held" are shown as information.
+- Source panel: beside the answer on screens at least 1024 px wide, a full-width
+  sheet below that. Shows the provision text, status warnings (deleted, amended,
+  not yet in force), the official source link and the traceability note; previous /
+  next step through the sources; the cited sentence is highlighted in the answer.
+
 Checks: `npm test -- --run`, `npm run typecheck`, `npm run lint`, `npm run build`.
+Tests run on saved real API responses (`frontend/src/test/fixtures/`, MSW for HTTP).
+After a schema change in `src/api/`: `docker compose run --rm ml python -m scripts.dump_openapi`,
+then `cd frontend && npm run gen:types` (a backend test fails while the copy is stale).
+
+Final run of the demo questions (8, one per display state and region; saves the
+responses for the frontend tests and checks region, markers and source links):
+`docker compose run --rm ml python -m scripts.frontend_demo_run`.
 
 ## Recovery
 

@@ -1,0 +1,82 @@
+{
+  "query": "How do I make a representation if I was dismissed without just cause?",
+  "region": "peninsular",
+  "status": "answered",
+  "answer": "A workman who considers they were dismissed without just cause or excuse can make a written representation to the Director General asking to be reinstated in their former employment [1]. The Director General cannot entertain it unless it is filed within the time limit set by the sources [2].\n\n## How the representation is made\n- The representation is made in writing to the Director General to be reinstated in the former employment [1].\n- It may be filed at the office of the Director General nearest to the place of employment from which the workman was dismissed [1].\n\n## Time limit\n- The Director General shall not entertain representations unless they are filed within sixty days of the dismissal [2].\n- Where a workman is dismissed with notice, the representation may be filed at any time during the period of that notice, but not later than sixty days from the expiry of that notice [2].\n\n## After it is filed\n- If a workman who has made a representation attends none of the conferences in the process without any reasonable excuse, the representation is treated as withdrawn [3].",
+  "citations": [
+    {
+      "number": 1,
+      "chunk_id": "IRA1967_s20_1",
+      "citation": "Industrial Relations Act 1967, s. 20(1)",
+      "statute": "Industrial Relations Act 1967",
+      "act_number": "Act 177",
+      "section": "20",
+      "subsection": "(1)",
+      "section_title": "Representations on dismissals",
+      "jurisdiction": "Malaysia",
+      "status": "in_force",
+      "source_page": 33,
+      "source_url": "https://lom.agc.gov.my/",
+      "source_version": "as at 1 November 2021"
+    },
+    {
+      "number": 2,
+      "chunk_id": "IRA1967_s20_1A",
+      "citation": "Industrial Relations Act 1967, s. 20(1A)",
+      "statute": "Industrial Relations Act 1967",
+      "act_number": "Act 177",
+      "section": "20",
+      "subsection": "(1A)",
+      "section_title": "Representations on dismissals",
+      "jurisdiction": "Malaysia",
+      "status": "in_force",
+      "source_page": 34,
+      "source_url": "https://lom.agc.gov.my/",
+      "source_version": "as at 1 November 2021"
+    },
+    {
+      "number": 3,
+      "chunk_id": "IRA1967_s20_9",
+      "citation": "Industrial Relations Act 1967, s. 20(9)",
+      "statute": "Industrial Relations Act 1967",
+      "act_number": "Act 177",
+      "section": "20",
+      "subsection": "(9)",
+      "section_title": "Representations on dismissals",
+      "jurisdiction": "Malaysia",
+      "status": "in_force",
+      "source_page": 36,
+      "source_url": "https://lom.agc.gov.my/",
+      "source_version": "as at 1 November 2021"
+    }
+  ],
+  "abstention": null,
+  "notes": [],
+  "external_dependencies": [],
+  "checks": {
+    "invalid_markers": [],
+    "uncited_sentences": 0,
+    "provision_mentions": [],
+    "non_current_citations": [],
+    "truncated": false
+  },
+  "generator": {
+    "model": "deepseek-flash",
+    "temperature": 0.0,
+    "seed": 0,
+    "prompt_version": "m4-v3",
+    "finish_reason": "stop",
+    "prompt_tokens": 1100,
+    "completion_tokens": 1298
+  },
+  "context_chunk_ids": [
+    "IRA1967_s20_1",
+    "IRA1967_s20_1A",
+    "IRA1967_s13_8",
+    "IRA1967_s20_9",
+    "IRA1967_sch2"
+  ],
+  "index_version": "459843bf28ba",
+  "limits": "The sources cannot say whether your own dismissal was without just cause or excuse, whether your own filing would be within time, or what outcome your particular representation would have.",
+  "disclaimer": "GetRight gives legal information, not legal advice. Check the cited provisions, and contact the Department of Labour or a lawyer about your own situation."
+}

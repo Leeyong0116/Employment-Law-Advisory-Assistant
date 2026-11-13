@@ -1,0 +1,112 @@
+{
+  "query": "How many days of annual leave do I get?",
+  "region": "peninsular",
+  "status": "answered",
+  "answer": "In Peninsular Malaysia and Labuan, the number of paid annual leave days depends on your continuous service with the same employer: 8 days for every 12 months if employed for less than 2 years, 12 days if employed for 2 years or more but less than 5 years, and 16 days if employed for 5 years or more [1].\n\n## Basic entitlement\n- You are entitled to 8 days of paid annual leave for every 12 months of continuous service with the same employer if you have been employed for less than 2 years [1].\n- You are entitled to 12 days for every 12 months of continuous service with the same employer if you have been employed for 2 years or more but less than 5 years [1].\n- You are entitled to 16 days for every 12 months of continuous service with the same employer if you have been employed for 5 years or more [1].\n- If you have not completed 12 months of continuous service in the year your contract terminates, your entitlement is in direct proportion to the number of completed months of service [1].\n- Any fraction of a day of annual leave less than one-half is disregarded, and a fraction of one-half or more is treated as one day [1].\n- You are not entitled to that leave if you absent yourself from work without the employer’s permission and without reasonable excuse for more than 10% of the working days during the 12 months of continuous service for which the leave accrues [1].\n\n## Unpaid leave and service calculation\n- If you are granted leave of absence without pay during any 12-month period and the absence exceeds 30 days in aggregate, that period of unpaid leave is disregarded when computing your length of service [2].\n\n## Pay and interaction with other leave\n- The employer must pay your ordinary rate of pay for every day of paid annual leave [3].\n- If you are on a monthly rate of pay, you are deemed to have received annual leave pay if you receive your monthly wages without abatement for the month in which you take the annual leave [3].\n- Paid annual leave is in addition to rest days and paid holidays [4].\n\n## Timing and payment in lieu\n- The employer must grant, and you must take, the leave not later than 12 months after the end of every 12 months of continuous service, and if you fail to take it at the end of that period you cease to be entitled to it [5].\n- You are entitled to payment in lieu of annual leave if, at the employer’s request, you agree in writing not to avail yourself of any or all of your annual leave entitlement [5].",
+  "citations": [
+    {
+      "number": 1,
+      "chunk_id": "EA1955_s60E_1",
+      "citation": "Employment Act 1955, s. 60E(1)",
+      "statute": "Employment Act 1955",
+      "act_number": "Act 265",
+      "section": "60E",
+      "subsection": "(1)",
+      "section_title": "Annual leave",
+      "jurisdiction": "Peninsular Malaysia and Labuan",
+      "status": "in_force",
+      "source_page": 63,
+      "source_url": "https://lom.agc.gov.my/",
+      "source_version": "as at 1 January 2023"
+    },
+    {
+      "number": 2,
+      "chunk_id": "EA1955_s60E_3B",
+      "citation": "Employment Act 1955, s. 60E(3B)",
+      "statute": "Employment Act 1955",
+      "act_number": "Act 265",
+      "section": "60E",
+      "subsection": "(3B)",
+      "section_title": "Annual leave",
+      "jurisdiction": "Peninsular Malaysia and Labuan",
+      "status": "in_force",
+      "source_page": 65,
+      "source_url": "https://lom.agc.gov.my/",
+      "source_version": "as at 1 January 2023"
+    },
+    {
+      "number": 3,
+      "chunk_id": "EA1955_s60E_3",
+      "citation": "Employment Act 1955, s. 60E(3)",
+      "statute": "Employment Act 1955",
+      "act_number": "Act 265",
+      "section": "60E",
+      "subsection": "(3)",
+      "section_title": "Annual leave",
+      "jurisdiction": "Peninsular Malaysia and Labuan",
+      "status": "in_force",
+      "source_page": 64,
+      "source_url": "https://lom.agc.gov.my/",
+      "source_version": "as at 1 January 2023"
+    },
+    {
+      "number": 4,
+      "chunk_id": "EA1955_s60E_1A",
+      "citation": "Employment Act 1955, s. 60E(1A)",
+      "statute": "Employment Act 1955",
+      "act_number": "Act 265",
+      "section": "60E",
+      "subsection": "(1A)",
+      "section_title": "Annual leave",
+      "jurisdiction": "Peninsular Malaysia and Labuan",
+      "status": "in_force",
+      "source_page": 64,
+      "source_url": "https://lom.agc.gov.my/",
+      "source_version": "as at 1 January 2023"
+    },
+    {
+      "number": 5,
+      "chunk_id": "EA1955_s60E_2",
+      "citation": "Employment Act 1955, s. 60E(2)",
+      "statute": "Employment Act 1955",
+      "act_number": "Act 265",
+      "section": "60E",
+      "subsection": "(2)",
+      "section_title": "Annual leave",
+      "jurisdiction": "Peninsular Malaysia and Labuan",
+      "status": "in_force",
+      "source_page": 64,
+      "source_url": "https://lom.agc.gov.my/",
+      "source_version": "as at 1 January 2023"
+    }
+  ],
+  "abstention": null,
+  "notes": [],
+  "external_dependencies": [],
+  "checks": {
+    "invalid_markers": [],
+    "uncited_sentences": 1,
+    "provision_mentions": [],
+    "non_current_citations": [],
+    "truncated": false
+  },
+  "generator": {
+    "model": "deepseek-flash",
+    "temperature": 0.0,
+    "seed": 0,
+    "prompt_version": "m4-v3",
+    "finish_reason": "stop",
+    "prompt_tokens": 1138,
+    "completion_tokens": 1702
+  },
+  "context_chunk_ids": [
+    "EA1955_s60E_1",
+    "EA1955_s60E_3B",
+    "EA1955_s60E_3",
+    "EA1955_s60E_1A",
+    "EA1955_s60E_2"
+  ],
+  "index_version": "459843bf28ba",
+  "limits": "The sources cannot determine your own entitlement because they do not know your length of continuous service, unpaid leave, absences, or termination date.",
+  "disclaimer": "GetRight gives legal information, not legal advice. Check the cited provisions, and contact the Department of Labour or a lawyer about your own situation."
+}

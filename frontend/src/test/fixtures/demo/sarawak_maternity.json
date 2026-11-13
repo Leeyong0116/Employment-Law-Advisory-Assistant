@@ -1,0 +1,56 @@
+{
+  "query": "How long is maternity leave?",
+  "region": "sarawak",
+  "status": "answered",
+  "answer": "In Sarawak, maternity leave is for an eligible period of not less than 98 consecutive days [1].\n\n## Length of maternity leave\n- The amended rule defines the eligible period as a period of maternity leave of not less than 98 consecutive days [1].\n- The earlier wording providing a shorter period is superseded, so the current length is the one given by the amending source [1].",
+  "citations": [
+    {
+      "number": 1,
+      "chunk_id": "A1754_s24",
+      "citation": "Labour Ordinance of Sarawak (Amendment) Act 2025, s. 24",
+      "statute": "Labour Ordinance of Sarawak (Amendment) Act 2025",
+      "act_number": "Act A1754",
+      "section": "24",
+      "subsection": null,
+      "section_title": "Amendment of section 84",
+      "jurisdiction": "Sarawak",
+      "status": "in_force",
+      "source_page": 21,
+      "source_url": "https://www.jtkswk.gov.my/v2/wp-content/uploads/2025/04/Act-A1754-LABOUR-ORDINANCE-OF-SARAWAK-AMENDMENT-ACT-2025-1.pdf",
+      "source_version": "as passed, Act A1754 of 2025"
+    }
+  ],
+  "abstention": null,
+  "notes": [
+    "Act A1754 section 2 substituted \"worker\" with \"employee\", \"domestic servant\" with \"domestic employee\", and \"domestic servants\" with \"domestic employees\" throughout Cap. 76, with effect from 1 May 2025. The Cap. 76 text retrieved here predates that substitution, so where it reads \"worker\" or \"domestic servant\" the operative term is now \"employee\" or \"domestic employee\". The wording is not rewritten in the source text, so that the user can still verify it against the published Ordinance."
+  ],
+  "external_dependencies": [],
+  "checks": {
+    "invalid_markers": [],
+    "uncited_sentences": 0,
+    "provision_mentions": [],
+    "non_current_citations": [],
+    "truncated": false
+  },
+  "generator": {
+    "model": "deepseek-flash",
+    "temperature": 0.0,
+    "seed": 0,
+    "prompt_version": "m4-v3",
+    "finish_reason": "stop",
+    "prompt_tokens": 1635,
+    "completion_tokens": 532
+  },
+  "context_chunk_ids": [
+    "SWK76_s84_1",
+    "SWK76_s84_3",
+    "SWK76_s84_4",
+    "SWK76_s84_6",
+    "SWK76_s88_1",
+    "A1754_s24",
+    "SWK76_s84_11_def_children"
+  ],
+  "index_version": "459843bf28ba",
+  "limits": "The sources cannot tell you how the leave length applies to your own employment or when your leave would start.",
+  "disclaimer": "GetRight gives legal information, not legal advice. Check the cited provisions, and contact the Department of Labour or a lawyer about your own situation."
+}

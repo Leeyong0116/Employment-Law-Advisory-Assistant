@@ -1,0 +1,101 @@
+{
+  "query": "How many days of paid sick leave am I entitled to?",
+  "region": "sabah",
+  "status": "answered",
+  "answer": "In Sabah, paid sick leave is 14, 18 or 22 days in the aggregate in each calendar year depending on length of service when no hospitalisation is necessary, or 60 days in the aggregate in each calendar year when hospitalisation is necessary and certified [1].\n\n## Days without hospitalisation\n- 14 days in the aggregate in each calendar year if the employee has been employed for less than two years [1].\n- 18 days in the aggregate in each calendar year if the employee has been employed for two years or more but less than five years [1].\n- 22 days in the aggregate in each calendar year if the employee has been employed for five years or more [1].\n\n## Days with hospitalisation\n- 60 days in the aggregate in each calendar year if hospitalisation is necessary, as certified by a registered medical practitioner or medical officer [1].\n- If an employee is certified as ill enough to need hospitalisation but is not hospitalised for any reason, the employee is deemed to be hospitalised for this entitlement [1].\n\n## Dental certification and pay\n- Paid sick leave may also arise after examination by a dental surgeon, but those days are inclusive of the same day limits [2].\n- The employer must pay the employee’s ordinary rate of pay for every day of sick leave, and a monthly-paid employee is deemed to have received sick leave pay if monthly wages are paid without abatement for that month [3].\n\n## When paid sick leave is not available\n- There is no entitlement to paid sick leave during a period when the employee is entitled to maternity allowance, or is receiving compensation or periodical payments for temporary disablement [4].",
+  "citations": [
+    {
+      "number": 1,
+      "chunk_id": "SBH67_s104E_1",
+      "citation": "Labour Ordinance (Sabah), s. 104E(1)",
+      "statute": "Labour Ordinance (Sabah)",
+      "act_number": "Sabah Cap. 67",
+      "section": "104E",
+      "subsection": "(1)",
+      "section_title": "Sick leave",
+      "jurisdiction": "Sabah",
+      "status": "in_force",
+      "source_page": 82,
+      "source_url": null,
+      "source_version": "for reference only, June 2026"
+    },
+    {
+      "number": 2,
+      "chunk_id": "SBH67_s104E_2",
+      "citation": "Labour Ordinance (Sabah), s. 104E(2)",
+      "statute": "Labour Ordinance (Sabah)",
+      "act_number": "Sabah Cap. 67",
+      "section": "104E",
+      "subsection": "(2)",
+      "section_title": "Sick leave",
+      "jurisdiction": "Sabah",
+      "status": "in_force",
+      "source_page": 83,
+      "source_url": null,
+      "source_version": "for reference only, June 2026"
+    },
+    {
+      "number": 3,
+      "chunk_id": "SBH67_s104E_4",
+      "citation": "Labour Ordinance (Sabah), s. 104E(4)",
+      "statute": "Labour Ordinance (Sabah)",
+      "act_number": "Sabah Cap. 67",
+      "section": "104E",
+      "subsection": "(4)",
+      "section_title": "Sick leave",
+      "jurisdiction": "Sabah",
+      "status": "in_force",
+      "source_page": 83,
+      "source_url": null,
+      "source_version": "for reference only, June 2026"
+    },
+    {
+      "number": 4,
+      "chunk_id": "SBH67_s104E_5",
+      "citation": "Labour Ordinance (Sabah), s. 104E(5)",
+      "statute": "Labour Ordinance (Sabah)",
+      "act_number": "Sabah Cap. 67",
+      "section": "104E",
+      "subsection": "(5)",
+      "section_title": "Sick leave",
+      "jurisdiction": "Sabah",
+      "status": "in_force",
+      "source_page": 83,
+      "source_url": null,
+      "source_version": "for reference only, June 2026"
+    }
+  ],
+  "abstention": null,
+  "notes": [],
+  "external_dependencies": [
+    "Dental Act 1971 [Act 51]",
+    "Employees' Social Security Act 1969",
+    "Workmen's Compensation Act 1952"
+  ],
+  "checks": {
+    "invalid_markers": [],
+    "uncited_sentences": 1,
+    "provision_mentions": [],
+    "non_current_citations": [],
+    "truncated": false
+  },
+  "generator": {
+    "model": "deepseek-flash",
+    "temperature": 0.0,
+    "seed": 0,
+    "prompt_version": "m4-v3",
+    "finish_reason": "stop",
+    "prompt_tokens": 1156,
+    "completion_tokens": 2446
+  },
+  "context_chunk_ids": [
+    "SBH67_s104E_1",
+    "SBH67_s104E_4",
+    "SBH67_s104E_2",
+    "SBH67_s104E_5",
+    "SBH67_s104D_3"
+  ],
+  "index_version": "459843bf28ba",
+  "limits": "The sources do not establish your length of service, whether hospitalisation is certified, or whether any exclusion applies to you.",
+  "disclaimer": "GetRight gives legal information, not legal advice. Check the cited provisions, and contact the Department of Labour or a lawyer about your own situation."
+}

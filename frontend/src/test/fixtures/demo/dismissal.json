@@ -1,0 +1,82 @@
+{
+  "query": "my boss fired me without any notice period",
+  "region": "peninsular",
+  "status": "answered",
+  "answer": "In Peninsular Malaysia and Labuan, an employer may dismiss an employee without notice for misconduct after a due inquiry [1], and may do so as disciplinary action where sexual harassment is proven after an employer inquiry [2]. The sources also set out when wages and any applicable indemnity must be paid when an employer terminates without notice in the covered circumstances [3].\n\n## When dismissal without notice is allowed\n- An employer may dismiss without notice on grounds of misconduct inconsistent with the express or implied conditions of service, but only after due inquiry [1].\n- Instead of dismissal, the employer may downgrade the employee or impose another lesser punishment it considers just and fit; suspension without wages cannot exceed two weeks [1].\n- Where an employer inquires into a sexual harassment complaint and is satisfied that sexual harassment is proven, and the person complained against is an employee, the employer may take disciplinary action including dismissal without notice, downgrading, or another lesser punishment; suspension without wages cannot exceed two weeks [2].\n\n## What must be paid\n- Where an employer terminates the contract without notice in the circumstances covered by the source, wages earned up to and including the day immediately before termination takes effect, less deductions the employer is entitled to make, must be paid by the employer not later than the day the contract is terminated [3].\n- In addition, where the termination is in the situation covered by the source, any indemnity payable must also be paid by the day the contract is terminated [3].",
+  "citations": [
+    {
+      "number": 1,
+      "chunk_id": "EA1955_s14_1",
+      "citation": "Employment Act 1955, s. 14(1)",
+      "statute": "Employment Act 1955",
+      "act_number": "Act 265",
+      "section": "14",
+      "subsection": "(1)",
+      "section_title": "Termination of contract for special reasons",
+      "jurisdiction": "Peninsular Malaysia and Labuan",
+      "status": "in_force",
+      "source_page": 27,
+      "source_url": "https://lom.agc.gov.my/",
+      "source_version": "as at 1 January 2023"
+    },
+    {
+      "number": 2,
+      "chunk_id": "EA1955_s81C",
+      "citation": "Employment Act 1955, s. 81C",
+      "statute": "Employment Act 1955",
+      "act_number": "Act 265",
+      "section": "81C",
+      "subsection": null,
+      "section_title": "Findings of inquiry by employer",
+      "jurisdiction": "Peninsular Malaysia and Labuan",
+      "status": "in_force",
+      "source_page": 91,
+      "source_url": "https://lom.agc.gov.my/",
+      "source_version": "as at 1 January 2023"
+    },
+    {
+      "number": 3,
+      "chunk_id": "EA1955_s21_1",
+      "citation": "Employment Act 1955, s. 21(1)",
+      "statute": "Employment Act 1955",
+      "act_number": "Act 265",
+      "section": "21",
+      "subsection": "(1)",
+      "section_title": "Payment on termination of contract in special circumstances and on breach of contract",
+      "jurisdiction": "Peninsular Malaysia and Labuan",
+      "status": "in_force",
+      "source_page": 31,
+      "source_url": "https://lom.agc.gov.my/",
+      "source_version": "as at 1 January 2023"
+    }
+  ],
+  "abstention": null,
+  "notes": [],
+  "external_dependencies": [],
+  "checks": {
+    "invalid_markers": [],
+    "uncited_sentences": 1,
+    "provision_mentions": [],
+    "non_current_citations": [],
+    "truncated": false
+  },
+  "generator": {
+    "model": "deepseek-flash",
+    "temperature": 0.0,
+    "seed": 0,
+    "prompt_version": "m4-v3",
+    "finish_reason": "stop",
+    "prompt_tokens": 1175,
+    "completion_tokens": 1637
+  },
+  "context_chunk_ids": [
+    "EA1955_s14_1",
+    "EA1955_s81C",
+    "EA1955_s81E_1",
+    "EA1955_s21_2",
+    "EA1955_s21_1"
+  ],
+  "index_version": "459843bf28ba",
+  "limits": "The sources cannot tell whether your dismissal was justified, whether a due inquiry was held, or what your own contract says.",
+  "disclaimer": "GetRight gives legal information, not legal advice. Check the cited provisions, and contact the Department of Labour or a lawyer about your own situation."
+}

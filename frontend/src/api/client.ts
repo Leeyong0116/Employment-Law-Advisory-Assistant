@@ -1,4 +1,4 @@
-import type{ GeneratedAnswer, Meta, Region, Provision} from './types'
+import type { GeneratedAnswer, Provision, Region } from './types'
 
 const FALLBACK_MESSAGE = 'GetRight could not reach the server. Please try again.'
 
@@ -29,25 +29,6 @@ async function errorMessage(response: Response): Promise<string> {
     // not JSON, e.g. the Vite proxy answering because FastAPI is not running
   }
   return FALLBACK_MESSAGE
-}
-
-
-export async function getMeta():Promise<Meta>{
-    let response: Response
-    try{
-        response = await fetch('/api/meta', {
-        method:'GET',
-        headers:{ 'Content-Type': 'application/json' },
-        }) 
-    }
-        catch{
-            throw new Error(FALLBACK_MESSAGE)
-        }
-    
-    if (!response.ok) {
-        throw new Error(await errorMessage(response))
-    }
-    return await response.json()
 }
 
 
